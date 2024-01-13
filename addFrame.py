@@ -25,18 +25,20 @@ class Frame (ctk.CTkFrame):
         """Metoda pro incializaci widgetů v addframu."""
 
         # tlačítko pro tréninkový plán
-        self.button_plan = Button(self, 'Nastavit plán', self.hello)
-        self.button_plan.pack(padx=30, pady=10, ipadx=15, ipady=10, side=TOP)
+        button_plan = Button(self, 'Nastavit plán', self.hello)
+        button_plan.pack(padx=30, pady=10, ipadx=10, ipady=8, side=TOP)
 
         # Přidání nového tréninku
-        self.new_training_l = Label(self, 'Nový trénink', ("Arial", 20))
-        self.new_training_l.pack(pady=15, side=TOP)
+        new_training_l = Label(self, 'Nový trénink', ("Arial", 20))
+        new_training_l.pack(pady=15, side=TOP)
 
         # widgety s vyběrem aktivity
-        self.activity_l = Label(self, 'Aktivita')
-        self.activity_l.pack(side=TOP, anchor=ctk.W, padx=10)
-        self.activity_cb = ComboBox(self, self.options, self.show_frame, "posilovna")
-        self.activity_cb.pack(side=TOP, anchor=ctk.W, padx=10)
+        activity_l = Label(self, 'Aktivita')
+        activity_l.pack(side=TOP, anchor=ctk.W, padx=10)
+        activity_cb = ComboBox(self, self.options, self.show_frame, "posilovna")
+        activity_cb.pack(side=TOP, anchor=ctk.W, padx=10)
+        activity_cb.set("nevybráno")
+
 
     def show_frame(self, choice):
         """inicializace dynamicky se měnícího framu nastavování podle vybraního sportu"""

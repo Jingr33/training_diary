@@ -18,19 +18,19 @@ class Frame (ctk.CTkFrame):
         today = datetime.date.today()
 
         # zadnání data tréninku
-        self.date_l = Label(self, "Datum")
-        self.date_l.pack(anchor=ctk.W)
-        self.date_e = Calendar(self, selectmode = 'day', 
+        date_l = Label(self, "Datum")
+        date_l.pack(anchor=ctk.W)
+        self.date_calendar = Calendar(self, selectmode = 'day', 
                                year = today.year, month = today.month, 
                                day = today.day)
-        self.date_e.pack(side=TOP, padx=3, pady=3)
+        self.date_calendar.pack(side=TOP, padx=3, pady=3)
 
         # vytvoření GUI podle vybraného sportu
-        self.createGui(choice)
+        self.createGui(self.choice)
 
         # tlačítko pro uložení tréninku
-        self.save_b = Button(self, "Uložit", self.saveNewTraining)
-        self.save_b.pack(side=BOTTOM, ipadx=7, ipady=7, padx=3, pady=3)
+        save_b = Button(self, "Uložit", self.saveNewTraining)
+        save_b.pack(side=BOTTOM, ipadx=7, ipady=7, padx=3, pady=3)
 
 
     def createGui (self, choice):
@@ -45,38 +45,38 @@ class Frame (ctk.CTkFrame):
     def initGym (self):
         """Vytvoření nastavovacích okének pro přidání tréninku POSILOVNA."""
         # inicializace proměnných
-        var_time = StringVar()
-        var_legs = StringVar(value='on')
-        var_core = StringVar(value='on')
-        var_breast = StringVar(value='on')
-        var_shoulders = StringVar(value='on')
-        var_back = StringVar(value='on')
-        var_biceps = StringVar(value='on')
-        var_triceps = StringVar(value='on')
-        var_forearm = StringVar(value='on')
+        self.var_time = StringVar()
+        self.var_legs = StringVar(value=0)
+        self.var_core = StringVar(value=0)
+        self.var_breast = StringVar(value=0)
+        self.var_shoulders = StringVar(value=0)
+        self.var_back = StringVar(value=0)
+        self.var_biceps = StringVar(value=0)
+        self.var_triceps = StringVar(value=0)
+        self.var_forearm = StringVar(value=0)
 
         # zadání doby běhu
         Label(self, 'Čas').pack(anchor=ctk.W)
-        Entry(self, var_time).pack(anchor=ctk.W)
+        Entry(self, self.var_time).pack(anchor=ctk.W)
 
         # vytvoření checkboxů s odcvičenými částmi
         exercise_l = Label(self, "Odcvičeno")
         exercise_l.pack(anchor=ctk.W)
-        leg_chb = ChcekBox(self, 'Nohy', var_legs)
+        leg_chb = ChcekBox(self, 'Nohy', self.var_legs)
         leg_chb.pack(anchor=ctk.W)
-        core_chb = ChcekBox(self, 'Střed těla', var_core)
+        core_chb = ChcekBox(self, 'Střed těla', self.var_core)
         core_chb.pack(anchor=ctk.W)
-        breast_chb = ChcekBox(self, 'Prsa', var_breast)
+        breast_chb = ChcekBox(self, 'Prsa', self.var_breast)
         breast_chb.pack(anchor=ctk.W)
-        shoulders_chb = ChcekBox(self, 'Ramena', var_shoulders)
+        shoulders_chb = ChcekBox(self, 'Ramena', self.var_shoulders)
         shoulders_chb.pack(anchor=ctk.W)
-        back_chb = ChcekBox(self, 'Záda', var_back)
+        back_chb = ChcekBox(self, 'Záda', self.var_back)
         back_chb.pack(anchor=ctk.W)
-        biceps_chb = ChcekBox(self, 'Biceps', var_biceps)
+        biceps_chb = ChcekBox(self, 'Biceps', self.var_biceps)
         biceps_chb.pack(anchor=ctk.W)
-        triceps_chb = ChcekBox(self, 'Triceps', var_triceps)
+        triceps_chb = ChcekBox(self, 'Triceps', self.var_triceps)
         triceps_chb.pack(anchor=ctk.W)
-        forearm_chb = ChcekBox(self, 'Předloktí', var_forearm)
+        forearm_chb = ChcekBox(self, 'Předloktí', self.var_forearm)
         forearm_chb.pack(anchor=ctk.W)
 
 
@@ -87,15 +87,55 @@ class Frame (ctk.CTkFrame):
         self.var_length = ctk.StringVar()
 
         # zadání doby běhu
-        Label(self, 'Čas').pack(anchor=ctk.W)
+        Label(self, 'Čas (min)').pack(anchor=ctk.W)
         Entry(self, self.var_time).pack(anchor=ctk.W)
 
         # zadání kilometrů
-        Label(self, 'Kilometry').pack(anchor=ctk.W)
+        Label(self, 'Kilometry (km)').pack(anchor=ctk.W)
         Entry(self, self.var_length).pack(anchor=ctk.W)
 
+
     def saveNewTraining(self):
-        ...
+        """Funkce se spustí po stiknutí tlačítka uložit.
+           Uloží data do souboru."""
+        # list se zadanými údaji
+        self.training_list = [self.choice, self.date_calendar.get_date()]
+
+        # vyplnění training_listu podle zvoleného tréninku
+        if self.training_list[0] == "posilovna":
+            self.training_list.extend([self.var_legs.get(), self.var_core.get(),
+                                       self.var_breast.get(), self.var_shoulders.get(),
+                                       self.var_back.get(), self.var_biceps.get(),
+                                       self.var_triceps.get(), self.var_forearm.get()])
+        elif self.training_list[0] == "běh":
+            self.training_list.extend([self.var_time.get(), self.var_length.get()])
+        else:
+            ... #TODO
+
+        # příprava stringů na zapsání do souboru
+        prepared_string = self.prepareString(self.training_list)
+
+        # zapsání dat do souboru
+        self.writeToFile(prepared_string)
+
+        self.destroy()
+
+
+    def prepareString(self, list):
+        """Metoda pro přípravu stringu (řádku) pro zapsání do souboru."""
+        string = self.training_list[1] + " / " +  self.training_list[0]
+
+        for i in range(2, len(list)):
+            string = string + " / " + list[i]
+
+        # vrácení připraveného stringu
+        return string
+
+
+    def writeToFile (self, string):
+        """Metoda pro zapsání dat do souboru."""
+        with open("training_database.txt", 'a') as f:  
+            f.write(string + "\n")
 
 ####################################
     def hello(self):
