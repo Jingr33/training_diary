@@ -1,0 +1,33 @@
+# importy knihoven
+import customtkinter as ctk
+from tkinter import *
+
+class Button(ctk.CTkButton):
+    """Třída pro tvorbu ctk.Button"""
+    def __init__(self, master: ctk.CTkBaseClass, text: str, command):
+        super().__init__(master)
+        self.configure(text=text, command=command)
+
+class Label(ctk.CTkLabel):
+    """Třída pro tvorbu ctk.Label"""
+    def __init__(self, master: ctk.CTkBaseClass, name: str, font = ("Arial", 13) ):
+        super().__init__(master)
+        self.configure(text=name, font=font)
+
+class Entry(ctk.CTkEntry):
+    """Třída pro tvorbu ctk.Entry"""
+    def __init__(self, master: ctk.CTkBaseClass, value):
+        super().__init__(master)
+        self.configure(textvariable = value)
+
+class ComboBox(ctk.CTkComboBox):
+    """Třída pro tvorbu ctk.ComboBox"""
+    def __init__(self, master: ctk.CTkComboBox, options, command, initial_variable):
+        super().__init__(master)
+        self.configure(values = options, command = command, variable = initial_variable)
+
+class ChcekBox(ctk.CTkCheckBox):
+    """Třída pro tvorbu ctk.CTkCheckBox"""
+    def __init__(self, master: ctk.CTkCheckBox, text: str, variable):
+        super().__init__(master)
+        self.configure(text=text, variable=variable)
