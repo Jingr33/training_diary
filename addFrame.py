@@ -6,6 +6,7 @@ from ctkWidgets import Button
 from ctkWidgets import Label
 from ctkWidgets import ComboBox
 from setFrame import Frame as SetFrame
+from configuration import *
 
 
 class Frame (ctk.CTkFrame):
@@ -14,7 +15,7 @@ class Frame (ctk.CTkFrame):
         super().__init__(master)
 
         # pole s možnými sporty na výběr
-        self.options = ["běh", "posilovna"]
+        self.options = sport_list
 
         # inicializace proměnné pro setFrame a nastavení na 0
         self.setFrame = 0
@@ -42,7 +43,6 @@ class Frame (ctk.CTkFrame):
 
     def show_frame(self, choice):
         """inicializace dynamicky se měnícího framu nastavování podle vybraního sportu"""
-        
         # vymazání předchozího framu
         if self.setFrame:
             self.setFrame.destroy()
