@@ -26,7 +26,7 @@ class ComboBox(ctk.CTkComboBox):
         super().__init__(master)
         self.configure(values = options, command = command, variable = initial_variable)
 
-class ChcekBox(ctk.CTkCheckBox):
+class CheckBox(ctk.CTkCheckBox):
     """Třída pro tvorbu ctk.CTkCheckBox"""
     def __init__(self, master: ctk.CTkCheckBox, text: str, variable):
         super().__init__(master)
@@ -42,4 +42,9 @@ class SegmentedButton(ctk.CTkSegmentedButton):
     def __init__(self, master :ctk.CTkSegmentedButton, values :list, command):
         super().__init__(master)
         self.configure(values = values, command = command)
-            
+
+class Frame (ctk.CTkFrame):
+    """Třída pro tvorbu ctk.CTkFrame"""
+    def __init__(self, master :ctk.CTkBaseClass):
+        super().__init__(master)
+       

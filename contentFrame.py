@@ -2,7 +2,7 @@
 import customtkinter as ctk
 from tkinter import *
 # import souborů
-from overviewOption import Overview
+from overviewOption.overviewOption import Overview
 from ctkWidgets import Button
 
 class Frame (ctk.CTkFrame):

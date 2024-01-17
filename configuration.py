@@ -11,3 +11,6 @@ path = "training_database.txt"
 
 # jednotlivé části těla pro treénink v posilovně
 gym_body_parts = ["Nohy", "Střed těla", "Prsa", "Ramena", "Záda", "Biceps", "Triceps", "Předloktí"]
+
+# legenda tabulky v přehledu tréninků
+legend = ["Datum", "Sport", "Čas", "Detaily ->"]

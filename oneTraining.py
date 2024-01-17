@@ -1,8 +1,14 @@
 #importy souborů
 from configuration import sport_list, gym_body_parts
 
-class OneTaining ():
+class OneTraining ():
     """Třída pro vytvoření instance jednoho tréninku z dat v souboru."""
+    def __init__(self, operation, file_line):
+        if operation == "load":
+            self.unlockTheData(file_line)
+        elif operation == "save":
+            ...
+
     def unlockTheData(self, file_line):
         """Funkce rozklíčuje data ze souboru a přiřadí je objektu."""
         # rozdělení řádku ze souboru na jednolivé údaje
@@ -19,7 +25,6 @@ class OneTaining ():
 
         if self.sport == sport_list[0]:
             self.practicedParts = self._practicedPartsString()
-            print(self.practicedParts)
 
     def _practicedPartsString (self):
         "Vytvoří string procvčených částí těla."

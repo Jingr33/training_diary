@@ -25,6 +25,10 @@ class Frame (ctk.CTkFrame):
     def optionSelected (self, option):
         """Metoda spustí frame podle zvolené možnosti v segment buttonu."""
         if option == menu_list[0]:
+            # smazaní předchozího obsahu
+            for widget in self.content_frame.winfo_children():
+                widget.destroy()
+            # vytvoření obsahu framu
             self.content_frame.overviewOption()
         elif option == menu_list[1]:
             ... #TODO

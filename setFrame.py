@@ -7,7 +7,7 @@ import datetime
 from ctkWidgets import Button
 from ctkWidgets import Label
 from ctkWidgets import Entry
-from ctkWidgets import ChcekBox
+from ctkWidgets import CheckBox
 from configuration import sport_list, path, gym_body_parts
 
 
@@ -69,21 +69,21 @@ class Frame (ctk.CTkFrame):
         # vytvoření checkboxů s odcvičenými částmi
         exercise_l = Label(self, "Odcvičeno")
         exercise_l.pack(anchor=ctk.W)
-        leg_chb = ChcekBox(self, gym_body_parts[0], self.var_legs)
+        leg_chb = CheckBox(self, gym_body_parts[0], self.var_legs)
         leg_chb.pack(anchor=ctk.W)
-        core_chb = ChcekBox(self, gym_body_parts[1], self.var_core)
+        core_chb = CheckBox(self, gym_body_parts[1], self.var_core)
         core_chb.pack(anchor=ctk.W)
-        breast_chb = ChcekBox(self, gym_body_parts[2], self.var_breast)
+        breast_chb = CheckBox(self, gym_body_parts[2], self.var_breast)
         breast_chb.pack(anchor=ctk.W)
-        shoulders_chb = ChcekBox(self, gym_body_parts[3], self.var_shoulders)
+        shoulders_chb = CheckBox(self, gym_body_parts[3], self.var_shoulders)
         shoulders_chb.pack(anchor=ctk.W)
-        back_chb = ChcekBox(self, gym_body_parts[4], self.var_back)
+        back_chb = CheckBox(self, gym_body_parts[4], self.var_back)
         back_chb.pack(anchor=ctk.W)
-        biceps_chb = ChcekBox(self, gym_body_parts[5], self.var_biceps)
+        biceps_chb = CheckBox(self, gym_body_parts[5], self.var_biceps)
         biceps_chb.pack(anchor=ctk.W)
-        triceps_chb = ChcekBox(self, gym_body_parts[6], self.var_triceps)
+        triceps_chb = CheckBox(self, gym_body_parts[6], self.var_triceps)
         triceps_chb.pack(anchor=ctk.W)
-        forearm_chb = ChcekBox(self, gym_body_parts[7], self.var_forearm)
+        forearm_chb = CheckBox(self, gym_body_parts[7], self.var_forearm)
         forearm_chb.pack(anchor=ctk.W)
 
 
