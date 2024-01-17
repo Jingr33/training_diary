@@ -8,7 +8,7 @@ from ctkWidgets import Button
 from ctkWidgets import Label
 from ctkWidgets import Entry
 from ctkWidgets import ChcekBox
-from configuration import *
+from configuration import sport_list, path, gym_body_parts
 
 
 class Frame (ctk.CTkFrame):
@@ -69,21 +69,21 @@ class Frame (ctk.CTkFrame):
         # vytvoření checkboxů s odcvičenými částmi
         exercise_l = Label(self, "Odcvičeno")
         exercise_l.pack(anchor=ctk.W)
-        leg_chb = ChcekBox(self, 'Nohy', self.var_legs)
+        leg_chb = ChcekBox(self, gym_body_parts[0], self.var_legs)
         leg_chb.pack(anchor=ctk.W)
-        core_chb = ChcekBox(self, 'Střed těla', self.var_core)
+        core_chb = ChcekBox(self, gym_body_parts[1], self.var_core)
         core_chb.pack(anchor=ctk.W)
-        breast_chb = ChcekBox(self, 'Prsa', self.var_breast)
+        breast_chb = ChcekBox(self, gym_body_parts[2], self.var_breast)
         breast_chb.pack(anchor=ctk.W)
-        shoulders_chb = ChcekBox(self, 'Ramena', self.var_shoulders)
+        shoulders_chb = ChcekBox(self, gym_body_parts[3], self.var_shoulders)
         shoulders_chb.pack(anchor=ctk.W)
-        back_chb = ChcekBox(self, 'Záda', self.var_back)
+        back_chb = ChcekBox(self, gym_body_parts[4], self.var_back)
         back_chb.pack(anchor=ctk.W)
-        biceps_chb = ChcekBox(self, 'Biceps', self.var_biceps)
+        biceps_chb = ChcekBox(self, gym_body_parts[5], self.var_biceps)
         biceps_chb.pack(anchor=ctk.W)
-        triceps_chb = ChcekBox(self, 'Triceps', self.var_triceps)
+        triceps_chb = ChcekBox(self, gym_body_parts[6], self.var_triceps)
         triceps_chb.pack(anchor=ctk.W)
-        forearm_chb = ChcekBox(self, 'Předloktí', self.var_forearm)
+        forearm_chb = ChcekBox(self, gym_body_parts[7], self.var_forearm)
         forearm_chb.pack(anchor=ctk.W)
 
 
@@ -153,8 +153,8 @@ class Frame (ctk.CTkFrame):
 
     def writeToFile (self, string):
         """Metoda pro zapsání dat do souboru."""
-        with open("training_database.txt", 'a') as f:  
-            f.write(string + "\n")
+        with open(path, 'a') as f:  
+            f.write(string + " / \n")
 
 
     def floatEntryVerify (self, try_time, try_distance):
@@ -190,7 +190,7 @@ class Frame (ctk.CTkFrame):
 
         # tlačítko pro zrušení alertu
         alert_b = Button(self, "OK", self.confirmationAlertDestroy)
-        alert_b.configure(fg_color = "green", hover_color = "dark-green")
+        alert_b.configure(fg_color = "green", hover_color = "#109116")
         alert_b.pack()
 
     def confirmationAlertDestroy(self):
