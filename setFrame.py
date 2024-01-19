@@ -113,8 +113,10 @@ class Frame (ctk.CTkFrame):
         verify = self.floatEntryVerify(self.var_time.get(), self.var_length.get())
 
         if verify:
+            # úprava zápisu data
+            formated_date = self._editDateFormat(self.date_calendar.get_date())
             # list se zadanými údaji
-            self.training_list = [self.choice, self.date_calendar.get_date()]
+            self.training_list = [self.choice, formated_date]
 
             # vyplnění training_listu podle zvoleného tréninku
             if self.training_list[0] == sport_list[0]:
@@ -138,7 +140,14 @@ class Frame (ctk.CTkFrame):
                 widget.destroy()
             self.conmfirmationAlert(self.choice) # zobrazení potvrzovacího alertu
 
-
+    def _editDateFormat(self, original_date :str) -> str:
+        """Metoda pro přepsaní data z formátu tkinterového 
+        kalendáře do formátu českého zápisu data."""
+        # převedení údajů (měsíc, datum, rok) do listu
+        mmddyyyy = original_date.split("/")
+        # vytvoření stringu s českým datem
+        formated_date = mmddyyyy[1] + ". " + mmddyyyy[0] + ". " + mmddyyyy[2]
+        return formated_date
 
     def prepareString(self, list):
         """Metoda pro přípravu stringu (řádku) pro zapsání do souboru."""
