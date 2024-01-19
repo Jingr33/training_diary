@@ -52,6 +52,8 @@ class OneTraining ():
 
     def _whichSport (self, data_list):
         """Zjistí, o který sport se jedná."""
+        sport = ""
+        print(sport_list[0])
         if data_list[1] == sport_list[0]:
             sport = sport_list[0]
         elif data_list[1] == sport_list[1]:

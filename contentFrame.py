@@ -13,5 +13,6 @@ class Frame (ctk.CTkFrame):
     def overviewOption(self):
         """Metoda pro zavolání možností pro záložku přehled."""
         # vytvoření instace s přehledem tréninků.
-        Overview(self).pack(fill = ctk.BOTH, expand=True)
+        overview = Overview(self)
+        overview.pack(fill = ctk.BOTH, expand=True)
 
