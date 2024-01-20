@@ -26,11 +26,21 @@ class Frame (ctk.CTkFrame):
         """Metoda spustí frame podle zvolené možnosti v segment buttonu."""
         if option == menu_list[0]:
             # smazaní předchozího obsahu
-            for widget in self.content_frame.winfo_children():
-                widget.destroy()
+            self._oldWidgetsDestroy()
             # vytvoření obsahu framu
             self.content_frame.overviewOption()
+
         elif option == menu_list[1]:
-            ... #TODO
+            # smazaní předchozího obsahu
+            self._oldWidgetsDestroy()
+            # vytvoření obsahu framu
+            self.content_frame.calendarOption()
+
         elif option == menu_list[2]:
             ... #TODO
+
+    def _oldWidgetsDestroy(self):
+        """Metoda vymaže obsah contentFramu, při přepnutí na jinou záložku."""
+        # smazání předchozího obsahu
+        for widget in self.content_frame.winfo_children():
+            widget.destroy()
