@@ -79,9 +79,23 @@ class Filter():
     
     def _timeFiltrator(self, time_filter):
         """Vyfiltruje data podle času."""
+        # pokud není filtr nastavený -> trénink projde filtrem vždy
+        bottom_condition = False # podmínka při nezadaném spodním filtru
+        top_condition = False # podmínika při nezadaném horním filtru
+        # spodní hranice filtru
+        if time_filter[0] == "":
+            bottom_condition = True
+            time_filter[0] = "0"
+        # horní hranice filtru
+        if time_filter[1] == "":
+            top_condition = True
+            time_filter[1] = "0"
+
+        # vytřídění dat podle zadaných mezí
         filtered = []
         for training in self.filtered_data:
-            if (int(training.time) >= int(time_filter[0])) and (int(training.time) <= int(time_filter[1])):
+            if (((int(training.time) >= int(time_filter[0])) or bottom_condition)
+                and (((int(training.time) <= int(time_filter[1]))) or top_condition)):
                 filtered.append(training)
         return filtered
             
