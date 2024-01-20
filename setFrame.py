@@ -18,6 +18,10 @@ class Frame (ctk.CTkFrame):
         super().__init__(master)
         self.choice = choice
         today = datetime.date.today()
+
+        # přidání scrollbaru
+        #TODO
+
         # inicializace proměnných které potřebuju mít uložené v každém případě
         self.var_time = ctk.StringVar()
         self.var_length = ctk.StringVar()

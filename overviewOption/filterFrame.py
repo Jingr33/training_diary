@@ -10,7 +10,7 @@ from overviewOption.filterFrames.filterDetailsFrame import FilterDetails
 from configuration import sport_list, gym_body_parts
 
 
-class FilterFrame (ctk.CTkFrame):
+class FilterFrame (ctk.CTkScrollableFrame):
     """Vytvoří Frame pro zaklikávání možností filtrování v přehledu tréninků."""
     def __init__(self, master :ctk.CTkBaseClass, trainings):
         super().__init__(master)

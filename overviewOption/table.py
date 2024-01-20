@@ -5,7 +5,7 @@ import customtkinter as ctk
 from overviewOption.oneRow import OneRow
 from overviewOption.legend import Legend
 
-class Table (ctk.CTkFrame):
+class Table (ctk.CTkScrollableFrame):
     """Třída pro vytvoření tabulky přehledu tréninků."""
     def __init__(self, master :ctk.CTkBaseClass, fileData: list):
         super().__init__(master)
