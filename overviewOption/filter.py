@@ -1,9 +1,9 @@
 # importy souborů
-from configuration import sport_list
+from configuration import sport_list, gym_body_parts
 
 class Filter():
     """Filtruje tréninky podle vybraných parametrů."""
-    def __init__(self, trainings, date_filter, sport_filter, time_filter):
+    def __init__(self, trainings, date_filter, sport_filter, time_filter, detail_filter):
         self.trainings = trainings
 
         # vyfiltrování podle filtrovaných sportů
@@ -15,13 +15,14 @@ class Filter():
         # vyfiltrování data podle času
         self.filtered_data = self._timeFiltrator(time_filter)
 
-        #TODO ostatní filtry
+        # vyfiltrování podle detailů sportů
+        self.filtered_data = self._detailsFiltrator(detail_filter)
 
     
     def getFilteredData(self):
         return self.filtered_data
     
-    def _sportFiltrator(self, sport_filter):
+    def _sportFiltrator(self, sport_filter) -> list:
         """Vyfiltruje data podle sportu."""
         # převede číselné hodnoty z filtru do slovní podoby
         desired_sports = []
@@ -39,7 +40,7 @@ class Filter():
                     filtered.append(training)
         return filtered
 
-    def _dateFiltrator(self, date_filter):
+    def _dateFiltrator(self, date_filter) -> list:
         """Vyfiltruje data podle datumu."""
         # rozklíčování stringů data do proměnných typu date
         train_date = []
@@ -77,7 +78,7 @@ class Filter():
             j = j + 1
         return filtered
     
-    def _timeFiltrator(self, time_filter):
+    def _timeFiltrator(self, time_filter) -> list:
         """Vyfiltruje data podle času."""
         # pokud není filtr nastavený -> trénink projde filtrem vždy
         bottom_condition = False # podmínka při nezadaném spodním filtru
@@ -98,4 +99,67 @@ class Filter():
                 and (((int(training.time) <= int(time_filter[1]))) or top_condition)):
                 filtered.append(training)
         return filtered
-            
+    
+    def _detailsFiltrator(self, detail_filter :list) -> list:
+        """Vyfiltruje data podle detalních možností sportů."""
+        # zavolání jednotlivých funkcí
+        # detaily posilovny
+        if detail_filter[0]:
+            self.filtered_data = self._gymPartsFiltrator(detail_filter[0])
+        # detaily běhu
+        self.filtered_data = self._rundistanceFiltrator(detail_filter[1])
+
+        return self.filtered_data
+
+    def _gymPartsFiltrator(self, gym_parts_filter :list) -> list:
+        """Vyfiltruje posilovnu podle odcvičených částí."""
+        # vytvoření pole s názvy zvolených sportů ve filtru
+        strings_to_find = []
+        for i in range(len(gym_body_parts)):
+            if gym_parts_filter[i] == 1:
+                strings_to_find.append(gym_body_parts[i])
+
+        # cyklus přes tréninky
+        filtered = []
+        for training in self.filtered_data:
+            # výběr posilovacích tréninků
+            if training.sport == sport_list[0].lower():
+                # každé slovo ze strings_to_find se zkusí najít v odcvičených sportech tréninku
+                for i in range(len(strings_to_find)):
+                    found = training.practicedParts.find(strings_to_find[i])
+                    if found >= 0:
+                        filtered.append(training)
+                        break
+            else:
+                # pokud se nejedná o posilovnu, přidá se vždy
+                filtered.append(training)
+        
+        return filtered
+
+    def _rundistanceFiltrator(self, distance_run_filter :list) -> list:
+        """Vyfiltruje běh podle vzdálenosti."""
+        # pokud není filtr nastavený -> trénink projde filtrem vždy
+        bottom_condition = False # podmínka při nezadaném spodním filtru
+        top_condition = False # podmínika při nezadaném horním filtru
+        # spodní hranice filtru
+        if distance_run_filter[0] == "":
+            bottom_condition = True
+            distance_run_filter[0] = "0"
+        # horní hranice filtru
+        if distance_run_filter[1] == "":
+            top_condition = True
+            distance_run_filter[1] = "0"
+
+        # vytřídění dat podle zadaných mezí
+        filtered = []
+        for training in self.filtered_data:
+            if training.sport == sport_list[1]:
+                if (((int(training.distance) >= int(distance_run_filter[0])) or bottom_condition)
+                    and ((int(training.distance) <= int(distance_run_filter[1])) or top_condition)):
+                    filtered.append(training)
+            else:
+                filtered.append(training)
+        return filtered
+
+    
+

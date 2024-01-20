@@ -31,6 +31,13 @@ class FilterDetails (Frame):
                 # ...spustí se funkce generování jeho podrobného nastavení
                 self.gui_functions[i]()
 
+    def filtered(self):
+        """Vrátí hodnoty zvolené ve filtru detailů sportů."""
+        gym_values = self._filteredGym()
+        run_values = self._filteredRun()
+        filtered = [gym_values, run_values]
+        return filtered
+
     def _createGym(self):
         """Metoda pro vytvoření grafiky pro filtraci jednotlivých části těla."""
         self.gym_rows = 2
@@ -40,37 +47,40 @@ class FilterDetails (Frame):
         self.label.grid(row = self.details_rows, column=0)
         self.label.configure(width = 30)
 
-        self.leg_b = Button(self, gym_body_parts[0], ...)
+        self.leg_b = Button(self, gym_body_parts[0], self._clickedLegButton)
         self.leg_b.grid(row = self.details_rows, column = 1, padx = 1, pady = 0, ipadx=0, ipady=0)
-        self.leg_b.configure(font=("Arial", 10), height = 15, width = 20, anchor=ctk.W)
+        self.leg_b.configure(font=("Arial", 10), height = 15, width = 20, anchor=ctk.W, fg_color = "gray")
 
-        self.core_b = Button(self, gym_body_parts[1], ...)
+        self.core_b = Button(self, gym_body_parts[1], self._clickedCoreButton)
         self.core_b.grid(row = self.details_rows, column = 2, padx = 1, pady = 0, ipadx=0, ipady=0)
-        self.core_b.configure(font=("Arial", 10), height = 15, width = 20, anchor=ctk.W)
+        self.core_b.configure(font=("Arial", 10), height = 15, width = 20, anchor=ctk.W, fg_color = "gray")
 
-        self.breast_b = Button(self, gym_body_parts[2], ...)
+        self.breast_b = Button(self, gym_body_parts[2], self._clickedBreastButton)
         self.breast_b.grid(row = self.details_rows, column = 3, padx = 1, pady = 0, ipadx=0, ipady=0)
-        self.breast_b.configure(font=("Arial", 10), height = 15, width = 20, anchor=ctk.W)
+        self.breast_b.configure(font=("Arial", 10), height = 15, width = 20, anchor=ctk.W, fg_color = "gray")
 
-        self.shoulders_b = Button(self, gym_body_parts[3], ...)
+        self.shoulders_b = Button(self, gym_body_parts[3], self._clickedShoulderButton)
         self.shoulders_b.grid(row = self.details_rows, column = 4, padx = 1, pady = 0, ipadx=0, ipady=0)
-        self.shoulders_b.configure(font=("Arial", 10), height = 15, width = 20, anchor=ctk.W)
+        self.shoulders_b.configure(font=("Arial", 10), height = 15, width = 20, anchor=ctk.W, fg_color = "gray")
 
-        self.back_b = Button(self, gym_body_parts[4], ...)
+        self.back_b = Button(self, gym_body_parts[4], self._clickedBackButton)
         self.back_b.grid(row = self.details_rows+1, column = 1, padx = 1, pady = 0, ipadx=0, ipady=0)
-        self.back_b.configure(font=("Arial", 10), height = 15, width = 20, anchor=ctk.W)
+        self.back_b.configure(font=("Arial", 10), height = 15, width = 20, anchor=ctk.W, fg_color = "gray")
 
-        self.biceps_b = Button(self, gym_body_parts[5], ...)
+        self.biceps_b = Button(self, gym_body_parts[5], self._clickedBicepsButton)
         self.biceps_b.grid(row = self.details_rows+1, column = 2, padx = 1, pady = 0, ipadx=0, ipady=0)
-        self.biceps_b.configure(font=("Arial", 10), height = 15, width = 20, anchor=ctk.W)
+        self.biceps_b.configure(font=("Arial", 10), height = 15, width = 20, anchor=ctk.W, fg_color = "gray")
 
-        self.triceps_b = Button(self, gym_body_parts[6], ...)
+        self.triceps_b = Button(self, gym_body_parts[6], self._clickedTricepsButton)
         self.triceps_b.grid(row = self.details_rows+1, column = 3, padx = 1, pady = 0, ipadx=0, ipady=0)
-        self.triceps_b.configure(font=("Arial", 10), height = 15, width = 20, anchor=ctk.W)
+        self.triceps_b.configure(font=("Arial", 10), height = 15, width = 20, anchor=ctk.W, fg_color = "gray")
 
-        self.forearm_b = Button(self, gym_body_parts[7], ...)
+        self.forearm_b = Button(self, gym_body_parts[7], self._clickedForearmButton)
         self.forearm_b.grid(row = self.details_rows+1, column = 4, padx = 1, pady = 0, ipadx=0, ipady=0)
-        self.forearm_b.configure(font=("Arial", 10), height = 15, width = 20, anchor=ctk.W)
+        self.forearm_b.configure(font=("Arial", 10), height = 15, width = 20, anchor=ctk.W, fg_color = "gray")
+
+        #pole nul pro přidávání  zvolených částí těla při filtrování
+        self.elected_buttons = [0] * len(gym_body_parts)
 
         # zvýšení řádku pro následné generování dalšího nastavení
         self.details_rows = self.details_rows + self.gym_rows
@@ -78,6 +88,36 @@ class FilterDetails (Frame):
         # pole všech grafických objektů funkce
         self.gym_details_widgets = [self.label, self.leg_b, self.core_b, self.breast_b, self.shoulders_b,
                                self.back_b, self.biceps_b, self.triceps_b, self.forearm_b]
+        
+    def _clickedLegButton(self):
+        self._clickedButton(0)
+    def _clickedCoreButton(self):
+        self._clickedButton(1)
+    def _clickedBreastButton(self):
+        self._clickedButton(2)
+    def _clickedShoulderButton(self):
+        self._clickedButton(3)
+    def _clickedBackButton(self):
+        self._clickedButton(4)
+    def _clickedBicepsButton(self):
+        self._clickedButton(5)
+    def _clickedTricepsButton(self):
+        self._clickedButton(6)
+    def _clickedForearmButton(self):
+        self._clickedButton(7)
+
+    def _clickedButton(self, index):
+        if self.elected_buttons[index] == 0:
+            self.elected_buttons[index] = 1
+            self.gym_details_widgets[index+1].configure(fg_color = "dodgerblue4")
+        else:
+            self.elected_buttons[index] = 0
+            self.gym_details_widgets[index+1].configure(fg_color = "gray")
+
+
+    def _filteredGym(self) -> list:
+        """Pokud bylo použito filtrování cviků v posilovně, funkce vrátí filtrované hodnoty."""
+        return self.elected_buttons
 
     def _createRun(self):
         """Metoda pro vytvoření grafiky pro filtraci distance běhu."""
@@ -102,7 +142,7 @@ class FilterDetails (Frame):
         self.to_l.grid(row = self.details_rows, column = 3)
         self.to_l.configure(width=30)
 
-        self.to_e = Entry(self, self.var_from)
+        self.to_e = Entry(self, self.var_to)
         self.to_e.grid(row=self.details_rows, column = 4)
         self.to_e.configure(height = 20, width=35)
 
@@ -112,3 +152,9 @@ class FilterDetails (Frame):
         # pole všech grafických objektů funkce
         self.run_details_widgets = [self.run_l, self.from_l, self.from_e,
                                     self.to_l, self.to_e]
+        
+    def _filteredRun(self) -> list:
+        """Vrátí filtrované hodnoty běhu."""
+        if self.run_details_widgets:
+            distances = [self.var_from.get(), self.var_to.get()]
+        return distances

@@ -57,8 +57,11 @@ class FilterFrame (ctk.CTkFrame):
         # stažení hodnot o filtrování času
         time_filter = self.filter_time.filtered()
 
+        # stažení hodnot o filtrování detailů sportů
+        detail_filter = self.filter_details.filtered()
+
         # zavolání vyfiltrování
-        self.filter = Filter(self.trainings, date_filter, sport_filter, time_filter)
+        self.filter = Filter(self.trainings, date_filter, sport_filter, time_filter, detail_filter)
         self.filtered_data = self.filter.getFilteredData()
 
     def getData (self):
