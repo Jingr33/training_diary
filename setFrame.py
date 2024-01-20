@@ -145,6 +145,12 @@ class Frame (ctk.CTkFrame):
         kalendáře do formátu českého zápisu data."""
         # převedení údajů (měsíc, datum, rok) do listu
         mmddyyyy = original_date.split("/")
+
+        # přidání 0 před číslo, pokud je menší než 10
+        for i in range(len(mmddyyyy)):
+            if int(mmddyyyy[i]) < 10:
+                mmddyyyy[i] = "0" + mmddyyyy[i]
+
         # vytvoření stringu s českým datem
         formated_date = mmddyyyy[1] + ". " + mmddyyyy[0] + ". " + mmddyyyy[2]
         return formated_date

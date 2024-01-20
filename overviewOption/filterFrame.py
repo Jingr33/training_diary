@@ -49,7 +49,7 @@ class FilterFrame (ctk.CTkFrame):
     def _filter(self):
         """Spuštění filtrování při kliknutí na tlačítko filtrovat."""
         #TODO - stažení hodnot o filtrování data
-        date_filter = ""
+        date_filter = self.filter_date.filtered()
 
         # stažení hodnot filtrování sportu
         sport_filter = self.filter_sport.filtered()
