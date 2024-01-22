@@ -2,12 +2,14 @@
 from configuration import sport_list, gym_body_parts
 
 class OneTraining ():
-    """Třída pro vytvoření instance jednoho tréninku z dat v souboru."""
+    """Třída pro vytvoření instance jednoho tréninku z dat v souboru.
+    laod - možnost načíst data ze souboru -> trénink pak má všechny svoje vlastnosti, které se o něm ukládají
+    save - ..."""
     def __init__(self, operation, file_line):
         if operation == "load":
             self.unlockTheData(file_line)
         elif operation == "save":
-            ...
+            ... #TODO předělat ukládání tréninků do objektů
 
     def unlockTheData(self, file_line):
         """Funkce rozklíčuje data ze souboru a přiřadí je objektu."""

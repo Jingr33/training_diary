@@ -2,6 +2,11 @@
 
 # list možných sportů pro zadání tréninku
 sport_list = ["posilovna", "běh"]
+# barvy jednotlivých sportů #TODO nastavovatelnost
+sport_color = {
+    "posilovna" : "#e74c3c",
+    "běh" : "#3498db",
+}
 
 # list výběrových tlačítek v menuFramu
 menu_list = ["Přehled", "Kalendář", "Další"]

@@ -20,8 +20,7 @@ class Calendar (ctk.CTkFrame):
         self.current_date = self.slider_frame.setted_date
         # inicializace grafického kalendáře
         self.initCalTable(self.current_date)
-
-        # eventy spouštějící se při přepínání měsíců
+        
 
     def initCalTable (self, date :tuple) -> None:
         """Provede inicializace kalendáře."""  

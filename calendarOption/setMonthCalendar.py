@@ -64,7 +64,7 @@ class SetMonth (Frame):
         self.now_l.configure(text =self.var_text)
 
         # zavolání inicializace grafického kalendáře na masterovi
-        self.master.initCalTable(self.setted_date)
+        # self.master.initCalTable(self.setted_date)
 
     def _nextMonth (self) -> None:
         """Posune nastavený měsíc o jeden dopředu."""
@@ -80,4 +80,4 @@ class SetMonth (Frame):
         self.now_l.configure(text = self.var_text)
 
         # zavolání inicializace grafického kalendáře na masterovi
-        self.master.initCalTable(self.setted_date)
+        # self.master.initCalTable(self.setted_date)
