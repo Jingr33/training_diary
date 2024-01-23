@@ -40,8 +40,8 @@ class calendarTable (ctk.CTkScrollableFrame):
         for row in range(6): #přes řádky
             for column in range(7): #přes sloupce
                 frame = OneDayFrame(self)
-                frame.grid(row=row, column=column, ipadx = 2, ipady = 2)
-                frame.configure(corner_radius = 0)
+                frame.grid(row=row, column=column, ipadx = 2, ipady = 2, padx = 2, pady = 2)
+                frame.configure(corner_radius = 5)
                 self.day_frames[i] = frame
                 i = i + 1
 
@@ -49,7 +49,8 @@ class calendarTable (ctk.CTkScrollableFrame):
         """Metoda pro naplnění framů (jednotlivých dní) a jejich labelů daty dní, které obsahují."""
         self.table_filler = TabelContentFiller(self.date) # instance objektu plnícího tabulku daty
         dates_list = self.table_filler.dates_list # vytvoření listu s daty daného měsíce
-        self.table_filler.DatesToLabelsConfig(self.day_frames, dates_list) # zapsaní měsíců do framů
+        self.table_filler.datesToLabelsConfig(self.day_frames, dates_list) # zapsaní měsíců do framů
+        self.table_filler.displayTrainingWidget(self.day_frames) #zapsání stripů s tréninky do kalendáře
 
 
     def regenerateDates (self, master) -> None:
@@ -60,7 +61,7 @@ class calendarTable (ctk.CTkScrollableFrame):
         #přepsání dat v kalendáři
         self.fillDatesToTable()
 
-
+############################################# tohle vůbec nepoužívám
     def _windowResize(self, event) -> None:
         """Metoda zjistí výšku a šířku framu calendarTable."""
         parent_width = event.width

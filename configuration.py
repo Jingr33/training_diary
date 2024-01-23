@@ -4,8 +4,8 @@
 sport_list = ["posilovna", "běh"]
 # barvy jednotlivých sportů #TODO nastavovatelnost
 sport_color = {
-    "posilovna" : "#e74c3c",
-    "běh" : "#3498db",
+    sport_list[0] : "#e74c3c",
+    sport_list[1] : "#3498db",
 }
 
 # list výběrových tlačítek v menuFramu

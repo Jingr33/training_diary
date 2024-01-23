@@ -47,4 +47,9 @@ class Frame (ctk.CTkFrame):
     """Třída pro tvorbu ctk.CTkFrame"""
     def __init__(self, master :ctk.CTkBaseClass):
         super().__init__(master)
+
+class Scrollbar (ctk.CTkScrollbar):
+    def __init__(self, master :ctk.CTkBaseClass, command):
+        super().__init__(master)
+        self.configure(command=command)
        

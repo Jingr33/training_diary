@@ -1,9 +1,11 @@
+#importy knohven
+from datetime import date
 #importy souborů
 from configuration import sport_list, gym_body_parts
 
 class OneTraining ():
     """Třída pro vytvoření instance jednoho tréninku z dat v souboru.
-    laod - možnost načíst data ze souboru -> trénink pak má všechny svoje vlastnosti, které se o něm ukládají
+    load - možnost načíst data ze souboru -> trénink pak má všechny svoje vlastnosti, které se o něm ukládají
     save - ..."""
     def __init__(self, operation, file_line):
         if operation == "load":
@@ -27,6 +29,17 @@ class OneTraining ():
 
         if self.sport == sport_list[0]:
             self.practicedParts = self._practicedPartsString()
+
+    def trainingDateBetween(self, first_date : date, second_date : date) -> bool:
+        """Rozhodne, zda je datum mezi zadanými datovými hranicemi VČETNĚ."""
+        date_list = self.date.split(". ")
+        self.real_year = int(date_list[2]) + 2000
+        self.real_date = date(self.real_year, int(date_list[1]), int(date_list[0]))
+        if first_date <= self.real_date <= second_date:
+            between = True
+        else:
+            between = False
+        return between 
 
     def _practicedPartsString (self):
         "Vytvoří string procvčených částí těla."
