@@ -4,11 +4,14 @@ import customtkinter as ctk
 #import souborů
 from configuration import legend
 from ctkWidgets import Label
+from configuration import colors
 
 class Legend (ctk.CTkFrame):
     """Třída pro vytvoření framu s legendou."""
     def __init__(self, master :ctk.CTkBaseClass):
         super().__init__(master)
+        # nastavení barvy framu
+        self.configure(fg_color = colors["dark-gray"])
 
         # vytvoření labelů s popisky
         date_l = Label(self, legend[0])

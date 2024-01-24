@@ -29,6 +29,7 @@ class Frame (ctk.CTkFrame):
         # zadnání data tréninku
         date_l = Label(self, "Datum")
         date_l.pack(anchor=ctk.W)
+        date_l.configure(corner_radius = 8)
         self.date_calendar = Calendar(self, selectmode = 'day', 
                                year = today.year, month = today.month, 
                                day = today.day)

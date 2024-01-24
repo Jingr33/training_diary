@@ -1,7 +1,7 @@
 # import knihoven
 from tkinter import *
 import customtkinter as ctk
-from ctkWidgets import Frame, CheckBox, Label, Entry, Button
+from ctkWidgets import Frame, Button
 from overviewOption.filter import Filter
 from overviewOption.filterFrames.filterDateFrame import FilterDate
 from overviewOption.filterFrames.filterSportFrame import FilterSport
@@ -23,7 +23,7 @@ class FilterFrame (ctk.CTkScrollableFrame):
         self.filter_sport.gym_chb.bind('<Button-1>', self.gymFilterSelected)
         self.filter_sport.run_chb.bind('<Button-1>', self.runFilterSelected)
 
-    def _createGUI(self):
+    def _createGUI(self) -> None:
         """Vytvoření grafického rozraní."""
         self.filter_date = FilterDate(self)
         self.filter_date.pack(side=LEFT, fill=ctk.Y, ipadx=3)
@@ -46,7 +46,7 @@ class FilterFrame (ctk.CTkScrollableFrame):
         self.filter_button.configure(width=70)
 
 
-    def _filter(self):
+    def _filter(self) -> None:
         """Spuštění filtrování při kliknutí na tlačítko filtrovat."""
         #TODO - stažení hodnot o filtrování data
         date_filter = self.filter_date.filtered()
@@ -64,7 +64,7 @@ class FilterFrame (ctk.CTkScrollableFrame):
         self.filter = Filter(self.trainings, date_filter, sport_filter, time_filter, detail_filter)
         self.filtered_data = self.filter.getFilteredData()
 
-    def getData (self):
+    def getData (self) -> list:
         """Metoda vrátí vyfiltrovaná data."""
         return self.filtered_data
     

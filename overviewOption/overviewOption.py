@@ -6,6 +6,8 @@ from overviewOption.table import Table
 from oneTraining import OneTraining
 from configuration import path
 from overviewOption.filterFrame import FilterFrame
+from overviewOption.legend import Legend
+
 
 class Overview (ctk.CTkFrame):
     """Třída pro vyvolání obsahu při zvolení možnosti přehled v menu."""
@@ -23,37 +25,47 @@ class Overview (ctk.CTkFrame):
         self.filter_frame.pack(side=TOP, fill=ctk.X, expand=False)
         self.filter_frame.configure(corner_radius = 0)
 
+        # vytvoření legendy tabulky
+        self._initLegend()
+
         # funkce pro vytvoření tabulky
         self._initTable(self.trainings)
 
         self.filter_frame.filter_button.bind('<Button-1>', self._initFiltering)
 
+    def _initLegend (self) -> None:
+        """VYtvoří frame s legendou tabulky."""
+        legend = Legend(self)
+        legend.pack(side=TOP, fill = ctk.X, padx = 0, pady=0)
+        legend.configure(height = 45, corner_radius = 0)
 
-    def _initTable(self, trainings):
+
+    def _initTable(self, trainings) -> None:
         """Metoda iniciuje vytvoření tabulky přehledu tréninků."""
         # zavolání framu s vytvořenou tabulkou
         self.table = Table(self, trainings)
         self.table.pack(fill = ctk.BOTH, expand = True)
         self.table.configure(corner_radius = 0)
 
-    def _initFiltering(self, master):
+    def _initFiltering(self, master) -> None:
+        """Spustí se při stisknutí filtrovaní dat ve framu filtrování. 
+        Načte vybrané tréninky, vytvoří novou tabulku."""
         # získání dat z filtrování
         filtered_trainings = self.filter_frame.getData()
 
         # nová iniciace tabulky s tréninky s filtrovanými daty
-        if self.table:
-            self.table.destroy()
+        self.table.destroy()
         self._initTable(filtered_trainings)
 
 
-    def laodFileLines(self, path):
+    def laodFileLines(self, path) -> list:
         """Metoda pro načtení dat ze souboru po jednotlivých trénincích."""
         # načtení všech dat do pole po jednotlivých řádcích
         with open(path, 'r') as f:
             lines = f.readlines()
         return lines
     
-    def makeTrainings (self, data_lines):
+    def makeTrainings (self, data_lines) -> list:
         """Metoda vytvoří pole jednotlivých tréninků."""
         trainings = []
         for one_line in data_lines:
