@@ -35,7 +35,7 @@ class TabelContentFiller ():
         # vykreslení stripů s tréninky v jednotlivých dnech
         for training in self.trainings:
             index_of_frame = self._frameIndexOfDay(training.real_date)
-            frame_list[index_of_frame].createStrip(training.sport)
+            frame_list[index_of_frame].createStrip(training)
 
     
     def _datesDayList (self) -> list:

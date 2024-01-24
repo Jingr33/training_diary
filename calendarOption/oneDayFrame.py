@@ -16,11 +16,11 @@ class OneDayFrame (Frame):
         # inicializace obsahu
         self._initGUI()
 
-    def createStrip (self, sport_name : str) -> None:
+    def createStrip (self, training : object) -> None:
         """Vytvoření stripu pro trénink a uložení do pole stripů."""
-        strip = Label(self, sport_name, ("Arial", 13))
+        strip = OneStrip(self, training, ("Arial", 13))
         strip.pack(side=TOP, fill=ctk.X)
-        strip.configure(width=15, fg_color = sport_color[sport_name], corner_radius = 8,
+        strip.configure(width=15, fg_color = sport_color[training.sport], corner_radius = 8,
                         padx = 2, pady = 2)
         # přidání stripu do pole (využije se při promazávání stripů)
         self.strips.append(strip)
