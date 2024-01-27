@@ -7,6 +7,7 @@ from ctkWidgets import Label
 from ctkWidgets import ComboBox
 from setFrame import Frame as SetFrame
 from configuration import *
+from createPlan.createPlan import CreatePlan
 
 
 class Frame (ctk.CTkFrame):
@@ -26,7 +27,7 @@ class Frame (ctk.CTkFrame):
         """Metoda pro incializaci widgetů v addframu."""
 
         # tlačítko pro tréninkový plán
-        button_plan = Button(self, 'Nastavit plán', self.hello)
+        button_plan = Button(self, 'Nastavit plán', self._createTrainingPlan)
         button_plan.pack(padx=30, pady=10, ipadx=10, ipady=8, side=TOP)
 
         # Přidání nového tréninku
@@ -51,6 +52,7 @@ class Frame (ctk.CTkFrame):
         self.setFrame = SetFrame(self, choice)
         self.setFrame.pack(side=TOP, padx=3, pady=5, fill=ctk.BOTH, expand=TRUE)
 
-######################################
-    def hello(self):
-        print("hello")
+    def _createTrainingPlan (self) -> None:
+        """Vytvoří toplevel window pro nastavení tréninkového plánu."""
+        self.create_plan = CreatePlan(self)
+        self.create_plan.focus()

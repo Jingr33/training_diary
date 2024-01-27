@@ -35,3 +35,9 @@ months = {
     11 : "listopad",
     12 : "prosinec",
 }
+
+# paleta barev
+colors = {
+    "gray" : "#2c2c2c",
+    "light-gray" : "#444444",
+}

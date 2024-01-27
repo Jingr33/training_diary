@@ -1,3 +1,7 @@
+"""OVERVIEW"""
 # Přehled -> filtrování -> zmenši scrollbar tak, aby to nebylo přes půl stránky
-# Přehled -> tabulka -> vyrvi legendu z se Scrollframu s obsahem tabulky, ať nezajíždí za viditený okraj
 # Přehled -> tbaullka  -> vyřeš mazání framů v tabulce při vyfiltrování -> ať staré nezůstávají
+
+"""TRAINING PLAN"""
+# CycleTraining -> nejde přepisování dnů při smazání jednoho framu
+# CycleTraining -> nejde měnění nstavení columnconfiguration při zvětšování a zmenšování počtu dní
