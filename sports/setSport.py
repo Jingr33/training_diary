@@ -21,4 +21,21 @@ class SetSport():
         else:
             ... #TODO další sporty
         return message
+    
+    @staticmethod
+    def plan_setSportDetails(master : object, option : str) -> None:
+        """Rozhodne, které podrobnosti sportu ve tvoření cyklického tréninkového plánu
+        se vytvoří a zavolá danou funkci z objektu daného sportu."""
+        if option == sport_list[0]: # posilovna
+            Gym.plan_initRunDetails(master)
+        elif option == sport_list[1]: # běh
+            Run.plan_initRunDetails(master)
 
+    @staticmethod
+    def plan_getSportDetails(master : object, option : str) -> tuple:
+        """Rozhodne, ze kterého sportu data pochází a získá je."""
+        if option == sport_list[0]: # posilovna
+            values = Gym.plan_getRunDetails(master)
+        elif option == sport_list[1]: # běh
+            values = Run.plan_getRunDetails(master)
+        return values

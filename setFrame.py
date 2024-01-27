@@ -8,7 +8,7 @@ from ctkWidgets import Button
 from ctkWidgets import Label
 from ctkWidgets import Entry
 from ctkWidgets import CheckBox
-from configuration import sport_list, path, gym_body_parts
+from configuration import sport_list, trainings_path, gym_body_parts
 
 
 class Frame (ctk.CTkFrame):
@@ -172,7 +172,7 @@ class Frame (ctk.CTkFrame):
 
     def writeToFile (self, string):
         """Metoda pro zapsání dat do souboru."""
-        with open(path, 'a') as f:  
+        with open(trainings_path, 'a') as f:  
             f.write(string + " / \n")
 
 

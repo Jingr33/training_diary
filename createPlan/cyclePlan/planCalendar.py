@@ -1,10 +1,11 @@
 #importy knihoven
 from tkinter import *
 import customtkinter as ctk
+from functools import partial
 #importy souborů
-from createPlan.cyclePlan.dayDetail import DayDetailFrame
+from createPlan.cyclePlan.oneDay import OneDay
 from ctkWidgets import Label, Button
-from configuration import colors
+
 
 class PlanCalendar (ctk.CTkScrollableFrame):
     """Vytvoří malý náhled kalendáře v nastavovacím okné cyklického tréninkového plánu."""
@@ -17,8 +18,7 @@ class PlanCalendar (ctk.CTkScrollableFrame):
         self.days = []
 
         #nastavení řádků
-        # self.columnconfigure(0, weight = 1)
-        self.rowconfigure([0, 1, 2], weight=1)
+        self.rowconfigure([0, 1], weight=1)
 
         # inicializace grafického rozhraní
         self._createGUI()
@@ -33,29 +33,18 @@ class PlanCalendar (ctk.CTkScrollableFrame):
 
     def _addDay(self) -> None:
         """Přidání dalšího dne v náhledovém kalendáři."""
-        one_day = []
+        # list do krého se přidají všechny widgety naležející jednomu dni
+        # one_day = []
 
         # zrušení tlačítka next_day_button na původním místě
         if self.next_day_button:
             self.next_day_button.destroy()
 
-        # frame dne
-        frame = DayDetailFrame(self, len(self.columns) + 1)
-        frame.grid(row=1, column = self.column, padx=2, pady=2, ipadx=3, ipady=3, 
-                   sticky='w')
-        frame.configure(fg_color=colors["light-gray"], corner_radius = 10)
-        one_day.append(frame)
-
-        # odstranění dne
-        day_number = len(self.days)
-        remove_button = Button(self, "Odstranit", lambda: self._removeFrame(day_number))
-        remove_button.grid(row=2, column=self.column, padx=2, pady=2, sticky='w')
-        remove_button.configure(height = 13, width=115, font=("Arial", 11))
-        one_day.append(remove_button)
-
-        # podrobnosti nastavení
-
-        # checkbox pro volný den
+        # vytvoření objektu s widgetami pro jeden den
+        day_number = len(self.columns)+1
+        one_day = OneDay(self, day_number)
+        one_day.grid(row=1, column = self.column, sticky = "NW")
+        one_day.configure(fg_color = "transparent", corner_radius=0)
 
         # tlačítko pro přidání dalšího dne
         self._nextDayButton()
@@ -75,16 +64,16 @@ class PlanCalendar (ctk.CTkScrollableFrame):
     def _nextDayButton(self) -> None:
         """Vytvoření tlačítka pro přidání dalšího dne"""
         self.next_day_button = Button(self, "Přidat den", self._addDay)
-        self.next_day_button.grid(row=1, column=self.column+1, sticky='w')
+        self.next_day_button.grid(row=1, column=self.column+1, sticky='NW', pady = 40)
         self.next_day_button.configure(width=80, height = 30)
 
-    def _removeFrame(self, day_number : int) -> None:
+    def _removeFrame(self, frame_number : int) -> None:
         """Odstraní frame dne i celý jeho sloupec z náhledu kalendáře."""
-        # vymazání widgetů požadovaného dne
-        for widget in self.days[day_number]:
-            widget.destroy()
-        self.days[day_number] = None
-        # self.days[day_number] = None
+        # vymazání požadovaného dne
+        print(frame_number)
+        print(self.days[frame_number])
+        self.days[frame_number].destroy()
+        del self.days[frame_number]
         # přepsání labelů do pořádku
         self._dayReindexation()
         # odebere se sloupec
@@ -106,10 +95,11 @@ class PlanCalendar (ctk.CTkScrollableFrame):
     def _dayReindexation (self) -> None:
         """Přepíše data dnů na správná."""
         i = 1
-        for frame in self.days:
-            if frame != None:
-                frame[0].number_of_day = i
-                frame[0].dayReindexation(str(i))
+        for one_day in self.days:
+            if one_day != None:
+                one_day.day_number = i
+                one_day.frame_number = i - 1
+                one_day.dayReindexation()
                 i = i + 1
 
     def _lastColumnException (self) -> None:
@@ -118,9 +108,9 @@ class PlanCalendar (ctk.CTkScrollableFrame):
         if len(self.columns) == 1:
             for day in self.days:
                 if day != None:
-                    day[1].configure(state = "disabled")
+                    day.remove_button.configure(state = "disabled")
         # pokud jsou zobrazeny alespoň 2 dny, možnost odstranění se zpřístupní
         elif len(self.columns) == 2:
             for day in self.days:
                 if day != None:
-                    day[1].configure(state = "enabled")
+                    day.remove_button.configure(state = "enabled")

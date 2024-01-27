@@ -4,7 +4,7 @@ import customtkinter as ctk
 # import souborů
 from overviewOption.table import Table
 from oneTraining import OneTraining
-from configuration import path
+from configuration import trainings_path
 from overviewOption.filterFrame import FilterFrame
 
 class Overview (ctk.CTkFrame):
@@ -13,7 +13,7 @@ class Overview (ctk.CTkFrame):
         super().__init__(master)
 
         # načtení dat po trénincích
-        lines = self.laodFileLines(path)
+        lines = self.laodFileLines(trainings_path)
 
         #pole jednotlivých instancí tréninků
         self.trainings = self.makeTrainings(lines)

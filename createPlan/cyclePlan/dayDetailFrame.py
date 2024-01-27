@@ -18,6 +18,15 @@ class DayDetailFrame (Frame):
         """Přepíše čísla dní v případě, že se nějaký z předchozích framů vymazal."""
         self.day_number.configure(width=100, text = label_number)
 
+    def initFreeDayLabel(self) -> None:
+        """Vytvoří label s nápisem "volný den" v případě zvolení chcecboxu volný den."""
+        self.free_day_label = Label(self, "Volný den")
+        self.free_day_label.pack(side=TOP, fill=ctk.BOTH, expand=True)
+
+    def destroyFreeDayLabel(self) -> None:
+        """Vymaže label s nápisem "volný den" v případě odklinutí chcecboxu volný den."""
+        self.free_day_label.destroy()
+
     def _createGUI(self) -> None:
         """Grafický obsah."""
         # pomocný label, aby nastavil minimální výšku framu

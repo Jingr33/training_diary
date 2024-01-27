@@ -1,3 +1,9 @@
+#importy knihoven
+from tkinter import *
+import customtkinter as ctk
+# importy souborů
+
+
 class Sport():
     """Obecné funkce pro jakékoliv typy tréninků."""
     def __init__(self):
@@ -17,4 +23,3 @@ class Sport():
             message = message + self.message_attributes[i] + ": " + self.message_values[i] + "\n"
         return message
     
-

@@ -12,7 +12,9 @@ sport_color = {
 menu_list = ["Přehled", "Kalendář", "Další"]
 
 # cesta k souboru se všemi uloženými tréninky
-path = "training_database.txt"
+trainings_path = "training_database.txt"
+# cesta k souboru s tréninkovými plány
+plans_path = "plan_database.txt"
 
 # jednotlivé části těla pro treénink v posilovně
 gym_body_parts = ["Nohy", "Střed těla", "Prsa", "Ramena", "Záda", "Biceps", "Triceps", "Předloktí"]
