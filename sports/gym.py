@@ -24,7 +24,7 @@ class Gym (Sport):
         return self.message_values
     
     @staticmethod
-    def plan_initRunDetails (master : object) -> None:
+    def plan_initGymDetails (master : object) -> None:
         """Vytvoří widgety v framíku v detailech nastavování sportu (posilovna) ve vytváření
         cyklického tréninkového plánu."""
         # stringvar promenne pro ukládání zadaných dat
@@ -86,7 +86,7 @@ class Gym (Sport):
 
 
     @staticmethod
-    def plan_getRunDetails (master : object) -> tuple:
+    def plan_getGymDetails (master : object) -> tuple:
         """Vrátí data vložené do framíku sportu (běh) v nastavování cyklického tréninkového plánu 
         -> nastavení detailů sportu"""
         time = Sport.floatEntryChecker(master.estimated_time.get()) # kontrola vstupu času
@@ -97,3 +97,55 @@ class Gym (Sport):
                 master.estim_triceps.get(), master.estim_forearm.get()]
         chceckbox_list = Sport.emptyCheckboxChecker(values_list) # kontrola zadání dat do chceckboxů
         return (time, chceckbox_list)
+
+    @staticmethod
+    def gymData(master : object, data_list : list) -> None:
+        """Rozklíčuje data z získané z tréninkové databáze pokud se
+        jedná o trénink posilovna."""
+        master.time = int(data_list[2])
+        master.leg = int(data_list[3])
+        master.core = int(data_list[4])
+        master.breast = int(data_list[5])
+        master.shoulders = int(data_list[6])
+        master.back = int(data_list[7])
+        master.biceps = int(data_list[8])
+        master.triceps = int(data_list[9])
+        master.forearm = int(data_list[10])
+        # vytvoření vlastnosti practicedParts
+        master.practicedParts = Gym.practicedPartsString(master)
+
+    @staticmethod
+    def practicedPartsString (master : object):
+        "Vytvoří string procvčených částí těla."
+        # pole částí těla
+        parts = [master.leg, master.core, master.breast, master.shoulders, master.back,
+                 master.biceps, master.triceps, master.forearm]
+        # vytvoření slovního podání odcvičených částí těla
+        practiced_parts = ""
+        text = ""
+        i = 0
+        for part in parts: # přes věechny možné odcvičené části těla
+            if part == 1: # pokud byla odcvičena
+                if practiced_parts != "": #udělá se mezery mezi slovy
+                    text = ", "
+                text = text + gym_body_parts[i]
+                practiced_parts = practiced_parts + text
+            i = i + 1
+        return practiced_parts
+
+    @staticmethod
+    def plan_getGymData (master : object, data : tuple) -> None:
+        """Přiřadí zadané data tréninku typu posilovna."""
+        data_list = data[1]
+        master.leg = int(data_list[0])
+        master.core = int(data_list[1])
+        master.breast = int(data_list[2])
+        master.shoulders = int(data_list[3])
+        master.back = int(data_list[4])
+        master.biceps = int(data_list[5])
+        master.triceps = int(data_list[6])
+        master.forearm = int(data_list[7])
+        # vytvoření vlastnosti practicedParts
+        master.practicedParts = Gym.practicedPartsString(master)
+
+

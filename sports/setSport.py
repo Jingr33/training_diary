@@ -27,7 +27,7 @@ class SetSport():
         """Rozhodne, které podrobnosti sportu ve tvoření cyklického tréninkového plánu
         se vytvoří a zavolá danou funkci z objektu daného sportu."""
         if option == sport_list[0]: # posilovna
-            Gym.plan_initRunDetails(master)
+            Gym.plan_initGymDetails(master)
         elif option == sport_list[1]: # běh
             Run.plan_initRunDetails(master)
 
@@ -35,7 +35,43 @@ class SetSport():
     def plan_getSportDetails(master : object, option : str) -> tuple:
         """Rozhodne, ze kterého sportu data pochází a získá je."""
         if option == sport_list[0]: # posilovna
-            values = Gym.plan_getRunDetails(master)
+            values = Gym.plan_getGymDetails(master)
         elif option == sport_list[1]: # běh
             values = Run.plan_getRunDetails(master)
         return values
+    
+    @staticmethod
+    def whichSport (sport_name : str) -> str:
+        """Zjistí, o který sport se jedná. Metoda hlavně pro objekt one trainig"""
+        sport = ""
+        if sport_name == sport_list[0]:
+            sport = sport_list[0]
+        elif sport_name == sport_list[1]:
+            sport = sport_list[1]
+        else:
+            ... #TODO
+        return sport
+    
+    @staticmethod
+    def findData(master : object, data_list : list) -> None:
+        """Rozhodne o který sport se jedná a rozklíčuje jeho 
+        data získané z databáze tréninků."""
+        if master.sport == sport_list[0]:
+            Gym.gymData(master, data_list)
+        elif master.sport == sport_list[1]:
+            Run.runData(master, data_list)
+        else:
+            ... #TODO
+
+    @staticmethod
+    def plan_getSportData (master : object, data: tuple) -> None:
+        """Vytáhne data ze získaného tuplu a pro každý sport přiřadí vlastnosti tréninku."""
+        if master.sport == sport_list[0]: #posilovna
+            Gym.plan_getGymData(master, data)
+        elif master.sport == sport_list[1]: # běh
+            Run.plan_getRunData(master, data)
+        else:
+            ... #TODO
+
+
+

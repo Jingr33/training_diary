@@ -56,4 +56,15 @@ class Run (Sport):
         time = Sport.floatEntryChecker(master.estimated_time.get())
         dist = Sport.floatEntryChecker(master.estimated_dist.get())
         return (time, dist)
+    
+    @staticmethod
+    def runData(master : object,  data_list : list) -> None:
+        """Rozklíčuje data z tréninkové databáze pokud se jedná 
+        o běžeckéhý trénink."""
+        master.time = data_list[2]
+        master.distance = data_list[3]
 
+    @staticmethod
+    def plan_getRunData (master : object, data : tuple) -> None:
+        """Přiřadí zadané data tréninku typu běh."""
+        master.distance = data[1]
