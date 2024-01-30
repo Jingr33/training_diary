@@ -51,7 +51,9 @@ class Run (Sport):
 
     @staticmethod
     def plan_getRunDetails (master : object) -> tuple:
-        """Vrátí data vložené do framíku sportu (běh) v nastavování cyklického tréninkového plánu 
+        """Ověří platnost dat a vrátí data vložené do framíku sportu (běh) v nastavování cyklického tréninkového plánu 
         -> nastavení detailů sportu"""
-        return (master.estimated_time.get(), master.estimated_dist.get())
+        time = Sport.floatEntryChecker(master.estimated_time.get())
+        dist = Sport.floatEntryChecker(master.estimated_dist.get())
+        return (time, dist)
 

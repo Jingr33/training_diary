@@ -3,13 +3,17 @@ from tkinter import *
 import customtkinter as ctk
 #importy souborů
 from ctkWidgets import Frame, Label
+from createPlan.cyclePlan.oneActivity import OneActivity
 
-class DayDetailFrame (Frame):
-    """Vytvoří rozhraní pro nastavování tréninků v jednotlivých dnech."""
+
+class OneDayFrame (Frame):
+    """Frame pro jeden den v náhledovém kalendáři nastavení cyklického tréninkového plánu.."""
     def __init__(self, master : ctk.CTkBaseClass, number_of_day : int):
         super().__init__(master)
         self.number_of_day = number_of_day
         self.number_of_frame = number_of_day - 1
+        # list aktivit v dni
+        self.activity_list = []
 
         # vytvoření obsahu
         self._createGUI()
@@ -26,6 +30,13 @@ class DayDetailFrame (Frame):
     def destroyFreeDayLabel(self) -> None:
         """Vymaže label s nápisem "volný den" v případě odklinutí chcecboxu volný den."""
         self.free_day_label.destroy()
+
+    def addStrip (self, selected_sport : str, data_tuple : tuple) -> None:
+        """Přidá strip s tréninkem do kalendáře."""
+        one_activity = OneActivity(self, selected_sport, data_tuple)
+        one_activity.pack(side=TOP, fill = ctk.X, padx = 2, pady=2)
+        self.activity_list.append(one_activity)
+
 
     def _createGUI(self) -> None:
         """Grafický obsah."""

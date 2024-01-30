@@ -23,3 +23,15 @@ class Sport():
             message = message + self.message_attributes[i] + ": " + self.message_values[i] + "\n"
         return message
     
+    @staticmethod
+    def floatEntryChecker(entry : str) -> str:
+        """Ověří zda se dá vstup převést na int nebo je neplatný nebo nezadaný
+        a vrátí výsledek."""
+        try:
+            float(entry)
+            return entry
+        except:
+            if entry == "":
+                return "nezadáno"
+            else:
+                return None
