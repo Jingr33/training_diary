@@ -70,8 +70,6 @@ class PlanCalendar (ctk.CTkScrollableFrame):
     def _removeFrame(self, frame_number : int) -> None:
         """Odstraní frame dne i celý jeho sloupec z náhledu kalendáře."""
         # vymazání požadovaného dne
-        print(frame_number)
-        print(self.days[frame_number])
         self.days[frame_number].destroy()
         del self.days[frame_number]
         # přepsání labelů do pořádku
