@@ -11,6 +11,9 @@ sport_color = {
 # list výběrových tlačítek v menuFramu
 menu_list = ["Přehled", "Kalendář", "Další"]
 
+# nezadaný vstup
+unknown_text = "nezadáno"
+
 # cesta k souboru se všemi uloženými tréninky
 trainings_path = "training_database.txt"
 # cesta k souboru s tréninkovými plány

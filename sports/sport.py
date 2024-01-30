@@ -2,6 +2,7 @@
 from tkinter import *
 import customtkinter as ctk
 # importy souborů
+from configuration import unknown_text
 
 
 class Sport():
@@ -32,6 +33,15 @@ class Sport():
             return entry
         except:
             if entry == "":
-                return "nezadáno"
+                return unknown_text
             else:
                 return None
+            
+    @staticmethod
+    def emptyCheckboxChecker(values : list) -> list:
+        """Ověří, zda byly ve skupině chcecboxů zakliknuty některé chceckbuttony
+          nebo všechny zůstaly prázné."""
+        for value in values:
+            if value == "1":
+                return values
+        return [unknown_text]

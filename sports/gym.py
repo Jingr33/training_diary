@@ -89,7 +89,11 @@ class Gym (Sport):
     def plan_getRunDetails (master : object) -> tuple:
         """Vrátí data vložené do framíku sportu (běh) v nastavování cyklického tréninkového plánu 
         -> nastavení detailů sportu"""
-        return (master.estimated_time.get(), 
-                master.estim_leg.get(), master.estim_core.get(), master.estim_breast.get(),
+        time = Sport.floatEntryChecker(master.estimated_time.get()) # kontrola vstupu času
+        
+        # list získaných hodnot z chceckboxů
+        values_list = [master.estim_leg.get(), master.estim_core.get(), master.estim_breast.get(),
                 master.estim_shoulder.get(), master.estim_back.get(), master.estim_biceps.get(),
-                master.estim_triceps.get(), master.estim_forearm.get())
+                master.estim_triceps.get(), master.estim_forearm.get()]
+        chceckbox_list = Sport.emptyCheckboxChecker(values_list) # kontrola zadání dat do chceckboxů
+        return (time, chceckbox_list)
