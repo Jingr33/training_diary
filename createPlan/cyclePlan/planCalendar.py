@@ -1,7 +1,6 @@
 #importy knihoven
 from tkinter import *
 import customtkinter as ctk
-from functools import partial
 #importy souborů
 from createPlan.cyclePlan.oneDay import OneDay
 from ctkWidgets import Label, Button
@@ -41,8 +40,8 @@ class PlanCalendar (ctk.CTkScrollableFrame):
             self.next_day_button.destroy()
 
         # vytvoření objektu s widgetami pro jeden den
-        day_number = len(self.columns)+1
-        one_day = OneDay(self, day_number)
+        self.day_number = len(self.columns)+1
+        one_day = OneDay(self, self.day_number)
         one_day.grid(row=1, column = self.column, sticky = "NW")
         one_day.configure(fg_color = "transparent", corner_radius=0)
 

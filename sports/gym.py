@@ -3,7 +3,7 @@ import customtkinter as ctk
 from tkinter import *
 #importy souborů
 from sports.sport import Sport
-from configuration import sport_list, sport_color, gym_body_parts
+from configuration import sport_list, sport_color, gym_body_parts, unknown_text
 from ctkWidgets import Label, Entry, CheckBox
 
 class Gym (Sport):
@@ -102,6 +102,7 @@ class Gym (Sport):
     def gymData(master : object, data_list : list) -> None:
         """Rozklíčuje data z získané z tréninkové databáze pokud se
         jedná o trénink posilovna."""
+        # zklouška, zda bylo něco zadáno
         master.time = int(data_list[2])
         master.leg = int(data_list[3])
         master.core = int(data_list[4])
@@ -137,15 +138,37 @@ class Gym (Sport):
     def plan_getGymData (master : object, data : tuple) -> None:
         """Přiřadí zadané data tréninku typu posilovna."""
         data_list = data[1]
-        master.leg = int(data_list[0])
-        master.core = int(data_list[1])
-        master.breast = int(data_list[2])
-        master.shoulders = int(data_list[3])
-        master.back = int(data_list[4])
-        master.biceps = int(data_list[5])
-        master.triceps = int(data_list[6])
-        master.forearm = int(data_list[7])
-        # vytvoření vlastnosti practicedParts
-        master.practicedParts = Gym.practicedPartsString(master)
+        # vyhodnocení, zda je v listu něco zadáno
+        data_check = Gym.tryGymData(data_list)
+        # uložení dat
+        if data_check:
+            master.leg = int(data_list[0])
+            master.core = int(data_list[1])
+            master.breast = int(data_list[2])
+            master.shoulders = int(data_list[3])
+            master.back = int(data_list[4])
+            master.biceps = int(data_list[5])
+            master.triceps = int(data_list[6])
+            master.forearm = int(data_list[7])
+            # vytvoření vlastnosti practicedParts
+            master.practicedParts = Gym.practicedPartsString(master)
+        else:
+            master.practicedParts = unknown_text
 
-
+    @staticmethod
+    def tryGymData (data_list : list) -> bool:
+        """Vyhodnotí, zda je v listu jakákoliv zadaná hodnota -> True, jinak False."""
+        try:
+            int(data_list[2])
+            check = True
+        except:
+            check = False
+        return check
+    
+    @staticmethod
+    def plan_gymDataToList(training : object) -> list:
+        """Zapíše vlastnosti tréninku posilovna do listu."""
+        data_list = [training.date, training.time, training.leg, training.core, training.breast,
+                     training.shoulders, training.back, training.biceps, training.triceps,
+                     training.forearm]
+        return data_list

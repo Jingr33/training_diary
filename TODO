@@ -8,3 +8,8 @@
 
 """TOPLEVEL WINDOWS"""
 # Nastavení plánu -> dej title oknám
+
+# Ověř všecvhny vstupy v nastavení cycklického TP -> nufunguje skoro nic
+
+# VOLNÝ DEN -> když zaklikneš volný den -> ať se vymažou všechny aktivity
+                                       #-> zapsání do souboru

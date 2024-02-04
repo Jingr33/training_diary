@@ -68,3 +68,9 @@ class Run (Sport):
     def plan_getRunData (master : object, data : tuple) -> None:
         """Přiřadí zadané data tréninku typu běh."""
         master.distance = data[1]
+
+    @staticmethod
+    def plan_runDataToList(training : object) -> list:
+        """Zapíše vlastnosti tréninku posilovna do listu."""
+        data_list = [training.date, training.time, training.distance]
+        return data_list

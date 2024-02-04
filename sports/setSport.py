@@ -73,5 +73,13 @@ class SetSport():
         else:
             ... #TODO
 
-
-
+    @staticmethod
+    def plan_trainingToList(training : object) -> list:
+        """Převede data tréninku na list údajů zapsatelných do souboru."""
+        if training.sport == sport_list[0]: # posilovna
+            data_list = Gym.plan_gymDataToList(training)
+        elif training.sport == sport_list[1]: # běh
+            data_list = Run.plan_runDataToList(training)
+        else:
+            ... #TODO
+        return data_list

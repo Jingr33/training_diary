@@ -28,3 +28,12 @@ class General():
         except:
             checked = False
         return checked
+    
+    @staticmethod
+    def prepareString(list :list) -> str:
+        """Připraví string jako jeden řádek zápisu do souboru."""
+        line = str(list[1])
+        if len(line) >= 2:
+            for i in range(2, len(list)):
+                line = line + " / " + str(list[i])
+        return line

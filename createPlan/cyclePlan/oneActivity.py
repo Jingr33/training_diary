@@ -18,7 +18,6 @@ class OneActivity (Label):
         #vytvoření objektu tréninku ze zadaných údajů
         self.one_training = OneTraining()
         self.one_training.setPlanData(selected_sport, details)
-        # one_training.setPlanData(selected_sport, details)
 
         # barva pozadí
         self.configure(fg_color = sport_color[selected_sport], corner_radius = 5)
