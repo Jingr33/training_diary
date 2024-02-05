@@ -2,6 +2,7 @@
 
 # list možných sportů pro zadání tréninku
 sport_list = ["posilovna", "běh"]
+free_day = "volno"
 # barvy jednotlivých sportů #TODO nastavovatelnost
 sport_color = {
     sport_list[0] : "#e74c3c",

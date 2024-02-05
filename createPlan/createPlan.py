@@ -11,6 +11,7 @@ class CreatePlan (ctk.CTkToplevel):
     """Vytvoří Toplevel okno pro nastavení tréninkového plánu (při kllinutí na "Nastavit plán".)"""
     def __init__(self, master : ctk.CTkBaseClass):
         super().__init__(master)
+        self.title('Výběr tréninkového plánu')
         self.grab_set()
         self.protocol('WM_DELETE_WINDOW', self._kill)
         self.geometry("500x400")

@@ -168,7 +168,12 @@ class Gym (Sport):
     @staticmethod
     def plan_gymDataToList(training : object) -> list:
         """Zapíše vlastnosti tréninku posilovna do listu."""
-        data_list = [training.date, training.time, training.leg, training.core, training.breast,
-                     training.shoulders, training.back, training.biceps, training.triceps,
-                     training.forearm]
+        # podmínka pro prázné data
+        if training.practicedParts == unknown_text:
+            data_list = [training.date, training.time, unknown_text]
+        else:
+            # vytvoření listu
+            data_list = [training.date, training.time, training.leg, training.core, training.breast,
+                        training.shoulders, training.back, training.biceps, training.triceps,
+                        training.forearm]
         return data_list

@@ -7,9 +7,9 @@
 # OneDay -> V nastavení sportu se přejmenují všechny comboBoxy, když zvolím nějakou možnost sportu - to oprav 
 
 """TOPLEVEL WINDOWS"""
-# Nastavení plánu -> dej title oknám
+# destroy při uložení tréninku
 
-# Ověř všecvhny vstupy v nastavení cycklického TP -> nufunguje skoro nic
+# mazaní jednotlivých aktivit ve dni
 
-# VOLNÝ DEN -> když zaklikneš volný den -> ať se vymažou všechny aktivity
-                                       #-> zapsání do souboru
+"""DALŠÍ"""
+# přidat možnost zrušit jeden trénink nebo zrušit všechny tréninky tohoto typu( všechny, všechny následující, všechny předchozí)

@@ -32,15 +32,6 @@ class OneActivity (Label):
 
         #TODO nakonec se při uložení sem musí uložit taky pořadí dne, v tréninkovém plánu
 
-    # def _loadData(self, selected_sport, details) -> None:
-    #     """Zpracuje získaná data a uloží je do listu."""
-    #     self.sport = selected_sport
-    #     # uložení základních údajů do listu
-    #     self.data = [0, self.sport] # -> 0 je místo pro pořadí dne
-    #     #přepsání dat s tuplu do listu za základní údaje 
-    #     for item in details:
-    #         self.data.append(item)
-
     def bindWithDay(self, day_number : int) -> None:
         """Metoda přidá do listu s daty o tréniku pořadí dne, ve kterém je."""
         self.data[0] = day_number

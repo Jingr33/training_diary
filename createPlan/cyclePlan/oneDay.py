@@ -17,7 +17,8 @@ class OneDay(Frame):
         self.details_frame = 0
         # list vsech widgetů
         self.all_widgets = []
-        # list obsahujíci listy
+        # volný den
+        self.free = False
         # grafika
         self._createGUI()
 
@@ -64,7 +65,7 @@ class OneDay(Frame):
         # event pro chceckbox
         free_day.bind("<Button-1>", self._setFreeDay)
 
-        # nastavení podrobností
+        # nastavení podrobností tréninkové aktivity
         self._setSport()
 
     def _removeFrame (self) -> None:
@@ -72,17 +73,36 @@ class OneDay(Frame):
         self.master._removeFrame(self.frame_number)
 
     def _setFreeDay(self, arg) -> None:
-        """NAstaví prvky okna pro volný den."""
+        """Nastaví prvky okna pro volný den / zrušení volného dne."""
         if self.var_free.get() == "1":
-            self.frame.initFreeDayLabel() # vytvoření labelu s nápisem volno
-            self.remove_button.configure(state = "disabled") # tlačítko odstranit na disabled
-            self.sports_cb.destroy() # zničení comboboxu se sporty
-            if self.details_frame:
-                self.details_frame.destroy()
+            self._configFreeDay() # nastavení volného dne
         else:
-            self.frame.destroyFreeDayLabel() # odstranění labelu s nápise volno
-            self.remove_button.configure(state = "enabled") # tlačítko odstranit na enabled
-            self._setSport() # vytvoření comboboxu se sporty
+            self._unconfigFreeDay() # odnastavení volného dne
+
+    def _configFreeDay(self) -> None:
+        """Nastavení konfigurace widgetů ve dni pro volný den."""
+        self.free = True # nastavení, že je den volný
+        self.frame.initFreeDayLabel() # vytvoření labelu s nápisem volno
+        # self.remove_button.configure(state = "disabled") # tlačítko odstranit na disabled
+        self.sports_cb.destroy() # zničení comboboxu se sporty
+        if self.details_frame:
+            self.details_frame.destroy()
+        # skrytí aktivit ve dni
+        if self.frame.activity_list:
+            for strip in self.frame.activity_list:
+                strip.pack_forget()
+
+    def _unconfigFreeDay(self) -> None:
+        """Nastavení konfigurace widgetů ve dni pro tréninkový den
+        (resp. zrušení volného dne)"""
+        self.free = False # Nastavení, že den není volný
+        self.frame.destroyFreeDayLabel() # odstranění labelu s nápise volno
+        # self.remove_button.configure(state = "enabled") # tlačítko odstranit na enabled
+        self._setSport() # vytvoření comboboxu se sporty
+        if self.frame.activity_list: # navrácení  stripů s aktivitami v pokud exitovaly
+            for strip in self.frame.activity_list: 
+                strip.pack(side=TOP, fill = ctk.X, padx = 2, pady=2)
+
 
     def _setSport (self) -> None:
         """Vytvoří combobox s výběrem sportů."""

@@ -1,10 +1,12 @@
 # importy knihoven
 from tkinter import *
 import customtkinter as ctk
+from datetime import date
 #importy souborů
 from ctkWidgets import Frame, Button, Label, Entry
 from createPlan.cyclePlan.planCalendar import PlanCalendar
 from sports.setSport import SetSport
+from oneTraining import OneTraining
 from general import General
 from configuration import plans_path
 
@@ -14,6 +16,8 @@ class CyclePlanFrame (Frame):
         super().__init__(master)
         self.master = master
         self.error_l = None # proměnná pro erorovou hlášku
+        self.end = "" # pokud by byla hodnota nevyplněná
+        self.cycles = ""
 
         # nastavení mřížky
         self.columnconfigure([0, 1, 2, 3], weight=1)
@@ -104,33 +108,35 @@ class CyclePlanFrame (Frame):
 
     def _savePlan(self):
         """Uloží tréninkový nový plán."""
-        # ověření platnosti vstupů
-        self._verifyStart(self.var_start)
-        self._verifyEnd(self.var_end)
-        self._verifyCycle(self.var_cycles)
+        # platnost vstupů
+        self._entryVerify()
         # vyhodnocení platnosti vstupů
-        if self.start_verified and self.end_verified and self.cycle_verified:
+        entry_check = self.start_verified and self.end_verified and self.cycle_verified
+        self.num_of_days = self._getNumOfDays() # získá počet dní cyklu
+        days_check = self.num_of_days > 1
+        if entry_check and days_check:
             # smazání chybové hlášky
             self._savePlanErrorDestroy()
             # list z datových údajů
-            main_info_list = [self.start, self.end, self.cycles]
+            main_info_list = [self.start, self.end, self.cycles, self.num_of_days]
             # stažení dat z náhledového kalendáře
             training_list = self._loadCalendarData()
-            print(training_list)
             # uložení dat
             self._writeDataToFile(main_info_list, training_list)
+            # vyplnutí okna s nastavováním plánu
+            self._killToplevel(self.master)
         else:
             self._savePlanError()
 
     def _loadCalendarData (self) -> list:
-        """Stáhne data každého tréninku z kalendáře a vytvoří jejich list."""
+        """Stáhne data každého tréninku z náhledového kalendáře a vytvoří jejich list."""
         training_list = []
         # list uložených dní tréninkového plánu
         days = self.details_frame.days
         # cyklus přes dny
         for day in days:
             # list aktivit v jednom dni
-            day_index = self.details_frame.day_number
+            day_index = day.day_number
             activities = day.frame.activity_list
             # cyklus přes aktivity
             for activity in activities:
@@ -138,6 +144,20 @@ class CyclePlanFrame (Frame):
                 # nastavení dne
                 training.date = day_index
                 training_list.append(training)
+            # zjistí, zda se jedná o volný den
+            if day.free:
+                training_list = self._isFreeDay(day, training_list, day_index)
+        return training_list
+    
+    def _isFreeDay(self, day : object, training_list : list, day_index : int) -> list:
+        """Zjistí, zda se jedná o volný den.
+        Ano -> přidá do dne s volnem aktivitu volno a vrátí ho.
+        Ne -> nevrátí nic."""
+        # pokud je den volný den -> provede se
+        free_training = OneTraining()
+        free_training.makeFreeDay()
+        free_training.date = day_index
+        training_list.append(free_training)
         return training_list
     
     def _writeDataToFile (self, info : list, trainings : list) -> None:
@@ -155,6 +175,22 @@ class CyclePlanFrame (Frame):
                 # zapsání do souboru
                 f.write(line + "\n")
 
+    def _getNumOfDays (self) -> None:
+        """Získá počet dní ze kterýc je složen tréninkový plán."""
+        return len(self.details_frame.days)
+    
+    def _killToplevel (self, master : object) -> None:
+        """Vypne okna pro nastavování tréninkového plánu."""
+        master.master.destroy()
+        master.destroy()
+
+    def _entryVerify(self) -> bool:
+        """Finální ověření platnosti vstupů a jejich smysluplnosti."""
+        self._verifyStart(self.var_start.get()) # ověření počátku
+        self._verifyEnd(self.var_end.get()) # ověření oknce
+        self._verifyCycle(self.var_cycles.get()) # ověření počtu cyklů
+        self._CompareEntries() # smyslupnost dat
+
     def _verifyStart (self, value) -> None:
         """Získá a ověří vstupní hodnoty začátku tréninkového plánu."""
         # ověření počátečního data
@@ -170,16 +206,14 @@ class CyclePlanFrame (Frame):
 
     def _dateChecker(self, entry : str) -> bool:
         """Ověří zda jde o platný vstup data formátu (dd/mm/yyyy)."""
-        if entry == "":
-            return True
         return General.checkDateEntry(entry)
 
     def _verifyCycle (self, value) -> None:
         """Získá a ověří vstupní hodnoty počtu cyklů tréninkového plánu."""
         # ověření počtu cyklů
-        cycle_chceck = True
-        if value != "":
-            cycle_chceck = General.checkIntEntry(self.var_cycles.get())
+        cycle_chceck = False
+        # if self.var_cycles.get() != "":
+        cycle_chceck = General.checkIntEntry(self.var_cycles.get())
         self._cycleCheckReaction(cycle_chceck)
 
     def _StartCheckReaction(self, date_check : bool) -> None:
@@ -191,6 +225,7 @@ class CyclePlanFrame (Frame):
             self.start_verified = True
         else:
             self.start_error_l.configure(text = "Špatné zadání.")
+            self.cycle_verified = False
 
     def _EndCheckReaction(self, date_check : bool) -> None:
         """Provede reakci na ověření vstupu koncového data tréninkového plánu.
@@ -201,6 +236,7 @@ class CyclePlanFrame (Frame):
             self.end_verified = True
         else:
             self.end_error_l.configure(text = "Špatné zadání.")
+            self.end_verified = False
 
 
     def _cycleCheckReaction(self, cycle_chceck : bool) -> None:
@@ -212,6 +248,36 @@ class CyclePlanFrame (Frame):
             self.cycle_verified = True
         else:
             self.cycle_error_l.configure(text = "Špatné zadání.", text_color = "red")
+            self.cycle_verified = False
+
+    def _CompareEntries (self) -> None:
+        """Vyhodnotí, zda zadaná data vůči sobě dávají smysl 
+        a zda nezadané údaje jsou nutné pro vytvoření tréninkového plánu."""
+        # porovnání začátečního a koncového data
+        self._startVsEndDate()
+        # nezadání koncového data nebo počtu cyklů
+        self._endOrCyclesForgive()
+
+    def _startVsEndDate (self) -> None:
+        """Vyhodnotí zda je počáteční datum dříve než koncové."""
+        # proběhne pokud je vstup správný
+        if self.start_verified and self.end_verified:
+            #převedení na datum
+            start_values = self.var_start.get().split("/")
+            end_values = self.var_end.get().split("/")
+            start = date(int(start_values[2]), int(start_values[1]), int(start_values[0]))
+            end = date(int(end_values[2]), int(end_values[1]), int(end_values[0]))
+            # pokud není začátek před koncem, ověření dat se nastaví na false
+            if start > end:
+                self.start_verified = False
+                self.end_verified = False
+
+    def _endOrCyclesForgive(self) -> None:
+        """zajišťuje možnost nevyplnění nenutných polí."""
+        if self.end_verified and self.var_cycles.get() == "":
+            self.cycle_verified = True
+        elif self.cycle_verified and self.var_end.get() == "":
+            self.end_verified = True
 
     def _savePlanError (self) -> None:
         """Inicializuje erorovou hlášku, pokud byl formulář špatně vyplněn."""

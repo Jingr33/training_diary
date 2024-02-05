@@ -45,3 +45,9 @@ class Sport():
             if value == "1":
                 return values
         return [unknown_text]
+    
+    @staticmethod
+    def plan_FreeDayDataToList(training : object) -> list:
+        """Zapíše vlastnosti tréninku posilovna do listu."""
+        data_list = [training.date, training.sport]
+        return data_list

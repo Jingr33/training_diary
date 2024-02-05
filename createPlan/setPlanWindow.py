@@ -12,6 +12,7 @@ class SetPlanWindow (ctk.CTkToplevel):
         self.choice = choice
         super().__init__(master)
         self.master = master
+        self.title("Cyklický tréninkový plán")
         self.grab_set()
         self.protocol('WM_DELETE_WINDOW', self._kill)
         self.geometry("750x600")

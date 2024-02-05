@@ -2,7 +2,7 @@
 from sports.sport import Sport
 from sports.gym import Gym
 from sports.run import Run
-from configuration import sport_list
+from configuration import sport_list, free_day
 
 class SetSport():
     """Třída pro nastavení základních vlastností pro jednotlivé sporty."""
@@ -80,6 +80,7 @@ class SetSport():
             data_list = Gym.plan_gymDataToList(training)
         elif training.sport == sport_list[1]: # běh
             data_list = Run.plan_runDataToList(training)
-        else:
-            ... #TODO
+        # další sporty ...
+        elif training.sport == free_day: # volný den
+            data_list = Sport.plan_FreeDayDataToList(training)
         return data_list
