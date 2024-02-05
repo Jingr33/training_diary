@@ -7,9 +7,7 @@
 # OneDay -> V nastavení sportu se přejmenují všechny comboBoxy, když zvolím nějakou možnost sportu - to oprav 
 
 """TOPLEVEL WINDOWS"""
-# destroy při uložení tréninku
 
-# mazaní jednotlivých aktivit ve dni
 
 """DALŠÍ"""
 # přidat možnost zrušit jeden trénink nebo zrušit všechny tréninky tohoto typu( všechny, všechny následující, všechny předchozí)

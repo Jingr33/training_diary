@@ -1,7 +1,7 @@
 # import knihoven
 from tkinter import *
 import customtkinter as ctk
-from ctkWidgets import Frame, CheckBox, Label, Entry, Button
+from ctkWidgets import Button
 from overviewOption.filter import Filter
 from overviewOption.filterFrames.filterDateFrame import FilterDate
 from overviewOption.filterFrames.filterSportFrame import FilterSport
