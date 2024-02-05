@@ -35,8 +35,8 @@ class Filter():
         # pokud se sport rovná sportu ve filtru, trénink se vybere
         filtered = []
         for training in self.trainings:
-            for sport in desired_sports:
-                if training.sport == sport:
+            for sport_name in desired_sports:
+                if training.sport == sport_name:
                     filtered.append(training)
         return filtered
 

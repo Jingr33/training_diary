@@ -16,25 +16,40 @@ class Overview (ctk.CTkFrame):
 
         # načtení dat po trénincích
         lines = self.laodFileLines(path)
-
         #pole jednotlivých instancí tréninků
         self.trainings = self.makeTrainings(lines)
 
-        # část pro filtry - vytvoření filtrovacího rozhraní
+        #vytvoření filtrovacího rozhraní
+        self._initFilters()
+        # vytvoření legendy tabulky
+        self._initLegend()
+        # funkce pro vytvoření tabulky
+        self._initTable(self.trainings)
+
+        # self.filter_frame.filter_button.bind('<Button-1>', self.Filtering)
+
+    def Filtering(self) -> None:
+        """Spustí se při stisknutí filtrovaní dat ve framu filtrování. 
+        Načte vybrané tréninky, vytvoří novou tabulku."""
+        # získání dat z filtrování
+        filtered_trainings = self.filter_frame.getData()
+        # nová iniciace tabulky s vyfiltrovanými daty
+        for widget in self.table.winfo_children():
+            widget.destroy()
+        self.table.initContent(filtered_trainings)
+
+        # self.table.destroy()
+        # self._initTable(filtered_trainings)
+
+    def _initFilters (self) -> None:
+        """Vytvoří scrollable frame s filtrovacím rozhraním."""
         self.filter_frame = FilterFrame(self, self.trainings)
         self.filter_frame.pack(side=TOP, fill=ctk.X, expand=False)
         self.filter_frame.configure(corner_radius = 0)
 
-        # vytvoření legendy tabulky
-        self._initLegend()
-
-        # funkce pro vytvoření tabulky
-        self._initTable(self.trainings)
-
-        self.filter_frame.filter_button.bind('<Button-1>', self._initFiltering)
 
     def _initLegend (self) -> None:
-        """VYtvoří frame s legendou tabulky."""
+        """Vytvoří frame s legendou tabulky."""
         legend = Legend(self)
         legend.pack(side=TOP, fill = ctk.X, padx = 0, pady=0)
         legend.configure(height = 45, corner_radius = 0)
@@ -46,17 +61,6 @@ class Overview (ctk.CTkFrame):
         self.table = Table(self, trainings)
         self.table.pack(fill = ctk.BOTH, expand = True)
         self.table.configure(corner_radius = 0)
-
-    def _initFiltering(self, master) -> None:
-        """Spustí se při stisknutí filtrovaní dat ve framu filtrování. 
-        Načte vybrané tréninky, vytvoří novou tabulku."""
-        # získání dat z filtrování
-        filtered_trainings = self.filter_frame.getData()
-
-        # nová iniciace tabulky s tréninky s filtrovanými daty
-        self.table.destroy()
-        self._initTable(filtered_trainings)
-
 
     def laodFileLines(self, path) -> list:
         """Metoda pro načtení dat ze souboru po jednotlivých trénincích."""

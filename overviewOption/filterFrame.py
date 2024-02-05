@@ -14,7 +14,11 @@ class FilterFrame (ctk.CTkScrollableFrame):
     """Vytvoří Frame pro zaklikávání možností filtrování v přehledu tréninků."""
     def __init__(self, master :ctk.CTkBaseClass, trainings):
         super().__init__(master)
+        self.master = master
         self.trainings = trainings
+        # nastavení scrollbaru, aby nebyl moc velký
+        self.configure(height = 120)
+        self._scrollbar.configure(height = 0)
 
         # vytvoření grafického rozhraní
         self._createGUI()
@@ -48,15 +52,12 @@ class FilterFrame (ctk.CTkScrollableFrame):
 
     def _filter(self) -> None:
         """Spuštění filtrování při kliknutí na tlačítko filtrovat."""
-        #TODO - stažení hodnot o filtrování data
+        #stažení hodnot o filtrování datumu
         date_filter = self.filter_date.filtered()
-
         # stažení hodnot filtrování sportu
         sport_filter = self.filter_sport.filtered()
-
         # stažení hodnot o filtrování času
         time_filter = self.filter_time.filtered()
-
         # stažení hodnot o filtrování detailů sportů
         detail_filter = self.filter_details.filtered()
 
@@ -64,11 +65,14 @@ class FilterFrame (ctk.CTkScrollableFrame):
         self.filter = Filter(self.trainings, date_filter, sport_filter, time_filter, detail_filter)
         self.filtered_data = self.filter.getFilteredData()
 
+        # přegenerování tabulky s vyfiltrovanýchmi tréninky
+        self.master.Filtering()
+
     def getData (self) -> list:
         """Metoda vrátí vyfiltrovaná data."""
         return self.filtered_data
     
-    def gymFilterSelected (self, master):
+    def gymFilterSelected (self, value):
         """Metoda pro přidání podrobného nastavení pro tréninky v posilovně."""
         if int(self.filter_sport.var_gym.get()) == 0:
             # destroyne widgety posilovny
@@ -78,7 +82,7 @@ class FilterFrame (ctk.CTkScrollableFrame):
             # zavolání funkce pro přerenderivání grafického rozhraní
             self.sportWasSelected()
 
-    def runFilterSelected (self, master):
+    def runFilterSelected (self, value):
         """Metoda pro přidání podrobného nastavení pro běžecké tréninky."""
         if int(self.filter_sport.var_run.get()) == 0:
             # destroyne widgety běhu
@@ -89,7 +93,7 @@ class FilterFrame (ctk.CTkScrollableFrame):
             self.sportWasSelected()
 
     def sportWasSelected(self):
-        """Metoda pro vyvolání pře-renderování detailního nastavení pře vybrání 
+        """Metoda pro vyvolání pře-renderování detailního nastavení při vybrání 
         kteréhokoliv sportu."""
         # smazaní předchozího obsahu
         for widget in self.filter_details.winfo_children():
