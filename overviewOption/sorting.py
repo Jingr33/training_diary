@@ -1,6 +1,7 @@
 #import knihoven
-# importy souborů
+#importy souborů
 
 class Sorting ():
     """Obsahuje funkce pro třídění tréninků v přehledu všech tréninků."""
-    ...
+    def __init__():
+        ...

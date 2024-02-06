@@ -13,6 +13,7 @@ class Overview (ctk.CTkFrame):
     """Třída pro vyvolání obsahu při zvolení možnosti přehled v menu."""
     def __init__(self, master :ctk.CTkBaseClass):
         super().__init__(master)
+        self.filtered_trainings = None
 
         # načtení dat po trénincích
         lines = self.laodFileLines(path)
@@ -26,20 +27,15 @@ class Overview (ctk.CTkFrame):
         # funkce pro vytvoření tabulky
         self._initTable(self.trainings)
 
-        # self.filter_frame.filter_button.bind('<Button-1>', self.Filtering)
-
     def Filtering(self) -> None:
         """Spustí se při stisknutí filtrovaní dat ve framu filtrování. 
         Načte vybrané tréninky, vytvoří novou tabulku."""
         # získání dat z filtrování
-        filtered_trainings = self.filter_frame.getData()
+        self.filtered_trainings = self.filter_frame.getData()
         # nová iniciace tabulky s vyfiltrovanými daty
         for widget in self.table.winfo_children():
             widget.destroy()
-        self.table.initContent(filtered_trainings)
-
-        # self.table.destroy()
-        # self._initTable(filtered_trainings)
+        self.table.initContent(self.filtered_trainings)
 
     def _initFilters (self) -> None:
         """Vytvoří scrollable frame s filtrovacím rozhraním."""
@@ -76,3 +72,23 @@ class Overview (ctk.CTkFrame):
             one_training = OneTraining("load", one_line)
             trainings.append(one_training)
         return trainings
+    
+    def sortByDate (self) -> None:
+        """Setřídění tréninků v tabulce podle datumů."""
+
+    def sortBySport (self) -> None:
+        """Setřídění obsahu v tabulce podle sportů."""
+
+    def sortByTime (self) -> None:
+        """Setřídění obsahu v tabulce podle doby trvání (času)."""
+
+    def sortByDetails (self) -> None:
+        """Setřídění obsahu v tabulce podle detailního nastavení sportů.
+        Funguje pouze při vyfiltrování jednoho sportu."""
+
+    def getActualTrainings (self) -> list:
+        """Vrátí list vyfiltrovaných (resp. nevyfiltrovaných) tréninků
+        aktuálně zvolených uživatelem."""
+        if self.filtered_trainings:
+            return self.filtered_trainings
+        return self.trainings

@@ -41,3 +41,20 @@ colors = {
     "gray" : "#333333",
     "dark-gray" : "#2c2c2c"
 }
+
+#barvy stupňů třídění tréninků v přehledu
+sorting_bg = {
+    0 : "transparent",
+    1 : "#ffe200",
+    2 : "#fce842",
+    3 : "#f7ea83",
+    4 : "#faf2b4",
+}
+sorting_text_color = {
+    0 : "#ffffff",
+    1 : "#000000",
+    2 : "#000000",
+    3 : "#000000",
+    4 : "#000000",
+  
+}
