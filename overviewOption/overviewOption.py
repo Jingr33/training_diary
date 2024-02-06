@@ -4,9 +4,10 @@ import customtkinter as ctk
 # import souborů
 from overviewOption.table import Table
 from oneTraining import OneTraining
-from configuration import path
 from overviewOption.filterFrame import FilterFrame
 from overviewOption.legend import Legend
+from overviewOption.sorting import Sorting
+from configuration import path
 
 
 class Overview (ctk.CTkFrame):
@@ -46,9 +47,9 @@ class Overview (ctk.CTkFrame):
 
     def _initLegend (self) -> None:
         """Vytvoří frame s legendou tabulky."""
-        legend = Legend(self)
-        legend.pack(side=TOP, fill = ctk.X, padx = 0, pady=0)
-        legend.configure(height = 45, corner_radius = 0)
+        self.legend = Legend(self)
+        self.legend.pack(side=TOP, fill = ctk.X, padx = 0, pady=0)
+        self.legend.configure(height = 45, corner_radius = 0)
 
 
     def _initTable(self, trainings) -> None:
@@ -73,18 +74,25 @@ class Overview (ctk.CTkFrame):
             trainings.append(one_training)
         return trainings
     
-    def sortByDate (self) -> None:
-        """Setřídění tréninků v tabulce podle datumů."""
+    def sortData (self) -> None:
+        """Setřídění tréninků v tabulce urovní položek pro třídění."""
+        # úrovně třídění
+        sort_levels = self.legend.getSortLevels()
+        # list vyfiltrovaných/nevyfiltrovaných tréninků 
+        trainings = self.getActualTrainings()
+        # vyfiltrování dat
+        sorting = Sorting(trainings, sort_levels)
+        sorted_trainings = sorting.GetSortedTrainings()
+        # přegenerování tréninků v tabulce
+        self._resortTable(sorted_trainings)
 
-    def sortBySport (self) -> None:
-        """Setřídění obsahu v tabulce podle sportů."""
+    def _resortTable (self, sorted_trainings : list) -> None:
+        """Ze vstupních dat přegeneruje obsah tabulky a setřídí data 
+        podle uživatelových požadavků."""
+        for widget in self.table.winfo_children():
+            widget.destroy()
+        self.table.initContent(sorted_trainings)
 
-    def sortByTime (self) -> None:
-        """Setřídění obsahu v tabulce podle doby trvání (času)."""
-
-    def sortByDetails (self) -> None:
-        """Setřídění obsahu v tabulce podle detailního nastavení sportů.
-        Funguje pouze při vyfiltrování jednoho sportu."""
 
     def getActualTrainings (self) -> list:
         """Vrátí list vyfiltrovaných (resp. nevyfiltrovaných) tréninků

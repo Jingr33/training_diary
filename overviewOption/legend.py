@@ -43,43 +43,38 @@ class Legend (ctk.CTkFrame):
         self.time_l.bind("<Button-1>", self._timeSort)
         self.details_l.bind("<Button-1>", self._detailsSort)
 
+    def getSortLevels (self) -> dict:
+        """Vrátí slovník , který každé položce v legendě přiřazuje úroveň řazení."""
+        return self.button_sort_level
+
     def _dateSort (self, value) -> None:
         """Nastaví správný stupeň třídění dané položky (resp. barvu) 
         a vytřídí data vhodným způsobem."""
-        #nastavení stupně třídění
         self._setSortingLevel("b_date")
-        # vytřídění dat
 
     def _sportSort (self, value) -> None:
         """Nastaví správný stupeň třídění dané položky (resp. barvu) 
         a vytřídí data vhodným způsobem."""
-        #nastavení stupně třídění
         self._setSortingLevel("b_sport")
-        # vytřídění dat
 
     def _timeSort (self, value) -> None:
         """Nastaví správný stupeň třídění dané položky (resp. barvu) 
         a vytřídí data vhodným způsobem."""
-        #nastavení stupně třídění
         self._setSortingLevel("b_time")
-        # vytřídění dat
 
     def _detailsSort (self, value) -> None:
         """Nastaví správný stupeň třídění dané položky (resp. barvu) 
         a vytřídí data vhodným způsobem."""
-        #nastavení stupně třídění
         self._setSortingLevel("b_details")
-        # vytřídění dat
 
     def _setSortingLevel (self, button : str) -> None:
         """Nastaví uroveň třídění jednotlivým sloupcům."""
         # zvýší se celková úroveň třídění (počet tříděných sloupců)
         self._buttonSortLevelUpdate(button)
-        print(self.number_of_sorts)
-        print(self.button_sort_level)
         # nastavení barev pozadí legendy sloupců
         self._setLabelBg()
-
+        # zavolání vyfiltrování dat
+        self.master.sortData()
 
     def _buttonSortLevelUpdate (self, button : str) -> None:
         """Aktualizuje úroveň třídění jednotlivého tlačítka po jeho stisknutí."""
