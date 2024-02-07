@@ -1,3 +1,10 @@
 """OVERVIEW"""
 # Dodělej mazání a upravu tréniků a animaci k tomu
 # zkus tam dat ozubene kolečko jako nastavení nebo nějaké button pro vymazání 
+
+"""TRAINING PLAN"""
+# CycleTraining -> nejde měnění nstavení columnconfiguration při zvětšování a zmenšování počtu dní
+# OneDay -> V nastavení sportu se přejmenují všechny comboBoxy, když zvolím nějakou možnost sportu - to oprav 
+
+"""DALŠÍ"""
+# přidat možnost zrušit jeden trénink nebo zrušit všechny tréninky tohoto typu( všechny, všechny následující, všechny předchozí)

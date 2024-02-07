@@ -2,7 +2,7 @@
 import calendar
 from tkinter import *
 import customtkinter as ctk
-from configuration import path
+from configuration import trainings_path
 from datetime import date
 # importy osuborů
 from oneTraining import OneTraining
@@ -104,7 +104,7 @@ class TabelContentFiller ():
         """Metoda pro načtení tréninků pomocí OneTraining z databáze.
         Vrátí list tréninků"""
         # načtení všech dat do pole po jednotlivých řádcích
-        with open(path, 'r') as f:
+        with open(trainings_path, 'r') as f:
             lines = f.readlines()
         
         # vytvoření objektů jednotlivých tréninků

@@ -1,0 +1,10 @@
+12/12/1212 /  / 8 / 2
+1 / volno
+2 / nezadáno / nezadáno
+12/12/1212 /  / 8 / 3
+1 / volno
+2 / nezadáno / nezadáno
+3 / volno
+12/12/1212 /  / 8 / 2
+1 / volno
+2 / volno

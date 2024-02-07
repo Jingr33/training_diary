@@ -65,16 +65,12 @@ class calendarTable (ctk.CTkScrollableFrame):
     def _windowResize(self, event) -> None:
         """Metoda zjistí výšku a šířku framu calendarTable."""
         parent_width = event.width
-        print(parent_width)
         # unbind, rozpojí event, protože teď se bude konfigurovat obsah, takže by se stala nekonečná smyčka
         self.unbind('<Configure>')
         # nastavení velikosti frame podle resizování rodičovského okna
         if self.day_frames: # nastaví se jen pokud obsah existuje
             for frame in self.day_frames:
                 frame.configure(width = ((parent_width/9)), height = (parent_width/9))
-        else:
-            print("neprošel jsem")
-        print('zde')
         # bind, opětovné zapnutí eventu
         self.bind('<Configure>', self._windowResize)
 

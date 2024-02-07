@@ -2,6 +2,7 @@
 
 # list možných sportů pro zadání tréninku
 sport_list = ["posilovna", "běh"]
+free_day = "volno"
 # barvy jednotlivých sportů #TODO nastavovatelnost
 sport_color = {
     sport_list[0] : "#e74c3c",
@@ -11,8 +12,13 @@ sport_color = {
 # list výběrových tlačítek v menuFramu
 menu_list = ["Přehled", "Kalendář", "Další"]
 
+# nezadaný vstup
+unknown_text = "nezadáno"
+
 # cesta k souboru se všemi uloženými tréninky
-path = "training_database.txt"
+trainings_path = "training_database.txt"
+# cesta k souboru s tréninkovými plány
+plans_path = "plan_database.txt"
 
 # jednotlivé části těla pro treénink v posilovně
 gym_body_parts = ["Nohy", "Střed těla", "Prsa", "Ramena", "Záda", "Biceps", "Triceps", "Předloktí"]
@@ -39,7 +45,8 @@ months = {
 # paleta barev
 colors = {
     "gray" : "#333333",
-    "dark-gray" : "#2c2c2c"
+    "dark-gray" : "#2c2c2c",
+    "light-gray" : "#444444",
 }
 
 #barvy stupňů třídění tréninků v přehledu
@@ -56,5 +63,4 @@ sorting_text_color = {
     2 : "#000000",
     3 : "#000000",
     4 : "#000000",
-  
 }
