@@ -23,19 +23,19 @@ class Legend (ctk.CTkFrame):
         # vytvoření labelů s popisky
         self.date_l = Label(self, legend[0])
         self.date_l.pack(side=LEFT, fill = ctk.Y, padx = 8, pady = 8)
-        self.date_l.configure(width=100, height=45, font=("Arial", 14, 'bold'), corner_radius = 6)
+        self.date_l.configure(width=75, height=45, font=("Arial", 14, 'bold'), corner_radius = 6)
 
         self.sport_l = Label(self, legend[1])
         self.sport_l.pack(side=LEFT, fill = ctk.Y, padx = 8, pady = 8)
-        self.sport_l.configure(width=110, height=45, anchor=ctk.W, font=("Arial", 14, 'bold'), corner_radius = 6)
+        self.sport_l.configure(width=90, height=45, anchor=ctk.W, font=("Arial", 14, 'bold'), corner_radius = 6)
 
         self.time_l = Label(self, legend[2])
         self.time_l.pack(side=LEFT, fill = ctk.Y, padx = 8, pady = 8)
-        self.time_l.configure(width=70, height=45, anchor=ctk.W, font=("Arial", 14, 'bold'), corner_radius = 6)
+        self.time_l.configure(width=55, height=45, anchor=ctk.W, font=("Arial", 14, 'bold'), corner_radius = 6)
 
         self.details_l = Label(self, legend[3])
         self.details_l.pack(side=LEFT, fill = ctk.Y, padx = 8, pady = 8)
-        self.details_l.configure(width=250, height=45, anchor=ctk.W, font=("Arial", 14, 'bold'), corner_radius = 6)
+        self.details_l.configure(width=230, height=45, anchor=ctk.W, font=("Arial", 14, 'bold'), corner_radius = 6)
 
         # eventy pro třídění dat podle položky
         self.date_l.bind("<Button-1>", self._dateSort)

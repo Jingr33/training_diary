@@ -24,6 +24,11 @@ class OneRow (ctk.CTkFrame):
         sport_l.pack(side = LEFT, fill = ctk.Y)
         sport_l.configure(width = 110, height = 40, anchor = ctk.W)
 
+        time_text = str(self.training.time) + " min"
+        time_l = Label(self, time_text)
+        time_l.pack(side = LEFT, fill = ctk.Y)
+        time_l.configure(width = 70, height = 40, anchor = ctk.W)
+
         if self.training.sport == "posilovna":
             self.gymDetails()
         elif self.training.sport == "běh":
@@ -31,20 +36,13 @@ class OneRow (ctk.CTkFrame):
 
     def gymDetails (self):
         """Metoda pro vytvoření specifických údajů o posilovně do tabulky."""
-        time_l = Label(self, self.training.time)
-        time_l.pack(side = LEFT, fill = ctk.Y)
-        time_l.configure(width = 70, height = 40, anchor = ctk.W)
-
         practiced_l = Label(self, self.training.practicedParts)
         practiced_l.pack(side = LEFT, fill = ctk.Y)
         practiced_l.configure(width = 250, height = 40, anchor = ctk.W)
 
     def runDetails (self):
         """Metoda pro vytvoření specifických údajů o běhu do tabulky."""
-        time_l = Label(self, self.training.time)
-        time_l.pack(side = LEFT, fill = ctk.Y)
-        time_l.configure(width = 70, height = 40, anchor = ctk.W)
-
-        practiced_l = Label(self, self.training.distance)
-        practiced_l.pack(side = LEFT, fill = ctk.Y)
-        practiced_l.configure(width = 250, height = 40, anchor = ctk.W)
+        distance_text = str(self.training.distance) + " km"
+        distance_l = Label(self, distance_text)
+        distance_l.pack(side = LEFT, fill = ctk.Y)
+        distance_l.configure(width = 250, height = 40, anchor = ctk.W)

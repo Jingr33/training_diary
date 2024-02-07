@@ -1,9 +1,3 @@
 """OVERVIEW"""
-# Přehled -> filtrování -> zmenši scrollbar tak, aby to nebylo přes půl stránky
-# Přehled -> tabulka -> vyrvi legendu z se Scrollframu s obsahem tabulky, ať nezajíždí za viditený okraj
-# Přehled -> tbaullka  -> vyřeš mazání framů v tabulce při vyfiltrování -> ať staré nezůstávají
-
-"""Overviwe SORTING"""
-# Sort levels -> dodělej levelování třídění sloupců
-# třídění -> dodělej třídění detailů a třídění data
-# třídění -> jednoduché třídění funguje, složené ne -> oprav to
+# Dodělej mazání a upravu tréniků a animaci k tomu
+# zkus tam dat ozubene kolečko jako nastavení nebo nějaké button pro vymazání 
