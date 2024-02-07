@@ -18,3 +18,8 @@ class Gym (Sport):
         str_time  = str(training.time) + " min"
         self.message_values = [training.date, training.sport, str_time, training.practicedParts]
         return self.message_values
+
+    def sortGymTrainingList (master : object, training_list : list) -> list:
+        """Roztřídí skupinu tréninků posilovna."""
+        # akorát, že posilovna se nijak netřídí...zatím
+        return training_list

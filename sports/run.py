@@ -21,4 +21,15 @@ class Run (Sport):
         self.message_values = [training.date, training.sport, str_time, str_distance]
         return self.message_values
 
-        
+    @staticmethod
+    def sortRunTrainingList (master : object, trainings : list) -> list:
+        """Roztřídí skupinu tréninků běh."""
+        # list indexů pro slovníky
+        index_list = master._indexList(len(trainings))
+        # slovník tréninků
+        trainings_dict = master._trainingDict(trainings, index_list)
+        # slovník časů pro třídění
+        sort_elems = master._sortDistanceDict(trainings, index_list)
+        # roztříděný list tréninků
+        to_sort = master._sortIt(sort_elems, trainings_dict)
+        return to_sort
