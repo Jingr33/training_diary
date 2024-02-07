@@ -174,6 +174,7 @@ class CyclePlanFrame (Frame):
                 line = General.prepareString(data_list)
                 # zapsání do souboru
                 f.write(line + "\n")
+            f.write(";\n")
 
     def _getNumOfDays (self) -> None:
         """Získá počet dní ze kterýc je složen tréninkový plán."""
