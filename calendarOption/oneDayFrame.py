@@ -3,7 +3,6 @@ from tkinter import *
 import customtkinter as ctk
 # importy souborů
 from ctkWidgets import Frame, Label
-from configuration import sport_color
 from calendarOption.oneStrip import OneStrip
 
 
@@ -20,8 +19,7 @@ class OneDayFrame (Frame):
         """Vytvoření stripu pro trénink a uložení do pole stripů."""
         strip = OneStrip(self, training, ("Arial", 13))
         strip.pack(side=TOP, fill=ctk.X)
-        strip.configure(width=15, fg_color = sport_color[training.sport], corner_radius = 8,
-                        padx = 2, pady = 2)
+        strip.configure(width=15, corner_radius = 8, padx = 2, pady = 2)
         # přidání stripu do pole (využije se při promazávání stripů)
         self.strips.append(strip)
 

@@ -1,0 +1,22 @@
+12/12/2023 / 20/02/2024 /  / 3
+1 / posilovna / nezadano / nezadano
+2 / volno
+3 / posilovna / nezadano / nezadano
+;
+20/04/2023 / 30/06/2024 /  / 4
+1 / bìh / nezadano / nezadano
+2 / posilovna / nezadano / nezadano
+3 / volno
+4 / posilovna / nezadano / nezadano
+4 / bìh / nezadano / nezadano
+;
+08/02/2024 /  / 8 / 3
+1 / posilovna / nezadano / nezadano
+2 / posilovna / nezadano / nezadano
+3 / bìh / nezadano / nezadano
+;
+12/12/1212 / 12/12/1212 /  / 3
+1 / posilovna / 45 / 0 / 0 / 0 / 0 / 0 / 0 / 1 / 1
+2 / bìh / 75 / 8
+3 / volno
+;

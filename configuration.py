@@ -8,17 +8,21 @@ sport_color = {
     sport_list[0] : "#e74c3c",
     sport_list[1] : "#3498db",
 }
+ghost_color = {
+    sport_list[0]: "#e6c8c5",
+    sport_list[1]: "#b6cfe0",
+}
 
 # list výběrových tlačítek v menuFramu
 menu_list = ["Přehled", "Kalendář", "Další"]
 
 # nezadaný vstup
-unknown_text = "nezadáno"
+unknown_text = "nezadano"
 
 # cesta k souboru se všemi uloženými tréninky
 trainings_path = "training_database.txt"
 # cesta k souboru s tréninkovými plány
-plans_path = "plan_database.txt"
+cycle_plans_path = "cycle_plan_database.txt"
 
 # jednotlivé části těla pro treénink v posilovně
 gym_body_parts = ["Nohy", "Střed těla", "Prsa", "Ramena", "Záda", "Biceps", "Triceps", "Předloktí"]

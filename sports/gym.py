@@ -5,6 +5,7 @@ from tkinter import *
 from sports.sport import Sport
 from configuration import sport_list, sport_color, gym_body_parts, unknown_text
 from ctkWidgets import Label, Entry, CheckBox
+from general import General
 
 class Gym (Sport):
     """Třída pro funkce, které jsou specifické pro trénink typu posilovna."""
@@ -105,21 +106,25 @@ class Gym (Sport):
         return (time, chceckbox_list)
 
     @staticmethod
-    def gymData(master : object, data_list : list) -> None:
+    def gymData(master : object, data_list : list, index_adjustment = 2) -> None:
         """Rozklíčuje data z získané z tréninkové databáze pokud se
-        jedná o trénink posilovna."""
+        jedná o trénink posilovna.
+        Index_adjustment je úprava indexu, pokud tam chci poslat pole kde ty atributy neberu od 0."""
+        master.time = General.checkIntEntry(data_list[0 + index_adjustment])
         # zklouška, zda bylo něco zadáno
-        master.time = int(data_list[2])
-        master.leg = int(data_list[3])
-        master.core = int(data_list[4])
-        master.breast = int(data_list[5])
-        master.shoulders = int(data_list[6])
-        master.back = int(data_list[7])
-        master.biceps = int(data_list[8])
-        master.triceps = int(data_list[9])
-        master.forearm = int(data_list[10])
-        # vytvoření vlastnosti practicedParts
-        master.practicedParts = Gym.practicedPartsString(master)
+        if data_list[1 + index_adjustment] != unknown_text:
+            master.leg = int(data_list[1 + index_adjustment])
+            master.core = int(data_list[2 + index_adjustment])
+            master.breast = int(data_list[3 + index_adjustment])
+            master.shoulders = int(data_list[4 + index_adjustment])
+            master.back = int(data_list[5 + index_adjustment])
+            master.biceps = int(data_list[6 + index_adjustment])
+            master.triceps = int(data_list[7 + index_adjustment])
+            master.forearm = int(data_list[8 + index_adjustment])
+            # vytvoření vlastnosti practicedParts
+            master.practicedParts = Gym.practicedPartsString(master)
+        else:
+            master.practicedParts = unknown_text
 
     @staticmethod
     def practicedPartsString (master : object):
@@ -176,10 +181,10 @@ class Gym (Sport):
         """Zapíše vlastnosti tréninku posilovna do listu."""
         # podmínka pro prázné data
         if training.practicedParts == unknown_text:
-            data_list = [training.date, training.time, unknown_text]
+            data_list = [training.date, training.sport, training.time, unknown_text]
         else:
             # vytvoření listu
-            data_list = [training.date, training.time, training.leg, training.core, training.breast,
+            data_list = [training.date, training.sport, training.time, training.leg, training.core, training.breast,
                         training.shoulders, training.back, training.biceps, training.triceps,
                         training.forearm]
         return data_list

@@ -8,7 +8,7 @@ from createPlan.cyclePlan.planCalendar import PlanCalendar
 from sports.setSport import SetSport
 from oneTraining import OneTraining
 from general import General
-from configuration import plans_path
+from configuration import cycle_plans_path
 
 class CyclePlanFrame (Frame):
     """Frame s nastavení cycklického tréninkového plánu."""
@@ -164,7 +164,7 @@ class CyclePlanFrame (Frame):
         """Uloží tréninkové data do souboru."""
         #vytvoření prvního řádku se základními údaji do souboru
         first_line = General.prepareString(info)
-        with open(plans_path, 'a') as f:
+        with open(cycle_plans_path, 'a') as f:
             f.write(first_line + "\n")
             # vytvoření ostaních řádků
             for training in trainings:

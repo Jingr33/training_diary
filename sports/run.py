@@ -5,6 +5,7 @@ from tkinter import *
 from sports.sport import Sport
 from configuration import sport_list, sport_color
 from ctkWidgets import Label, Entry
+from general import General
 
 class Run (Sport):
     """Třída pro funkce, které jsou specifické pro trénink typu běh."""
@@ -71,11 +72,11 @@ class Run (Sport):
         return (time, dist)
     
     @staticmethod
-    def runData(master : object,  data_list : list) -> None:
+    def runData(master : object,  data_list : list, index_adjustment = 2) -> None:
         """Rozklíčuje data z tréninkové databáze pokud se jedná 
         o běžeckéhý trénink."""
-        master.time = data_list[2]
-        master.distance = data_list[3]
+        master.time = General.checkKnownInt(data_list[0 + index_adjustment])
+        master.distance = General.checkKnownInt(data_list[1 + index_adjustment])
 
     @staticmethod
     def plan_getRunData (master : object, data : tuple) -> None:
@@ -85,5 +86,5 @@ class Run (Sport):
     @staticmethod
     def plan_runDataToList(training : object) -> list:
         """Zapíše vlastnosti tréninku posilovna do listu."""
-        data_list = [training.date, training.time, training.distance]
+        data_list = [training.date, training.sport, training.time, training.distance]
         return data_list

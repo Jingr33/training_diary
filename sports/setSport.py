@@ -57,7 +57,7 @@ class SetSport():
     
     @staticmethod
     def whichSport (sport_name : str) -> str:
-        """Zjistí, o který sport se jedná. Metoda hlavně pro objekt one trainig"""
+        """Zjistí, o který sport se jedná. Metoda hlavně pro objekt onetrainig"""
         sport = ""
         if sport_name == sport_list[0]:
             sport = sport_list[0]
@@ -68,13 +68,14 @@ class SetSport():
         return sport
     
     @staticmethod
-    def findData(master : object, data_list : list) -> None:
+    def findData(master : object, data_list : list, index_adjustment = 2) -> None:
         """Rozhodne o který sport se jedná a rozklíčuje jeho 
-        data získané z databáze tréninků."""
+        data získané z databáze tréninků.
+        Index_adjustment je úprava indexu pro data, pokud tam chci poslat pole kde ty atributy neberu od 0."""
         if master.sport == sport_list[0]:
-            Gym.gymData(master, data_list)
+            Gym.gymData(master, data_list, index_adjustment)
         elif master.sport == sport_list[1]:
-            Run.runData(master, data_list)
+            Run.runData(master, data_list, index_adjustment)
         else:
             ... #TODO
 

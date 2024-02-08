@@ -14,9 +14,6 @@ class calendarTable (ctk.CTkScrollableFrame):
         self.prev_button = self.master.slider_frame.prev_b
         self.next_button = self.master.slider_frame.next_b
 
-        # event pro resizování okna
-        # self.bind('<Configure>', self._windowResize)
-
         # inicializace framové mřížky
         self._initGrid()
 
@@ -60,18 +57,3 @@ class calendarTable (ctk.CTkScrollableFrame):
         self.date = self.master.slider_frame.setted_date
         #přepsání dat v kalendáři
         self.fillDatesToTable()
-
-############################################# tohle vůbec nepoužívám
-    def _windowResize(self, event) -> None:
-        """Metoda zjistí výšku a šířku framu calendarTable."""
-        parent_width = event.width
-        # unbind, rozpojí event, protože teď se bude konfigurovat obsah, takže by se stala nekonečná smyčka
-        self.unbind('<Configure>')
-        # nastavení velikosti frame podle resizování rodičovského okna
-        if self.day_frames: # nastaví se jen pokud obsah existuje
-            for frame in self.day_frames:
-                frame.configure(width = ((parent_width/9)), height = (parent_width/9))
-        # bind, opětovné zapnutí eventu
-        self.bind('<Configure>', self._windowResize)
-
-        #TODO vubec to nefunguje

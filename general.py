@@ -1,5 +1,7 @@
 # import knihoven
 from datetime import date
+import os
+from configuration import unknown_text
 
 class General():
     """Třídá základních statických funkcí používaných na hodně místech."""
@@ -37,3 +39,39 @@ class General():
             for i in range(1, len(list)):
                 line = line + " / " + str(list[i])
         return line
+    
+    @ staticmethod
+    def loadLinesFromFile (file_path : str) -> list:
+        """Vrátí list řádků načtených ze zadaného souboru."""
+        with open(file_path, 'r') as f:
+            lines = f.readlines()
+        return lines      
+
+    @staticmethod
+    def isFileEmpty (file_path) -> bool:
+        """Zjistí, zda je soubor prázdný, či ne, vrátí boolean."""
+        return os.stat(file_path).st_size == 0
+    
+    @staticmethod
+    def separateData (one_line : str) -> list:
+        """Přijme řádek data načtených ze souboru. Vrátí list oddělených údajů."""
+        return one_line.split(" / ")
+    
+    @staticmethod
+    def checkIfSet (string : str) -> str:
+        """Zkontroluje, zda je údaj zadaný, pokud ano, vrátí ho, pokud ne, vrátí do něj None."""
+        if string:
+            return string
+        else:
+            return None
+        
+    @staticmethod 
+    def checkKnownInt (integer_check : str) -> int:
+        """Zkontroluje, zda údaj ve tvaru integeru byl, pokud ne, uloží do proměnné None."""
+        if integer_check == unknown_text:
+            return None
+        return int(integer_check)
+    
+    @staticmethod
+    def lenghtOfPeriod (start : date, end : date) -> int:
+        """Metoda vrátí počet dní mezi počátečním a koncovým datem."""
