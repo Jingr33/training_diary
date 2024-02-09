@@ -58,7 +58,9 @@ class TabelContentFiller ():
                 continue
             # vypočet data začátku nového cyklu tréninkového plánu nejblíže před začátkem zobrazovaného období a po konci zobrazovaného období
             first_cycle = self._nearestDateToStart(plan)
+            print(plan.next_cycle[first_cycle])
             last_cycle = self._nearestDateToEnd(plan)
+            print(plan.next_cycle[last_cycle])
             # vygenerování plánovaných tréninků do kalendáře.
             ghost_trainings = self._GhostTrainings(plan, first_cycle, last_cycle)
             # vykreslení tréninků
@@ -68,8 +70,10 @@ class TabelContentFiller ():
         """Rozhodne, zda se tréninkový plán a zobrazené období v kalendáři časově protínají.
         Ano - tréninky se vypíší, Ne - tréninkový plán se přeskočí."""
         if self.last_date < train_plan.start_date:
+            print("za koncem")
             return False
         elif self.first_date > train_plan.end_date:
+            print("pred zacatkem")
             return False
         return True
 
@@ -80,31 +84,41 @@ class TabelContentFiller ():
         for date in train_plan.next_cycle:
             if train_plan.next_cycle[date] > self.first_date:
                 start_date = date - 1
-        if start_date == 0: # protože když to začíná uprostřed zobrazované části, tak by to hodilo index 0
-            start_date = 1
-        return start_date
+                if start_date == 0: # protože když to začíná uprostřed zobrazované části, tak by to hodilo index 0
+                    start_date = 1
+                return start_date
 
     def _nearestDateToEnd (self, train_plan : object) -> int:
         """Najde nejbližší datum začátku dalšího cyklu tréninkového plánu po podlením datu
         zobrazovaného období v kalendáří a vrátí jeho index."""
         for end_date in train_plan.next_cycle:
             if train_plan.next_cycle[end_date] > self.last_date:
-                return end_date - 1
+                return end_date - 1 #TODO, tady vyřešit - 1
         # pokud by cyklus končil dřív než zobrazovaná doba, vrátí se poslední index
-        return len(train_plan.next_cycle) + 1
+        return len(train_plan.next_cycle)
     
     def _GhostTrainings (self, train_plan : object, first_cycle : int, last_cycle : int) -> list:
         """Zavolá třídu GhostTrainings, která vytvoří list tréninků podle tréninkového plánu pro dané období"""
         ghost_training = GhostTraining(train_plan, first_cycle, last_cycle)
         train_list = ghost_training.getGhostTrainList()
+        train_list = self._ghostTremCheck(train_list)
         return train_list
+    
+    def _ghostTremCheck(self, ghost_trainings : list) -> list:
+        """Kontroloní funkce, pokud v listu tréninků skončí trénink, který by nebyl ve 
+        zobrazovaném období, tak se vyřadí."""
+        for ghost in ghost_trainings:
+            # pokud trénink není v rozmezí zobrazovaných dní, odmaže se z listu tréninků
+            if not self.first_date <= ghost.real_date <= self.last_date:
+                ghost_trainings.remove(ghost)
+        return ghost_trainings
 
     def _datesDayList (self) -> list:
         """Metoda vrátí list dat pro každý den (čtvereček) z kalendáře."""
         # tuple s hodnotou prvního dne v týdnu zadaného měsíce
         # a hodnotou počtu dní v měsíci
         key_dates = self._firstDay_NumOfDays(self.date)
-        # získání pčtu dní předchozího měsíce
+        # získání počtu dní předchozího měsíce
         prev_month_date = self._prevMonth(self.date)
         # tuple s key_dates predchozího měsíce
         prev_month_key_dates = self._firstDay_NumOfDays(prev_month_date)
@@ -125,7 +139,7 @@ class TabelContentFiller ():
             dates_list[j] = string
             date_increment = date_increment + 1
         # naplnění daty před začátkem zvoleného měsíce
-        date_increment = prev_month_key_dates[1] - key_dates[0] # poč. dní předch. měsíce - den začátku tohoto měsíce
+        date_increment = prev_month_key_dates[1] - key_dates[0] + 1 # poč. dní předch. měsíce - den začátku tohoto měsíce + 1
         for k in range(0, key_dates[0]):
             string = str(date_increment) + ". " + str(prev_month_date[1]) + "."
             dates_list[k] = date_increment

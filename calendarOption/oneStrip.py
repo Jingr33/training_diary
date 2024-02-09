@@ -23,6 +23,5 @@ class OneStrip (Label):
         """Nastaví barvu pozadí labelu."""
         if hasattr(training, "ghost"):
             self.configure(fg_color = ghost_color[training.sport])
-            print("je ghost")
         else:
             self.configure(fg_color = sport_color[training.sport])

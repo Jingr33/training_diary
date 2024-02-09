@@ -69,5 +69,5 @@ class OneCycleTraining ():
         je datum počátečního dne cyklu."""
         cycles_dates = {}
         for i in range(int(self.cycles)):
-            cycles_dates[i + 1] = self.start_date + timedelta(days = self.days_length * (i + 1))
+            cycles_dates[i + 1] = self.start_date + timedelta(days = self.days_length * (i))
         return cycles_dates
