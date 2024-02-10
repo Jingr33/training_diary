@@ -99,3 +99,12 @@ class SetSport():
         elif training.sport == free_day: # volný den
             data_list = Sport.plan_FreeDayDataToList(training)
         return data_list
+    
+    @staticmethod
+    def detailsInOverview (master : object) -> None:
+        """Vytvoří label pro obsah detalního popisu tréninku v OneRow v přehledu tréninků."""
+        if master.training.sport == sport_list[0]: # posilovna
+            Gym.gymDetailsInOverview(master)
+        elif master.training.sport == sport_list[1]: # běh
+            Run.runDetailsInOverview(master)
+

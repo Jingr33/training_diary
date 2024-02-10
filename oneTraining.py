@@ -1,8 +1,10 @@
 #importy knohven
 from datetime import date
 #importy souborů
-from configuration import sport_list, free_day
+from configuration import free_day
 from sports.setSport import SetSport
+from globalVariables import increaseID
+from globalVariables import training_id
 
 class OneTraining ():
     """Třída pro vytvoření instance jednoho tréninku z dat v souboru.
@@ -19,6 +21,9 @@ class OneTraining ():
         """Funkce rozklíčuje data ze souboru a přiřadí je objektu."""
         # rozdělení řádku ze souboru na jednolivé údaje
         data_list = self._separateData(file_line)
+
+        # nastavení od tréninku
+        self._setTrainingID()
 
         # uložení data tréninku
         self.date = data_list[0]
@@ -58,3 +63,8 @@ class OneTraining ():
         data_list = data_line.split(" / ")
         del data_list[-1]
         return data_list
+
+    def _setTrainingID (self) -> None:
+        """Metoda nastaví tréninku id jako jeho vlastnost."""
+        increaseID(training_id)
+        self.id = training_id

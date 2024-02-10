@@ -87,3 +87,13 @@ class Run (Sport):
         """Zapíše vlastnosti tréninku posilovna do listu."""
         data_list = [training.date, training.time, training.distance]
         return data_list
+    
+    @staticmethod
+    def runDetailsInOverview (master : object):
+        """Metoda pro vytvoření specifických údajů o běhu do tabulky."""
+        distance_text = str(master.training.distance) + " km"
+        distance_l = Label(master, distance_text)
+        distance_l.pack(side = LEFT, fill = ctk.Y)
+        distance_l.configure(width = 250, height = 40, anchor = ctk.W)
+        master.content_wigets.append(distance_l)
+

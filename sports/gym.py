@@ -183,3 +183,11 @@ class Gym (Sport):
                         training.shoulders, training.back, training.biceps, training.triceps,
                         training.forearm]
         return data_list
+
+    @staticmethod
+    def gymDetailsInOverview (master : object):
+        """Metoda pro vytvoření specifických údajů o posilovně do tabulky."""
+        practiced_l = Label(master, master.training.practicedParts)
+        practiced_l.pack(side = LEFT, fill = ctk.Y)
+        practiced_l.configure(width = 250, height = 40, anchor = ctk.W)
+        master.content_wigets.append(practiced_l)

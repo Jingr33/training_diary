@@ -47,6 +47,9 @@ colors = {
     "gray" : "#333333",
     "dark-gray" : "#2c2c2c",
     "light-gray" : "#444444",
+    "dark-red" : "#850101",
+    "dark-red-hover" : "#823e3e",
+    "dark-blue" : "#012f57",
 }
 
 #barvy stupňů třídění tréninků v přehledu
