@@ -88,7 +88,6 @@ class Frame (ctk.CTkScrollableFrame):
     def _floatEntryVerify (self, time_entry : str) -> None:
         """Metoda pr ověření platnosti vstupů příp zadávání tréninku."""
         self.verify_time = self._timeVerify(time_entry)
-        # verify_distance = self._distanceVerify(distance_entry)
         self.verify_details = SetSport.verifyDetails(self)
         return self.verify_time and self.verify_details
     

@@ -138,3 +138,12 @@ class SetSport():
         elif master.choice == sport_list[1]: #běh
             verified = Run.verifyRun(master)
         return verified
+    
+    @staticmethod
+    def detailsFiltrator (master : object, detail_filter : list) -> list:
+        """Vyfiltruje data podle detalních možností sportů."""
+        # detaily posilovny
+        if detail_filter[0]:
+            master.filtered_data = Gym.gymPartsFiltrator(master, detail_filter[0])
+        # detaily běhu
+        master.filtered_data = Run.rundistanceFiltrator(master, detail_filter[1])

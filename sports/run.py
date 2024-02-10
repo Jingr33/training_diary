@@ -112,7 +112,8 @@ class Run (Sport):
         tréninkové databáze."""
         training_list.extend([master.var_time.get(), master.var_distance.get()])
         return training_list
-      
+    
+    @staticmethod
     def verifyRun (master : object) -> bool:
         """Ověří vstupy posilovny při zadávání nového tréninku."""
         entry = master.var_distance.get()
@@ -125,5 +126,35 @@ class Run (Sport):
         except:
             master.distance_error_l.configure(text_color = 'red', text="Špatně zadaná hodnota.")
         return verify_distance
+
+    @staticmethod
+    def rundistanceFiltrator(master : object, distance_run_filter :list) -> list:
+        """Vyfiltruje běh podle vzdálenosti."""
+        # pokud není filtr nastavený -> trénink projde filtrem vždy
+        bottom_condition = False # podmínka při nezadaném spodním filtru
+        top_condition = False # podmínika při nezadaném horním filtru
+        # spodní hranice filtru
+        if distance_run_filter[0] == "":
+            bottom_condition = True
+            distance_run_filter[0] = "0"
+        # horní hranice filtru
+        if distance_run_filter[1] == "":
+            top_condition = True
+            distance_run_filter[1] = "0"
+        # vytřídění dat podle zadaných mezí
+        filtered = []
+        for training in master.filtered_data:
+                if training.sport == sport_list[1]:
+                    try:
+                        float(training.distance)
+                        if (((float(training.distance) >= float(distance_run_filter[0])) or bottom_condition)
+                            and ((float(training.distance) <= float(distance_run_filter[1])) or top_condition)):
+                            filtered.append(training)
+                    except:
+                        continue
+                else:
+                    filtered.append(training)
+        return filtered
+
 
 

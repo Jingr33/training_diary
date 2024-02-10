@@ -243,3 +243,27 @@ class Gym (Sport):
     def verifyGym (master : object) -> bool:
         """Ověří vstupy posilovny při zadávání nového tréninku."""
         return True # zatím netřeba ošetřovat
+    
+    @staticmethod
+    def gymPartsFiltrator(master : object, gym_parts_filter :list) -> list:
+        """Vyfiltruje posilovnu podle odcvičených částí."""
+        # vytvoření pole s názvy zvolených sportů ve filtru
+        strings_to_find = []
+        for i in range(len(gym_body_parts)):
+            if gym_parts_filter[i] == 1:
+                strings_to_find.append(gym_body_parts[i])
+        # cyklus přes tréninky
+        filtered = []
+        for training in master.filtered_data:
+            if training.sport == sport_list[0]: # výběr posilovacích tréninků
+                # každé slovo ze strings_to_find se zkusí najít v odcvičených sportech tréninku
+                for i in range(len(strings_to_find)):
+                    found = training.practicedParts.find(strings_to_find[i])
+                    if found >= 0:
+                        filtered.append(training)
+            else:
+                # pokud se nejedná o posilovnu, přidá se vždy
+                filtered.append(training)
+        
+        return filtered
+
