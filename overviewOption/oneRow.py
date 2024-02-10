@@ -135,7 +135,6 @@ class OneRow (ctk.CTkFrame):
                 if (i + 1) != training_id:
                     f.write(rows[i])
 
-
     def _frameDestroy (self) -> None:
         """Smazaní řádku s térninkem z tabulky v Overview."""
         self.destroy()
