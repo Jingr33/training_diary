@@ -196,12 +196,6 @@ class Gym (Sport):
         master.var_biceps = StringVar(value=0)
         master.var_triceps = StringVar(value=0)
         master.var_forearm = StringVar(value=0)
-        # zadání času strtáveného v posilovně
-        Label(master, 'Čas').pack(anchor=ctk.W)
-        time_e = Entry(master, master.var_time)
-        time_e.pack(anchor=ctk.W)
-        master.time_error_l = Label(master, "", ("Arial", 10))
-        master.time_error_l.pack(anchor=ctk.W, side=TOP)
         # vytvoření checkboxů s odcvičenými částmi
         exercise_l = Label(master, "Odcvičeno")
         exercise_l.pack(anchor=ctk.W)
@@ -231,3 +225,13 @@ class Gym (Sport):
                                 master.var_back.get(), master.var_biceps.get(),
                                 master.var_triceps.get(), master.var_forearm.get()])
         return training_list
+    
+    @staticmethod
+    def verifyGym (master : object) -> bool:
+        """Ověří vstupy posilovny při zadávání nového tréninku."""
+        # isset = (int(master.var_legs.get()) + int(master.var_core.get()) + int(master.var_breast.get()) + 
+        #         int(master.var_shoulders.get()) + int(master.var_back.get()) + int(master.var_biceps.get()) +
+        #         int(master.var_triceps.get()) + int(master.var_forearm.get()))
+        # if not isset:
+        # zatím netřeba verifikovat
+        return True

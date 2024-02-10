@@ -13,7 +13,7 @@ sport_color = {
 menu_list = ["Přehled", "Kalendář", "Další"]
 
 # nezadaný vstup
-unknown_text = "nezadáno"
+unknown_text = "nezadano"
 
 # cesta k souboru se všemi uloženými tréninky
 trainings_path = "training_database.txt"

@@ -5,8 +5,8 @@ from tkcalendar import Calendar
 import datetime
 # importy souborů
 from sports.setSport import SetSport
-from ctkWidgets import Button, Label, Entry, CheckBox
-from configuration import sport_list, trainings_path
+from ctkWidgets import Button, Label, Entry
+from configuration import trainings_path, unknown_text
 from general import General
 
 
@@ -19,9 +19,11 @@ class Frame (ctk.CTkScrollableFrame):
     def initWidgets (self, choice) -> None:
         """Inicializuje widgety framu v závislosti na výběru sportu."""
         self.choice = choice
+        # vymazání předchozího
+        General.deleteWidgets(self)
         # inicializace proměnných které potřebuju mít uložené v každém případě
         self.var_time = ctk.StringVar()
-        self.var_length = ctk.StringVar()
+        self.var_distance = ctk.StringVar()
         # zadnání data tréninku
         date_l = Label(self, "Datum")
         date_l.pack(anchor=ctk.W)
@@ -30,17 +32,27 @@ class Frame (ctk.CTkScrollableFrame):
                                year = self.today.year, month = self.today.month, 
                                day = self.today.day)
         self.date_calendar.pack(side=TOP, padx=3, pady=3)
+        # zadávání času
+        self._initTimeEntry()
         # vytvoření GUI podle vybraného sportu
         SetSport.setFrameWidgets(self, choice)
         # tlačítko pro uložení tréninku
         self.save_b = Button(self, "Uložit", self._saveNewTraining)
         self.save_b.pack(side=BOTTOM, ipadx=7, ipady=7, padx=3, pady=3)
 
+    def _initTimeEntry (self) -> None:
+        """Vytvoří widgety pro zadání času."""
+        Label(self, 'Čas').pack(anchor=ctk.W)
+        time_e = Entry(self, self.var_time)
+        time_e.pack(anchor=ctk.W)
+        self.time_error_l = Label(self, "", ("Arial", 10))
+        self.time_error_l.pack(anchor=ctk.W, side=TOP)
+
     def _saveNewTraining(self):
         """Funkce se spustí po stiknutí tlačítka uložit. Verifikuje vstupy.
            Uloží data do souboru."""
         # ověření vstupů
-        verified = self._floatEntryVerify(self.var_time.get(), self.var_length.get())
+        verified = self._floatEntryVerify(self.var_time.get())
         if verified:
             self._getTrainingToFile()
             General.deleteWidgets(self)
@@ -53,6 +65,7 @@ class Frame (ctk.CTkScrollableFrame):
         formated_date = self._editDateFormat(self.date_calendar.get_date()) # úprava zápisu data
         training_list = [formated_date, self.choice] # list se zadanými údaji
         SetSport.fillListForFile(self, training_list)
+        training_list = self._isSetted(training_list)# při nezadání vstupu přidá neuvedeno
         prepared_string = General.prepareString(training_list)
         self._writeToFile(prepared_string)
 
@@ -72,11 +85,12 @@ class Frame (ctk.CTkScrollableFrame):
         with open(trainings_path, 'a') as f:  
             f.write(string + " / \n")
 
-    def _floatEntryVerify (self, time_entry : str, distance_entry : str) -> None:
+    def _floatEntryVerify (self, time_entry : str) -> None:
         """Metoda pr ověření platnosti vstupů příp zadávání tréninku."""
-        verify_time = self._timeVerify(time_entry)
-        verify_distance = self._distanceVerify(distance_entry)
-        return verify_time and verify_distance
+        self.verify_time = self._timeVerify(time_entry)
+        # verify_distance = self._distanceVerify(distance_entry)
+        self.verify_details = SetSport.verifyDetails(self)
+        return self.verify_time and self.verify_details
     
     def _timeVerify (self, time_entry : str) -> bool:
         """Ověří platnost vstupu času."""
@@ -90,19 +104,18 @@ class Frame (ctk.CTkScrollableFrame):
             self.time_error_l.configure(text_color = 'red', text = "Špatně zadaná hodnota.")
         return verify_time
 
+    def _isSetted (self, list : list) -> list:
+        """Pro nezadané položky listu ("") zadá do proměnné, že údaj nebyl uveden. """
+        for i in range(len(list)):
+            list[i] = self._setUnknow(list[i])
+        return list
 
-    def _distanceVerify (self, distance_entry : str) -> bool:
-        """Ověří platnost vstupu vzdálenosti."""
-        verify_distance = False
-        try:
-            if distance_entry:
-                float(distance_entry)
-                self.distance_error_l.configure(text = "")
-            verify_distance = True
-        except:
-            self.distance_error_l.configure(text_color = 'red', text="Špatně zadaná hodnota.")
-        return verify_distance
-
+    def _setUnknow (self, entry : str) -> None:
+        """Nastavý zadaný parametr na neuvedený, pokud je užvatelský vstup prázdný."""
+        if entry:
+            return entry
+        else:
+            return unknown_text
     
     def _conmfirmationAlert(self, choice) -> None:
         """Metoda pro zobrazení záverečné potvrzující zprávy o přidání tréninku."""

@@ -91,14 +91,9 @@ class Run (Sport):
     @staticmethod
     def setFrameRunWidgets (master : object):
         """Vytvoření nastavovacích okének pro přidání tréninku BĚH."""
-        # zadání doby běhu
-        Label(master, 'Čas (min)').pack(anchor=ctk.W)
-        Entry(master, master.var_time).pack(anchor=ctk.W)
-        master.time_error_l = Label(master, "", ("Arial", 10))
-        master.time_error_l.pack(anchor=ctk.W, side=TOP)
         # zadání kilometrů
         Label(master, 'Kilometry (km)').pack(anchor=ctk.W)
-        Entry(master, master.var_length).pack(anchor=ctk.W)
+        Entry(master, master.var_distance).pack(anchor=ctk.W)
         master.distance_error_l = Label(master, "", ("Arial", 10))
         master.distance_error_l.pack(anchor=ctk.W, side=TOP)
 
@@ -106,7 +101,20 @@ class Run (Sport):
     def RunListForFile(master : object, training_list : list) -> None:
         """Přidá k listu dat specifické informace o tréninku typu běh pro zapsání dat do 
         tréninkové databáze."""
-        training_list.extend([master.var_time.get(), master.var_length.get()])
+        training_list.extend([master.var_time.get(), master.var_distance.get()])
         return training_list
       
+    def verifyRun (master : object) -> bool:
+        """Ověří vstupy posilovny při zadávání nového tréninku."""
+        entry = master.var_distance.get()
+        verify_distance = False
+        try:
+            if entry:
+                float(entry)
+                master.distance_error_l.configure(text = "")
+            verify_distance = True
+        except:
+            master.distance_error_l.configure(text_color = 'red', text="Špatně zadaná hodnota.")
+        return verify_distance
+
 
