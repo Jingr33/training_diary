@@ -37,3 +37,9 @@ class General():
             for i in range(1, len(list)):
                 line = line + " / " + str(list[i])
         return line
+    
+    @staticmethod
+    def deleteWidgets (widget_parent : object) -> None:
+        """Vymaže widgety ze zadaného framu."""
+        for widget in widget_parent.winfo_children():
+            widget.destroy()

@@ -13,8 +13,6 @@ class OneTraining ():
     def __init__(self, operation = "", file_line = ""):
         if operation == "load":
             self._unlockTheData(file_line)
-        elif operation == "save":
-            ... #TODO předělat ukládání tréninků do objektů
 
 
     def _unlockTheData(self, file_line):

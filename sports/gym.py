@@ -191,3 +191,50 @@ class Gym (Sport):
         practiced_l.pack(side = LEFT, fill = ctk.Y)
         practiced_l.configure(width = 250, height = 40, anchor = ctk.W)
         master.content_wigets.append(practiced_l)
+
+    @staticmethod
+    def setFrameGymWidgets (master : object):
+        """Vytvoření nastavovacích okének pro přidání tréninku POSILOVNA."""
+        # inicializace proměnných
+        master.var_legs = StringVar(value=0)
+        master.var_core = StringVar(value=0)
+        master.var_breast = StringVar(value=0)
+        master.var_shoulders = StringVar(value=0)
+        master.var_back = StringVar(value=0)
+        master.var_biceps = StringVar(value=0)
+        master.var_triceps = StringVar(value=0)
+        master.var_forearm = StringVar(value=0)
+        # vytvoření checkboxů s odcvičenými částmi
+        exercise_l = Label(master, "Odcvičeno")
+        exercise_l.pack(anchor=ctk.W)
+        leg_chb = CheckBox(master, gym_body_parts[0], master.var_legs)
+        leg_chb.pack(anchor=ctk.W)
+        core_chb = CheckBox(master, gym_body_parts[1], master.var_core)
+        core_chb.pack(anchor=ctk.W)
+        breast_chb = CheckBox(master, gym_body_parts[2], master.var_breast)
+        breast_chb.pack(anchor=ctk.W)
+        shoulders_chb = CheckBox(master, gym_body_parts[3], master.var_shoulders)
+        shoulders_chb.pack(anchor=ctk.W)
+        back_chb = CheckBox(master, gym_body_parts[4], master.var_back)
+        back_chb.pack(anchor=ctk.W)
+        biceps_chb = CheckBox(master, gym_body_parts[5], master.var_biceps)
+        biceps_chb.pack(anchor=ctk.W)
+        triceps_chb = CheckBox(master, gym_body_parts[6], master.var_triceps)
+        triceps_chb.pack(anchor=ctk.W)
+        forearm_chb = CheckBox(master, gym_body_parts[7], master.var_forearm)
+        forearm_chb.pack(anchor=ctk.W)
+
+    @staticmethod
+    def GymListForFile(master : object, training_list : list) -> None:
+        """Přidá k listu dat specifické informace o tréninku typu posilovna pro zapsání dat do 
+        tréninkové databáze."""
+        training_list.extend([master.var_time.get(), master.var_legs.get(), master.var_core.get(),
+                                master.var_breast.get(), master.var_shoulders.get(),
+                                master.var_back.get(), master.var_biceps.get(),
+                                master.var_triceps.get(), master.var_forearm.get()])
+        return training_list
+    
+    @staticmethod
+    def verifyGym (master : object) -> bool:
+        """Ověří vstupy posilovny při zadávání nového tréninku."""
+        return True # zatím netřeba ošetřovat

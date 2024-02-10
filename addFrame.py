@@ -11,7 +11,7 @@ from createPlan.createPlan import CreatePlan
 
 
 class Frame (ctk.CTkFrame):
-    """Třída vytvářející frame v hlavním okně pro přidávání aktivit."""
+    """Třída vytvářející frame v hlavním okně pro přidávání aktivit (levý sloupec aplikace)."""
     def __init__(self, master:ctk.CTkBaseClass) -> None:
         super().__init__(master)
 
@@ -21,9 +21,9 @@ class Frame (ctk.CTkFrame):
         # inicializace proměnné pro setFrame a nastavení na 0
         self.setFrame = 0
 
-        self.gui()
+        self._initGUI()
 
-    def gui(self):
+    def _initGUI(self) -> None:
         """Metoda pro incializaci widgetů v addframu."""
 
         # tlačítko pro tréninkový plán
@@ -37,19 +37,17 @@ class Frame (ctk.CTkFrame):
         # widgety s vyběrem aktivity
         activity_l = Label(self, 'Aktivita')
         activity_l.pack(side=TOP, anchor=ctk.W, padx=10)
-        activity_cb = ComboBox(self, self.options, self.show_frame, "posilovna")
+        activity_cb = ComboBox(self, self.options, self._showFrame, "posilovna")
         activity_cb.pack(side=TOP, anchor=ctk.W, padx=10)
         activity_cb.set("nevybráno")
 
-
-    def show_frame(self, choice):
-        """inicializace dynamicky se měnícího framu nastavování podle vybraního sportu"""
-        # vymazání předchozího framu
-        if self.setFrame:
-            self.setFrame.destroy()
-
         # inicializace framu vybraného sportu
-        self.setFrame = SetFrame(self, choice)
+        self.setFrame = SetFrame(self)
+
+    def _showFrame(self, choice) -> None:
+        """Inicializace dynamicky se měnícího framu nastavování podle vybraního sportu."""
+        # vytvoření widget v setframu
+        self.setFrame.initWidgets(choice)
         self.setFrame.pack(side=TOP, padx=3, pady=5, fill=ctk.BOTH, expand=TRUE)
 
     def _createTrainingPlan (self) -> None:

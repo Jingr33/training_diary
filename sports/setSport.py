@@ -108,3 +108,33 @@ class SetSport():
         elif master.training.sport == sport_list[1]: # běh
             Run.runDetailsInOverview(master)
 
+    @staticmethod
+    def setFrameWidgets (master : object, choice : str) -> None:
+        """Rozhodne, o který sport se jedná a vytvoří widgety pro nastavení tréninku daného sportu."""
+        if choice == sport_list[0]:
+            Gym.setFrameGymWidgets(master)
+        elif choice == sport_list[1]:
+            Run.setFrameRunWidgets(master)
+        else:
+            ... #TODO
+
+    @staticmethod
+    def fillListForFile (master : object, training_list : list) -> list:
+        """Rozhodne, o který sport se jedná a přidá k listu dat o tréninku specifické informace 
+        o sportu, který obsahuje do tréninkové databáze. Vrátí list s tréninkovými daty."""
+        if training_list[1] == sport_list[0]:
+            training_list = Gym.GymListForFile(master, training_list)
+        elif training_list[1] == sport_list[1]:
+            training_list = Run.RunListForFile(master, training_list)
+        else:
+            ... #TODO
+        return training_list
+    
+    @staticmethod
+    def verifyDetails (master : object) -> bool:
+        """Ověří vsupy detailů sportu při zadávání tréninku."""
+        if master.choice == sport_list[0]: # posilovna
+            verified = Gym.verifyGym(master)
+        elif master.choice == sport_list[1]: #běh
+            verified = Run.verifyRun(master)
+        return verified
