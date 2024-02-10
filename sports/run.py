@@ -102,3 +102,11 @@ class Run (Sport):
         master.distance_error_l = Label(master, "", ("Arial", 10))
         master.distance_error_l.pack(anchor=ctk.W, side=TOP)
 
+    @staticmethod
+    def RunListForFile(master : object, training_list : list) -> None:
+        """Přidá k listu dat specifické informace o tréninku typu běh pro zapsání dat do 
+        tréninkové databáze."""
+        training_list.extend([master.var_time.get(), master.var_length.get()])
+        return training_list
+      
+

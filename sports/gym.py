@@ -221,3 +221,13 @@ class Gym (Sport):
         triceps_chb.pack(anchor=ctk.W)
         forearm_chb = CheckBox(master, gym_body_parts[7], master.var_forearm)
         forearm_chb.pack(anchor=ctk.W)
+
+    @staticmethod
+    def GymListForFile(master : object, training_list : list) -> None:
+        """Přidá k listu dat specifické informace o tréninku typu posilovna pro zapsání dat do 
+        tréninkové databáze."""
+        training_list.extend([master.var_time.get(), master.var_legs.get(), master.var_core.get(),
+                                master.var_breast.get(), master.var_shoulders.get(),
+                                master.var_back.get(), master.var_biceps.get(),
+                                master.var_triceps.get(), master.var_forearm.get()])
+        return training_list

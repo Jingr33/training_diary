@@ -6,7 +6,8 @@ import datetime
 # importy souborů
 from sports.setSport import SetSport
 from ctkWidgets import Button, Label, Entry, CheckBox
-from configuration import sport_list, trainings_path, gym_body_parts
+from configuration import sport_list, trainings_path
+from general import General
 
 
 class Frame (ctk.CTkScrollableFrame):
@@ -36,93 +37,74 @@ class Frame (ctk.CTkScrollableFrame):
         self.save_b.pack(side=BOTTOM, ipadx=7, ipady=7, padx=3, pady=3)
 
     def _saveNewTraining(self):
-        """Funkce se spustí po stiknutí tlačítka uložit.
+        """Funkce se spustí po stiknutí tlačítka uložit. Verifikuje vstupy.
            Uloží data do souboru."""
         # ověření vstupů
-        verify = self.floatEntryVerify(self.var_time.get(), self.var_length.get())
-        if verify:
-            # úprava zápisu data
-            formated_date = self._editDateFormat(self.date_calendar.get_date())
-            # list se zadanými údaji
-            self.training_list = [self.choice, formated_date]
+        verified = self._floatEntryVerify(self.var_time.get(), self.var_length.get())
+        if verified:
+            self._getTrainingToFile()
+            General.deleteWidgets(self)
+            self._conmfirmationAlert(self.choice) # zobrazení potvrzovacího alertu
+        else:
+            ... #TODO špatné vstupy
 
-            # vyplnění training_listu podle zvoleného tréninku
-            if self.training_list[0] == sport_list[0]:
-                self.training_list.extend([self.var_time.get(), self.var_legs.get(), self.var_core.get(),
-                                        self.var_breast.get(), self.var_shoulders.get(),
-                                        self.var_back.get(), self.var_biceps.get(),
-                                        self.var_triceps.get(), self.var_forearm.get()])
-            elif self.training_list[0] == sport_list[1]:
-                self.training_list.extend([self.var_time.get(), self.var_length.get()])
-            else:
-                ... #TODO
-
-            # příprava stringů na zapsání do souboru
-            prepared_string = self.prepareString(self.training_list)
-
-            # zapsání dat do souboru
-            self.writeToFile(prepared_string)
-
-            # vymazání framu
-            for widget in self.winfo_children(): # odstranění widgetů
-                widget.destroy()
-            self.conmfirmationAlert(self.choice) # zobrazení potvrzovacího alertu
+    def _getTrainingToFile (self) -> None:
+        """Uloží data do souboru ve správném formátu."""
+        formated_date = self._editDateFormat(self.date_calendar.get_date()) # úprava zápisu data
+        training_list = [formated_date, self.choice] # list se zadanými údaji
+        SetSport.fillListForFile(self, training_list)
+        prepared_string = General.prepareString(training_list)
+        self._writeToFile(prepared_string)
 
     def _editDateFormat(self, original_date :str) -> str:
         """Metoda pro přepsaní data z formátu tkinterového 
         kalendáře do formátu českého zápisu data."""
-        # převedení údajů (měsíc, datum, rok) do listu
-        mmddyyyy = original_date.split("/")
-
-        # přidání 0 před číslo, pokud je menší než 10
-        for i in range(len(mmddyyyy)):
-            if int(mmddyyyy[i]) < 10:
-                mmddyyyy[i] = "0" + mmddyyyy[i]
-
+        mmddyy = original_date.split("/")# převedení údajů (měsíc, datum, rok) do listu
+        for i in range(len(mmddyy)):  # přidání 0 před číslo, pokud je menší než 10
+            if int(mmddyy[i]) < 10:
+                mmddyy[i] = "0" + mmddyy[i]
         # vytvoření stringu s českým datem
-        formated_date = mmddyyyy[1] + ". " + mmddyyyy[0] + ". " + mmddyyyy[2]
+        formated_date = mmddyy[1] + ". " + mmddyy[0] + ". " + mmddyy[2]
         return formated_date
 
-    def prepareString(self, list):
-        """Metoda pro přípravu stringu (řádku) pro zapsání do souboru."""
-        string = self.training_list[1] + " / " +  self.training_list[0]
-
-        for i in range(2, len(list)):
-            string = string + " / " + list[i]
-
-        # vrácení připraveného stringu
-        return string
-
-
-    def writeToFile (self, string):
+    def _writeToFile (self, string):
         """Metoda pro zapsání dat do souboru."""
         with open(trainings_path, 'a') as f:  
             f.write(string + " / \n")
 
-
-    def floatEntryVerify (self, try_time, try_distance):
+    def _floatEntryVerify (self, time_entry : str, distance_entry : str) -> None:
         """Metoda pr ověření platnosti vstupů příp zadávání tréninku."""
+        verify_time = self._timeVerify(time_entry)
+        verify_distance = self._distanceVerify(distance_entry)
+        return verify_time and verify_distance
+    
+    def _timeVerify (self, time_entry : str) -> bool:
+        """Ověří platnost vstupu času."""
         verify_time = False
         try:
-            if try_time:
-                float(try_time)
+            if time_entry:
+                float(time_entry)
                 self.time_error_l.configure(text = "")
             verify_time = True
         except:
             self.time_error_l.configure(text_color = 'red', text = "Špatně zadaná hodnota.")
+        return verify_time
 
+
+    def _distanceVerify (self, distance_entry : str) -> bool:
+        """Ověří platnost vstupu vzdálenosti."""
         verify_distance = False
         try:
-            if try_distance:
-                float(try_distance)
+            if distance_entry:
+                float(distance_entry)
                 self.distance_error_l.configure(text = "")
             verify_distance = True
         except:
             self.distance_error_l.configure(text_color = 'red', text="Špatně zadaná hodnota.")
+        return verify_distance
 
-        return verify_time and verify_distance
     
-    def conmfirmationAlert(self, choice):
+    def _conmfirmationAlert(self, choice) -> None:
         """Metoda pro zobrazení záverečné potvrzující zprávy o přidání tréninku."""
         # potvrzující zpráva
         message = "Trénink " + choice + " \nbyl přidán."

@@ -110,3 +110,19 @@ class SetSport():
         else:
             ... #TODO
 
+    @staticmethod
+    def fillListForFile (master : object, training_list : list) -> list:
+        """Rozhodne, o který sport se jedná a přidá k listu dat o tréninku specifické informace 
+        o sportu, který obsahuje do tréninkové databáze. Vrátí list s tréninkovými daty."""
+        if training_list[1] == sport_list[0]:
+            # master.training_list.extend([master.var_time.get(), master.var_legs.get(), master.var_core.get(),
+            #                         master.var_breast.get(), master.var_shoulders.get(),
+            #                         master.var_back.get(), master.var_biceps.get(),
+            #                         master.var_triceps.get(), master.var_forearm.get()])
+            training_list = Gym.GymListForFile(master, training_list)
+        elif training_list[1] == sport_list[1]:
+            # master.training_list.extend([master.var_time.get(), master.var_length.get()])
+            training_list = Run.RunListForFile(master, training_list)
+        else:
+            ... #TODO
+        return training_list
