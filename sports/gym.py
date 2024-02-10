@@ -3,7 +3,7 @@ import customtkinter as ctk
 from tkinter import *
 #importy souborů
 from sports.sport import Sport
-from configuration import sport_list, sport_color, gym_body_parts, unknown_text
+from configuration import sport_list, sport_color, gym_body_parts, unknown_text, unknown_text_label
 from ctkWidgets import Label, Entry, CheckBox
 
 class Gym (Sport):
@@ -119,7 +119,12 @@ class Gym (Sport):
         master.triceps = int(data_list[9])
         master.forearm = int(data_list[10])
         # vytvoření vlastnosti practicedParts
-        master.practicedParts = Gym.practicedPartsString(master)
+        isset = (master.leg + master.core + master.breast + master.shoulders + master.back + 
+                 master.biceps + master.triceps + master.forearm)
+        if isset:
+            master.practicedParts = Gym.practicedPartsString(master)
+        else:
+            master.practicedParts = unknown_text_label
 
     @staticmethod
     def practicedPartsString (master : object):

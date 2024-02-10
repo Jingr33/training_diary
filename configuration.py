@@ -14,6 +14,7 @@ menu_list = ["Přehled", "Kalendář", "Další"]
 
 # nezadaný vstup
 unknown_text = "nezadano"
+unknown_text_label = "––"
 
 # cesta k souboru se všemi uloženými tréninky
 trainings_path = "training_database.txt"

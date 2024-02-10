@@ -13,6 +13,7 @@
 
 """NAČÍTÁNÍ TRÉNINKŮ"""
 # přidat možnost, aby mohly být některé věci nezadány
+# upravit slovo nazadano pro nacitani treninku
 
 """SETFRAME"""
 # dodělat špatné vstupy na set framu

@@ -1,5 +1,7 @@
 # import knihoven
 from datetime import date
+#import souborů
+from configuration import unknown_text
 
 class General():
     """Třídá základních statických funkcí používaných na hodně místech."""

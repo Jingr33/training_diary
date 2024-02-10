@@ -14,21 +14,16 @@ class OneTraining ():
         if operation == "load":
             self._unlockTheData(file_line)
 
-
     def _unlockTheData(self, file_line):
         """Funkce rozklíčuje data ze souboru a přiřadí je objektu."""
         # rozdělení řádku ze souboru na jednolivé údaje
         data_list = self._separateData(file_line)
-
         # nastavení od tréninku
         self._setTrainingID()
-
         # uložení data tréninku
         self.date = data_list[0]
-
         #rozdělení tréninku podle sportu
         self.sport = SetSport.whichSport(data_list[1])
-
         # rozklíčuje a přiřadí data jako vlastnosti tréninku.
         SetSport.findData(self, data_list)
 
