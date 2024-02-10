@@ -11,17 +11,15 @@ from ctkWidgets import CheckBox
 from configuration import sport_list, trainings_path, gym_body_parts
 
 
-class Frame (ctk.CTkFrame):
+class Frame (ctk.CTkScrollableFrame):
     """Frame pro nastavování údajů o jednotlivých trénincích."""
-
-    def __init__(self, master: ctk.CTkBaseClass, choice) -> None:
+    def __init__(self, master: ctk.CTkBaseClass) -> None:
         super().__init__(master)
+        self.today = datetime.date.today()
+
+    def initWidgets (self, choice) -> None:
+        """Inicializuje widgety framu v závislosti na výběru sportu."""
         self.choice = choice
-        today = datetime.date.today()
-
-        # přidání scrollbaru
-        #TODO
-
         # inicializace proměnných které potřebuju mít uložené v každém případě
         self.var_time = ctk.StringVar()
         self.var_length = ctk.StringVar()
@@ -31,28 +29,28 @@ class Frame (ctk.CTkFrame):
         date_l.pack(anchor=ctk.W)
         date_l.configure(corner_radius = 8)
         self.date_calendar = Calendar(self, selectmode = 'day', 
-                               year = today.year, month = today.month, 
-                               day = today.day)
+                               year = self.today.year, month = self.today.month, 
+                               day = self.today.day)
         self.date_calendar.pack(side=TOP, padx=3, pady=3)
 
         # vytvoření GUI podle vybraného sportu
-        self.createGui(self.choice)
+        self._sportWidgets(self.choice)
 
         # tlačítko pro uložení tréninku
-        self.save_b = Button(self, "Uložit", self.saveNewTraining)
+        self.save_b = Button(self, "Uložit", self._saveNewTraining)
         self.save_b.pack(side=BOTTOM, ipadx=7, ipady=7, padx=3, pady=3)
 
 
-    def createGui (self, choice):
+    def _sportWidgets (self, choice):
         """Metoda pro výběr GUI, které se vytvoří podle vybrané aktivity."""
         if choice == sport_list[0]:
-            self.initGym()
+            self._initGym()
         elif choice == sport_list[1]:
-            self.initRun()
+            self._initRun()
         else:
             ... #TODO
 
-    def initGym (self):
+    def _initGym (self):
         """Vytvoření nastavovacích okének pro přidání tréninku POSILOVNA."""
         # inicializace proměnných
         self.var_legs = StringVar(value=0)
@@ -91,8 +89,7 @@ class Frame (ctk.CTkFrame):
         forearm_chb = CheckBox(self, gym_body_parts[7], self.var_forearm)
         forearm_chb.pack(anchor=ctk.W)
 
-
-    def initRun (self):
+    def _initRun (self):
         """Vytvoření nastavovacích okének pro přidání tréninku BĚH."""
         #inicializace proměnných
 
@@ -109,14 +106,11 @@ class Frame (ctk.CTkFrame):
         self.distance_error_l = Label(self, "", ("Arial", 10))
         self.distance_error_l.pack(anchor=ctk.W, side=TOP)
 
-
-
-    def saveNewTraining(self):
+    def _saveNewTraining(self):
         """Funkce se spustí po stiknutí tlačítka uložit.
            Uloží data do souboru."""
         # ověření vstupů
         verify = self.floatEntryVerify(self.var_time.get(), self.var_length.get())
-
         if verify:
             # úprava zápisu data
             formated_date = self._editDateFormat(self.date_calendar.get_date())
@@ -201,17 +195,17 @@ class Frame (ctk.CTkFrame):
     
     def conmfirmationAlert(self, choice):
         """Metoda pro zobrazení záverečné potvrzující zprávy o přidání tréninku."""
-
         # potvrzující zpráva
         message = "Trénink " + choice + " \nbyl přidán."
         alert_l = Label(self, message, ("Arial", 18))
         alert_l.configure(justify="center")
         alert_l.pack(padx=10, pady=10)
-
         # tlačítko pro zrušení alertu
-        alert_b = Button(self, "OK", self.confirmationAlertDestroy)
+        alert_b = Button(self, "OK", self._confirmationAlertDestroy)
         alert_b.configure(fg_color = "green", hover_color = "#109116")
         alert_b.pack()
 
-    def confirmationAlertDestroy(self):
-        self.destroy()
+    def _confirmationAlertDestroy(self) -> None:
+        for widget in self.winfo_children():
+            widget.destroy()
+        self.pack_forget()
