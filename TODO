@@ -1,6 +1,6 @@
 """OVERVIEW"""
-# Dodělej upravu tréniků a zapisování přemazaných tréninků
-# zkus tam dat ozubene kolečko jako nastavení nebo nějaké button pro vymazání 
+# Dodělej mazání a upravu tréniků a animaci k tomu
+# obrázek setting buttonu opravit
 
 """TRAINING PLAN"""
 # CycleTraining -> nejde měnění nstavení columnconfiguration při zvětšování a zmenšování počtu dní
@@ -9,3 +9,6 @@
 
 """DALŠÍ"""
 # přidat možnost zrušit jeden trénink nebo zrušit všechny tréninky tohoto typu( všechny, všechny následující, všechny předchozí)
+
+"""NAČÍTÁNÍ TRÉNINKŮ"""
+# přidat možnost, aby mohly být některé věci nezadány

@@ -183,3 +183,41 @@ class Gym (Sport):
                         training.shoulders, training.back, training.biceps, training.triceps,
                         training.forearm]
         return data_list
+
+    @staticmethod
+    def setFrameGymWidgets (master : object):
+        """Vytvoření nastavovacích okének pro přidání tréninku POSILOVNA."""
+        # inicializace proměnných
+        master.var_legs = StringVar(value=0)
+        master.var_core = StringVar(value=0)
+        master.var_breast = StringVar(value=0)
+        master.var_shoulders = StringVar(value=0)
+        master.var_back = StringVar(value=0)
+        master.var_biceps = StringVar(value=0)
+        master.var_triceps = StringVar(value=0)
+        master.var_forearm = StringVar(value=0)
+        # zadání času strtáveného v posilovně
+        Label(master, 'Čas').pack(anchor=ctk.W)
+        time_e = Entry(master, master.var_time)
+        time_e.pack(anchor=ctk.W)
+        master.time_error_l = Label(master, "", ("Arial", 10))
+        master.time_error_l.pack(anchor=ctk.W, side=TOP)
+        # vytvoření checkboxů s odcvičenými částmi
+        exercise_l = Label(master, "Odcvičeno")
+        exercise_l.pack(anchor=ctk.W)
+        leg_chb = CheckBox(master, gym_body_parts[0], master.var_legs)
+        leg_chb.pack(anchor=ctk.W)
+        core_chb = CheckBox(master, gym_body_parts[1], master.var_core)
+        core_chb.pack(anchor=ctk.W)
+        breast_chb = CheckBox(master, gym_body_parts[2], master.var_breast)
+        breast_chb.pack(anchor=ctk.W)
+        shoulders_chb = CheckBox(master, gym_body_parts[3], master.var_shoulders)
+        shoulders_chb.pack(anchor=ctk.W)
+        back_chb = CheckBox(master, gym_body_parts[4], master.var_back)
+        back_chb.pack(anchor=ctk.W)
+        biceps_chb = CheckBox(master, gym_body_parts[5], master.var_biceps)
+        biceps_chb.pack(anchor=ctk.W)
+        triceps_chb = CheckBox(master, gym_body_parts[6], master.var_triceps)
+        triceps_chb.pack(anchor=ctk.W)
+        forearm_chb = CheckBox(master, gym_body_parts[7], master.var_forearm)
+        forearm_chb.pack(anchor=ctk.W)

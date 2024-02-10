@@ -87,3 +87,18 @@ class Run (Sport):
         """Zapíše vlastnosti tréninku posilovna do listu."""
         data_list = [training.date, training.time, training.distance]
         return data_list
+
+    @staticmethod
+    def setFrameRunWidgets (master : object):
+        """Vytvoření nastavovacích okének pro přidání tréninku BĚH."""
+        # zadání doby běhu
+        Label(master, 'Čas (min)').pack(anchor=ctk.W)
+        Entry(master, master.var_time).pack(anchor=ctk.W)
+        master.time_error_l = Label(master, "", ("Arial", 10))
+        master.time_error_l.pack(anchor=ctk.W, side=TOP)
+        # zadání kilometrů
+        Label(master, 'Kilometry (km)').pack(anchor=ctk.W)
+        Entry(master, master.var_length).pack(anchor=ctk.W)
+        master.distance_error_l = Label(master, "", ("Arial", 10))
+        master.distance_error_l.pack(anchor=ctk.W, side=TOP)
+

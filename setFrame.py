@@ -4,10 +4,8 @@ from tkinter import *
 from tkcalendar import Calendar
 import datetime
 # importy souborů
-from ctkWidgets import Button
-from ctkWidgets import Label
-from ctkWidgets import Entry
-from ctkWidgets import CheckBox
+from sports.setSport import SetSport
+from ctkWidgets import Button, Label, Entry, CheckBox
 from configuration import sport_list, trainings_path, gym_body_parts
 
 
@@ -23,7 +21,6 @@ class Frame (ctk.CTkScrollableFrame):
         # inicializace proměnných které potřebuju mít uložené v každém případě
         self.var_time = ctk.StringVar()
         self.var_length = ctk.StringVar()
-
         # zadnání data tréninku
         date_l = Label(self, "Datum")
         date_l.pack(anchor=ctk.W)
@@ -32,79 +29,11 @@ class Frame (ctk.CTkScrollableFrame):
                                year = self.today.year, month = self.today.month, 
                                day = self.today.day)
         self.date_calendar.pack(side=TOP, padx=3, pady=3)
-
         # vytvoření GUI podle vybraného sportu
-        self._sportWidgets(self.choice)
-
+        SetSport.setFrameWidgets(self, choice)
         # tlačítko pro uložení tréninku
         self.save_b = Button(self, "Uložit", self._saveNewTraining)
         self.save_b.pack(side=BOTTOM, ipadx=7, ipady=7, padx=3, pady=3)
-
-
-    def _sportWidgets (self, choice):
-        """Metoda pro výběr GUI, které se vytvoří podle vybrané aktivity."""
-        if choice == sport_list[0]:
-            self._initGym()
-        elif choice == sport_list[1]:
-            self._initRun()
-        else:
-            ... #TODO
-
-    def _initGym (self):
-        """Vytvoření nastavovacích okének pro přidání tréninku POSILOVNA."""
-        # inicializace proměnných
-        self.var_legs = StringVar(value=0)
-        self.var_core = StringVar(value=0)
-        self.var_breast = StringVar(value=0)
-        self.var_shoulders = StringVar(value=0)
-        self.var_back = StringVar(value=0)
-        self.var_biceps = StringVar(value=0)
-        self.var_triceps = StringVar(value=0)
-        self.var_forearm = StringVar(value=0)
-
-        # zadání času strtáveného v posilovně
-        Label(self, 'Čas').pack(anchor=ctk.W)
-        time_e = Entry(self, self.var_time)
-        time_e.pack(anchor=ctk.W)
-        self.time_error_l = Label(self, "", ("Arial", 10))
-        self.time_error_l.pack(anchor=ctk.W, side=TOP)
-
-        # vytvoření checkboxů s odcvičenými částmi
-        exercise_l = Label(self, "Odcvičeno")
-        exercise_l.pack(anchor=ctk.W)
-        leg_chb = CheckBox(self, gym_body_parts[0], self.var_legs)
-        leg_chb.pack(anchor=ctk.W)
-        core_chb = CheckBox(self, gym_body_parts[1], self.var_core)
-        core_chb.pack(anchor=ctk.W)
-        breast_chb = CheckBox(self, gym_body_parts[2], self.var_breast)
-        breast_chb.pack(anchor=ctk.W)
-        shoulders_chb = CheckBox(self, gym_body_parts[3], self.var_shoulders)
-        shoulders_chb.pack(anchor=ctk.W)
-        back_chb = CheckBox(self, gym_body_parts[4], self.var_back)
-        back_chb.pack(anchor=ctk.W)
-        biceps_chb = CheckBox(self, gym_body_parts[5], self.var_biceps)
-        biceps_chb.pack(anchor=ctk.W)
-        triceps_chb = CheckBox(self, gym_body_parts[6], self.var_triceps)
-        triceps_chb.pack(anchor=ctk.W)
-        forearm_chb = CheckBox(self, gym_body_parts[7], self.var_forearm)
-        forearm_chb.pack(anchor=ctk.W)
-
-    def _initRun (self):
-        """Vytvoření nastavovacích okének pro přidání tréninku BĚH."""
-        #inicializace proměnných
-
-        # zadání doby běhu
-        Label(self, 'Čas (min)').pack(anchor=ctk.W)
-        Entry(self, self.var_time).pack(anchor=ctk.W)
-        self.time_error_l = Label(self, "", ("Arial", 10))
-        self.time_error_l.pack(anchor=ctk.W, side=TOP)
-
-
-        # zadání kilometrů
-        Label(self, 'Kilometry (km)').pack(anchor=ctk.W)
-        Entry(self, self.var_length).pack(anchor=ctk.W)
-        self.distance_error_l = Label(self, "", ("Arial", 10))
-        self.distance_error_l.pack(anchor=ctk.W, side=TOP)
 
     def _saveNewTraining(self):
         """Funkce se spustí po stiknutí tlačítka uložit.

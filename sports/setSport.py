@@ -99,3 +99,14 @@ class SetSport():
         elif training.sport == free_day: # volný den
             data_list = Sport.plan_FreeDayDataToList(training)
         return data_list
+
+    @staticmethod
+    def setFrameWidgets (master : object, choice : str) -> None:
+        """Rozhodne, o který sport se jedná a vytvoří widgety pro nastavení tréninku daného sportu."""
+        if choice == sport_list[0]:
+            Gym.setFrameGymWidgets(master)
+        elif choice == sport_list[1]:
+            Run.setFrameRunWidgets(master)
+        else:
+            ... #TODO
+
