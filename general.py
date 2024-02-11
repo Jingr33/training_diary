@@ -41,7 +41,14 @@ class General():
         return line
     
     @staticmethod
-    def deleteWidgets (widget_parent : object) -> None:
+    def deleteFrameWidgets (widget_parent : object) -> None:
         """Vymaže widgety ze zadaného framu."""
         for widget in widget_parent.winfo_children():
             widget.destroy()
+
+    @staticmethod
+    def deleteListWidgets (widgets : list) -> list:
+        """Vymaže widgety ze zadaného listu. Vrátí prázdný list"""
+        for widget in widgets:
+            widget.destroy()
+        return []

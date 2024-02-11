@@ -2,6 +2,7 @@
 from tkinter import *
 import customtkinter as ctk
 # import souborů
+from overviewOption.updateTraining.updateWindow import UpdateWindow
 from sports.setSport import SetSport
 from ctkWidgets import Label, Button
 from image import Image as img
@@ -61,11 +62,11 @@ class OneRow (ctk.CTkFrame):
         # vytvoření obrázku
         image = img("images\setting_icon.JPG", (20, 20))
         # button
-        self.setting_button = Button(self, "", self._rowSettings)
+        self.setting_button = Button(self, "", self.rowSettings)
         self.setting_button.pack(side=RIGHT, fill = ctk.Y, pady = 5, padx = 5)
         self.setting_button.configure(width = 25, height = 30, image = image)
 
-    def _rowSettings (self) -> None:
+    def rowSettings (self) -> None:
         """Funkce přegeneruje řádek tréninku na možnosti úprav při kliknutí na tlačítko nastavení."""
         #zavolání vygenerování nastavení nebo zpětného vygenerování obsahu tréninku
         if self.is_setting:
@@ -109,9 +110,9 @@ class OneRow (ctk.CTkFrame):
     def _changeButtonImage (self) -> None:
         """Změní obrázek v setting_buttonu."""
         if self.is_setting:
-            image = img("images//back_icon.png", (20, 20))
-        else:
             image = img("images//setting_icon.JPG", (20, 20))
+        else:
+            image = img("images//back_icon.png", (20, 20))
         self.setting_button.configure(image = image)
 
     def _deleteRow(self) -> None:
@@ -124,7 +125,7 @@ class OneRow (ctk.CTkFrame):
 
     def _updateRow(self) -> None:
         """Metoda umožní upravit záznamy o tréninku po kliknutí na tlačítko upravit."""
-        ... #TODO
+        UpdateWindow(self, self.training) # otevření okna s úpravami
 
     def _deleteFromFile (self, path : str, training_id : int) -> None:
         """Vymaže trénink z databáze tréninků."""

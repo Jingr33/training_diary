@@ -20,7 +20,7 @@ class Frame (ctk.CTkScrollableFrame):
         """Inicializuje widgety framu v závislosti na výběru sportu."""
         self.choice = choice
         # vymazání předchozího
-        General.deleteWidgets(self)
+        General.deleteFrameWidgets(self)
         # inicializace proměnných které potřebuju mít uložené v každém případě
         self.var_time = ctk.StringVar()
         self.var_distance = ctk.StringVar()
@@ -55,7 +55,7 @@ class Frame (ctk.CTkScrollableFrame):
         verified = self._floatEntryVerify(self.var_time.get())
         if verified:
             self._getTrainingToFile()
-            General.deleteWidgets(self)
+            General.deleteFrameWidgets(self)
             self._conmfirmationAlert(self.choice) # zobrazení potvrzovacího alertu
         else:
             ... #TODO špatné vstupy

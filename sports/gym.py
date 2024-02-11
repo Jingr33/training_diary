@@ -264,6 +264,49 @@ class Gym (Sport):
             else:
                 # pokud se nejedná o posilovnu, přidá se vždy
                 filtered.append(training)
-        
         return filtered
 
+    def updateGymGUI (master : object, training : object) -> None:
+        """Vytvoří widgety v okně pro úpravu tréninků v Overview, pokud se vybere trénink posilovna."""
+        var_leg = IntVar()
+        var_core = IntVar()
+        var_breast = IntVar()
+        var_shoulders = IntVar()
+        var_back = IntVar()
+        var_biceps = IntVar()
+        var_triceps = IntVar()
+        var_forearm = IntVar()
+        leg_chb = CheckBox(master, gym_body_parts[0], var_leg)
+        leg_chb.grid(column = 0, row = master.next_row)
+        leg_chb.configure(width=master.box_width)
+        core_chb = CheckBox(master, gym_body_parts[1], var_core)
+        core_chb.grid(column = 1, row = master.next_row)
+        core_chb.configure(width=master.box_width)
+        breast_chb = CheckBox(master, gym_body_parts[2], var_breast)
+        breast_chb.grid(column = 2, row = master.next_row)
+        breast_chb.configure(width=master.box_width)
+        shoulder_chb = CheckBox(master, gym_body_parts[3], var_shoulders)
+        shoulder_chb.grid(column = 3, row = master.next_row)
+        shoulder_chb.configure(width=master.box_width)
+        back_chb = CheckBox(master, gym_body_parts[4], var_back)
+        back_chb.grid(column = 0, row = master.next_row+1)
+        back_chb.configure(width=master.box_width)
+        biceps_chb = CheckBox(master, gym_body_parts[5], var_biceps)
+        biceps_chb.grid(column = 1, row = master.next_row+1)
+        biceps_chb.configure(width=master.box_width)
+        triceps_chb = CheckBox(master, gym_body_parts[6], var_triceps)
+        triceps_chb.grid(column = 2, row = master.next_row+1)
+        triceps_chb.configure(width=master.box_width)
+        forearm_chb = CheckBox(master, gym_body_parts[7], var_forearm)
+        forearm_chb.grid(column = 3, row = master.next_row+1)
+        forearm_chb.configure(width=master.box_width)
+        var_leg.set(Sport.hasAttribute(training, "leg", 0))
+        var_core.set(Sport.hasAttribute(training, "core", 0))
+        var_breast.set(Sport.hasAttribute(training, "breast", 0))
+        var_shoulders.set(Sport.hasAttribute(training, "shoulders", 0))
+        var_back.set(Sport.hasAttribute(training, "back", 0))
+        var_biceps.set(Sport.hasAttribute(training, "biceps", 0))
+        var_triceps.set(Sport.hasAttribute(training, "triceps", 0))
+        var_forearm.set(Sport.hasAttribute(training, "forearm", 0))
+        master.specific_widgets = [leg_chb, core_chb, breast_chb, shoulder_chb, back_chb, biceps_chb, triceps_chb, forearm_chb]
+        master.next_row = master.next_row + 2

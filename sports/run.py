@@ -156,5 +156,17 @@ class Run (Sport):
                     filtered.append(training)
         return filtered
 
+    def updateRunGUI (master : object, training : object) -> None:
+        """Vytvoří widgety v okně pro úpravu tréninků v Overview, pokud se vybere trénink běh."""
+        dist_l = Label(master, "Vzdálenost: ") # label
+        dist_l.grid(column = 0, row = master.next_row, sticky = ctk.E)
+        dist_l.configure()
 
+        master.var_dist = StringVar()
+        dist_e = Entry(master, master.var_dist) # entry
+        dist_e.grid(column = 1, row = master.next_row, padx=master.label_padx)
+        dist_e.configure(width = master.box_width)
+        master.var_dist.set(Sport.hasAttribute(training, "distance", ""))
 
+        master.specific_widgets = [dist_l, dist_e]
+        master.next_row = master.next_row + 1

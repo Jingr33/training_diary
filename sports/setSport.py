@@ -147,3 +147,11 @@ class SetSport():
             master.filtered_data = Gym.gymPartsFiltrator(master, detail_filter[0])
         # detaily běhu
         master.filtered_data = Run.rundistanceFiltrator(master, detail_filter[1])
+
+    @staticmethod
+    def updateTrainingGUI (master : object, training : object, value : str) -> None:
+        """Vytvoří specifické GUI pro daný trénink, při udatování tréninkových hodnot."""
+        if value == sport_list[0]: # posilovna
+            Gym.updateGymGUI(master, training)
+        elif value == sport_list[1]: # běh
+            Run.updateRunGUI(master, training)
