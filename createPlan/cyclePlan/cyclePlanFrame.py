@@ -154,7 +154,7 @@ class CyclePlanFrame (Frame):
         Ano -> přidá do dne s volnem aktivitu volno a vrátí ho.
         Ne -> nevrátí nic."""
         # pokud je den volný den -> provede se
-        free_training = OneTraining()
+        free_training = OneTraining(self)
         free_training.makeFreeDay()
         free_training.date = day_index
         training_list.append(free_training)

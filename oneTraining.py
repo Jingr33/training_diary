@@ -1,18 +1,27 @@
 #importy knohven
 from datetime import date
 #importy souborů
+<<<<<<< HEAD
 from configuration import free_day
 from sports.setSport import SetSport
 from globalVariables import increaseID
 from globalVariables import training_id
+=======
+from configuration import free_day, trainings_path, unknown_text
+from sports.setSport import SetSport
+from general import General
+>>>>>>> refaktoring
 
 class OneTraining ():
     """Třída pro vytvoření instance jednoho tréninku z dat v souboru.
     load - možnost načíst data ze souboru -> trénink pak má všechny svoje vlastnosti, které se o něm ukládají
     save - ..."""
-    def __init__(self, operation = "", file_line = ""):
+    def __init__(self, master : object, operation = "", file_line = "", data_list = ""):
+        self.master = master
         if operation == "load":
             self._unlockTheData(file_line)
+        elif operation == "save":
+            self._getTrainingToFile(data_list)
 
     def _unlockTheData(self, file_line):
         """Funkce rozklíčuje data ze souboru a přiřadí je objektu."""
@@ -61,3 +70,44 @@ class OneTraining ():
         """Metoda nastaví tréninku id jako jeho vlastnost."""
         increaseID(training_id)
         self.id = training_id
+    
+    def _getTrainingToFile (self, data_list : list) -> None:
+        """Uloží data do souboru ve správném formátu."""
+        calendar_date = data_list[0]
+        self.sport = data_list[1]
+        self.date = self._editDateFormat(calendar_date) # úprava zápisu data
+        training_list = [self.date, self.sport]
+        SetSport.fillListForFile(self.master, training_list)
+        training_list = self._isSetted(training_list)# při nezadání vstupu přidá neuvedeno
+        prepared_string = General.prepareString(training_list)
+        self._writeToFile(prepared_string)
+
+
+    def _editDateFormat(self, original_date :str) -> str:
+        """Metoda pro přepsaní data z formátu tkinterového 
+        kalendáře do formátu českého zápisu data."""
+        mmddyy = original_date.split("/")# převedení údajů (měsíc, datum, rok) do listu
+        for i in range(len(mmddyy)):  # přidání 0 před číslo, pokud je menší než 10
+            if int(mmddyy[i]) < 10:
+                mmddyy[i] = "0" + mmddyy[i]
+        # vytvoření stringu s českým datem
+        formated_date = mmddyy[1] + ". " + mmddyy[0] + ". " + mmddyy[2]
+        return formated_date
+
+    def _writeToFile (self, string):
+        """Metoda pro zapsání dat do souboru."""
+        with open(trainings_path, 'a') as f:  
+            f.write(string + " / \n")
+
+    def _isSetted (self, list : list) -> list:
+        """Pro nezadané položky listu ("") zadá do proměnné, že údaj nebyl uveden. """
+        for i in range(len(list)):
+            list[i] = self._setUnknow(list[i])
+        return list
+
+    def _setUnknow (self, entry : str) -> None:
+        """Nastavý zadaný parametr na neuvedený, pokud je užvatelský vstup prázdný."""
+        if entry:
+            return entry
+        else:
+            return unknown_text

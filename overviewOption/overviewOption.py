@@ -71,7 +71,7 @@ class Overview (ctk.CTkFrame):
         """Metoda vytvoří pole jednotlivých tréninků."""
         trainings = []
         for one_line in data_lines:
-            one_training = OneTraining("load", one_line)
+            one_training = OneTraining(self, "load", one_line)
             trainings.append(one_training)
         return trainings
     

@@ -110,7 +110,7 @@ class TabelContentFiller ():
         # vytvoření objektů jednotlivých tréninků
         trainings = []
         for one_line in lines:
-            one_training = OneTraining("load", one_line)
+            one_training = OneTraining(self, "load", one_line)
             # vyhodnocení, zda trénink je v tomto kalendáři vidět
             between = one_training.trainingDateBetween(self.first_date, self.last_date)
             if between:
