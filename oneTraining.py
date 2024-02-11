@@ -1,16 +1,11 @@
 #importy knohven
 from datetime import date
 #importy souborů
-<<<<<<< HEAD
-from configuration import free_day
 from sports.setSport import SetSport
-from globalVariables import increaseID
-from globalVariables import training_id
-=======
+from globalVariables import increaseID, training_id
 from configuration import free_day, trainings_path, unknown_text
 from sports.setSport import SetSport
 from general import General
->>>>>>> refaktoring
 
 class OneTraining ():
     """Třída pro vytvoření instance jednoho tréninku z dat v souboru.
@@ -26,6 +21,7 @@ class OneTraining ():
     def _unlockTheData(self, file_line):
         """Funkce rozklíčuje data ze souboru a přiřadí je objektu."""
         # rozdělení řádku ze souboru na jednolivé údaje
+        print(file_line)
         data_list = self._separateData(file_line)
         # nastavení od tréninku
         self._setTrainingID()
@@ -81,7 +77,6 @@ class OneTraining ():
         training_list = self._isSetted(training_list)# při nezadání vstupu přidá neuvedeno
         prepared_string = General.prepareString(training_list)
         self._writeToFile(prepared_string)
-
 
     def _editDateFormat(self, original_date :str) -> str:
         """Metoda pro přepsaní data z formátu tkinterového 
