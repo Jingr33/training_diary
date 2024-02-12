@@ -14,7 +14,7 @@ class UpdateWindow (ctk.CTkToplevel):
         self.title_text = self._titleText()
         self.title(self.title_text)
         self.grab_set()
-        self.protocol('WM_DELETE_WINDOW', self._kill)
+        self.protocol('WM_DELETE_WINDOW', self.kill)
         self.geometry("400x180")
         self.resizable(False, False)
         # frame
@@ -31,7 +31,7 @@ class UpdateWindow (ctk.CTkToplevel):
         text = "Upravit trénink " + str(sport)
         return text
 
-    def _kill (self) -> None:
+    def kill (self) -> None:
         """Zavření okna."""
         self.master.rowSettings()
         self.destroy()

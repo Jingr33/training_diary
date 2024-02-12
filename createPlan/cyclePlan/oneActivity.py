@@ -79,7 +79,6 @@ class OneActivity (Label):
         dt = 15
         width = self.winfo_width()
         if width > 0:
-            print(width)
             self.configure(width = width)
             width = width - 5
             self.after(dt, self._detsroyAnimation)

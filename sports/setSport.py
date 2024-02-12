@@ -155,3 +155,11 @@ class SetSport():
             Gym.updateGymGUI(master, training)
         elif value == sport_list[1]: # běh
             Run.updateRunGUI(master, training)
+
+    @staticmethod
+    def updateTrainingData (master : object) -> None:
+        """Získá data zadaná uživatelem v okně pro úpravu jednotlivého tréninku v Overview."""
+        if master.main_values[1] == sport_list[0]: # posilovna
+            Gym.updateGymData(master)
+        elif master.main_values[1] == sport_list[1]: # běh
+            Run.updateRunData(master)

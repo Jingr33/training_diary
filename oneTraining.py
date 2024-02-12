@@ -17,11 +17,12 @@ class OneTraining ():
             self._unlockTheData(file_line)
         elif operation == "save":
             self._getTrainingToFile(data_list)
+        elif operation == "update":
+            self._updateTraining(data_list)
 
     def _unlockTheData(self, file_line):
         """Funkce rozklíčuje data ze souboru a přiřadí je objektu."""
         # rozdělení řádku ze souboru na jednolivé údaje
-        print(file_line)
         data_list = self._separateData(file_line)
         # nastavení od tréninku
         self._setTrainingID()
@@ -102,7 +103,14 @@ class OneTraining ():
 
     def _setUnknow (self, entry : str) -> None:
         """Nastavý zadaný parametr na neuvedený, pokud je užvatelský vstup prázdný."""
-        if entry:
+        if entry != "":
             return entry
         else:
             return unknown_text
+
+    def _updateTraining (self, data_list : list) -> None:
+        """Updatuje údaje o zadaném tréninku a přidá ho do databáze (starý ale nesmaže)."""
+        data_list = self._isSetted(data_list)# při nezadání vstupu přidá neuvedeno
+        prepared_string = General.prepareString(data_list)
+        print(prepared_string)
+        self._writeToFile(prepared_string)

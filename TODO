@@ -1,7 +1,7 @@
 """OVERVIEW"""
-# Dodělej mazání a upravu tréniků a animaci k tomu
-# zkus tam dat ozubene kolečko jako nastavení nebo nějaké button pro vymazání 
 # obrázek setting buttonu opravit
+# regenerace tréninků při smazání nebo úoravě, ať tam nevznikají nehezké řádky a nový trénink se ukáže hned
+# přidat načítánímax několika tréninků, aby se to nesekalo kvůli tvorbě mnoha widgetů
 
 """TRAINING PLAN"""
 # CycleTraining -> nejde měnění nstavení columnconfiguration při zvětšování a zmenšování počtu dní

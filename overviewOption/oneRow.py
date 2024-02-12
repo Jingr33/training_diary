@@ -45,7 +45,7 @@ class OneRow (ctk.CTkFrame):
 
     def _initSetting (self) -> None:
         """Vygeneruje widety ve variantě pro nastavení."""
-        delete_button = Button(self, "Smazat", self._deleteRow)
+        delete_button = Button(self, "Smazat", self.deleteRow)
         delete_button.pack(side = LEFT, fill = ctk.BOTH, expand=TRUE, padx = 4, pady = 4)
         delete_button.configure(fg_color = colors["dark-red"], hover_color = colors["dark-red-hover"])
         self.setting_widgets.append(delete_button)
@@ -115,7 +115,7 @@ class OneRow (ctk.CTkFrame):
             image = img("images//back_icon.png", (20, 20))
         self.setting_button.configure(image = image)
 
-    def _deleteRow(self) -> None:
+    def deleteRow(self) -> None:
         """Metoda smaže řádek z tabulky a vymaže trénink ze záznamů po kliknutí na 
         tlačítko smazat."""
         # vymazání tréninku z databázového souboru s tréninky

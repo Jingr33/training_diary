@@ -170,3 +170,7 @@ class Run (Sport):
 
         master.specific_widgets = [dist_l, dist_e]
         master.next_row = master.next_row + 1
+
+    def updateRunData (master : object) -> None:
+        """Přidá do listu self.main_values hodnoty specifické pro trénink posilovna."""
+        master.main_values.extend([master.var_dist.get()])

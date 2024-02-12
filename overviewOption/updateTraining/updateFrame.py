@@ -2,6 +2,7 @@
 from tkinter import *
 import customtkinter as ctk
 # impor souborů
+from oneTraining import OneTraining
 from sports.setSport import SetSport
 from ctkWidgets import Frame, Label, Entry, ComboBox, Button
 from configuration import sport_list
@@ -43,12 +44,21 @@ class UpdateFrame (Frame):
         sport_l = Label(self, "Sport:")
         sport_l.grid(column = 2, row = self.next_row, sticky = ctk.E, padx=self.label_padx)
 
-        sport_cb = ComboBox(self, sport_list, self._regenerateSpecificGUI, self.training.sport)
-        sport_cb.grid(column = 3, row=self.next_row)
-        sport_cb.configure(width = self.box_width)
-        sport_cb.set(self.training.sport)
+        self.sport_cb = ComboBox(self, sport_list, self._regenerateSpecificGUI, self.training.sport)
+        self.sport_cb.grid(column = 3, row=self.next_row)
+        self.sport_cb.configure(width = self.box_width)
+        self.sport_cb.set(self.training.sport)
 
-        self.next_row = 1 # následující řádek
+        time_l = Label(self, "Čas:")
+        time_l.grid(column = 0, row = self.next_row + 1, sticky=ctk.E, padx=self.label_padx)
+
+        self.var_time = StringVar()
+        time_e = Entry(self, self.var_time)
+        time_e.grid(column = 1, row=self.next_row + 1)
+        time_e.configure(width = self.box_width)
+        self.var_time.set(self.training.time)
+
+        self.next_row = 2 # následující řádek
 
     def _specificGUI (self, value : str) -> None:
         """Widgety specifické pro každý typ sportu."""
@@ -56,7 +66,7 @@ class UpdateFrame (Frame):
 
     def _saveButton (self) -> None:
         """Ukládací tlačítko."""
-        self.save_button = Button(self, "Upravit", self.updateTraining)
+        self.save_button = Button(self, "Upravit", self._updateTraining)
         self.save_button.grid(column = 2, columnspan = 2, row = self.next_row)
         self.specific_widgets.append(self.save_button)
 
@@ -64,13 +74,20 @@ class UpdateFrame (Frame):
         """Přegeneruje widgegty ve framu při přepnutí sportu v comboboxu."""
         if self.specific_widgets:
             self.specific_widgets = General.deleteListWidgets(self.specific_widgets)
-        self.next_row = 1 # upravení následujícího řádku
+        self.next_row = 2 # upravení následujícího řádku
         self._specificGUI(value)
         self._saveButton()
 
-    def updateTraining (self) -> None:
+    def _updateTraining (self) -> None:
         """uloží změny v tréninku do databáze tréninků."""
-        ...
+        values = self._getValuesList()
+        OneTraining(self, operation="update", data_list = values) # vytvoření tréninku s novými údaji
+        self.master.kill()
+        self.master.master.deleteRow() # smazání starého tréninku
 
-    def getValues (self) -> None:
-        """"""
+    def _getValuesList (self) -> list:
+        """Vrátí list zadaných hodnot."""
+        self.main_values = [self.var_date.get(), self.sport_cb.get(), self.var_time.get()]
+        SetSport.updateTrainingData(self)
+        return self.main_values
+    
