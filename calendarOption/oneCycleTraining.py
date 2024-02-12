@@ -62,7 +62,7 @@ class OneCycleTraining ():
     
     def _lengthThroughDates (self) -> int:
         """Vypočítá dělku tréninkového plánu pomocí počát. a konc. data."""
-        return int((self.end_date - self.start_date).days)
+        return int((self.end_date - self.start_date).days) + 1
     
     def _startNextCycle (self) -> dict:
         """Vytvoří slovník dat, kde klíč je číslo opakování cyklu a hodnota 

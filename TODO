@@ -12,10 +12,7 @@
 # přidat možnost zrušit jeden trénink nebo zrušit všechny tréninky tohoto typu( všechny, všechny následující, všechny předchozí)
 
 """NAČTENÍ CYKLICKÉHO TRÉNINKOVÉHO PLÁNU DO KALENDÁŘE"""
-# při loadování dat de používá víc funkcí pro načtení jednotlivých souborů -> spoj ty funkce aby se v konstruktoru volala jenom jedna.
-
-"""Overview"""
-#zkus co se stane když bude databaze treninku prazdna
+# při loadování dat se používá víc funkcí pro načtení jednotlivých souborů -> spoj ty funkce aby se v konstruktoru volala jenom jedna.
 
 """CALENDAR"""
 # kdyžtak předělej načítání dat, ať se nenačítají všechny tréninky ale jen ty co jsou potřeba

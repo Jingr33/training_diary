@@ -1,5 +1,6 @@
 #import knihoven
 from datetime import date, timedelta
+import copy
 #import souborů
 from configuration import free_day
 from oneTraining import OneTraining
@@ -38,11 +39,11 @@ class GhostTraining ():
         """Vytvoří list tréninků naplanovaných v zobrazeném období v kalendáři."""
         ghosts = []
         # cyklus přes období, ve kterém se vytváří tréninky
-        for i in range(first_cycle, last_cycle):
+        for i in range(first_cycle, last_cycle + 1):
             # cyklus přes trénikńky v plánu
-            for training in self.planned_trainings:
-                train_date = self._prepareDate(training, i)
-                ghost_training = training # trénink z plánu se zkkopíruje do ghosta
+            for j in range(len(self.planned_trainings)):
+                train_date = self._prepareDate(self.planned_trainings[j], i)
+                ghost_training = copy.deepcopy(self.planned_trainings[j]) # trénink z plánu se zkkopíruje do ghosta
                 one_training = OneTraining() # instance one_training
                 one_training.setGhostDate(ghost_training, train_date) # funkce nastaví tréninku datum
                 ghosts.append(ghost_training)
@@ -50,7 +51,7 @@ class GhostTraining ():
     
     def _prepareDate (self, training : object, index : int) -> date:
         """Vytvoří datum tréninku ve formátu date."""
-        day_shift = training.day # posun oproti začátku cyklu (počet dní)
+        day_shift = training.day - 1 # posun oproti začátku cyklu (počet dní)
         str_date = self.next_cycle_date[index] + timedelta(days = day_shift) # vytvoření data tréninku
         date_list = str(str_date).split("-")
         dt_date = date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
