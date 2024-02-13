@@ -1,6 +1,8 @@
 """OVERVIEW"""
-# Dodělej mazání a upravu tréniků a animaci k tomu
-# zkus tam dat ozubene kolečko jako nastavení nebo nějaké button pro vymazání 
+# Reload při smazání neboúpravě tréninku
+# ikony nastavení změn a oprav pozadí
+# potvrzovací oknoo při uprave a smazani trninku
+# nacitani jenom části dat pri tvorbe Overview
 
 """TRAINING PLAN"""
 # CycleTraining -> nejde měnění nstavení columnconfiguration při zvětšování a zmenšování počtu dní
@@ -8,13 +10,8 @@
 # přídat potvrzovací frame, že tréninkový plán se uložil
 # přídat přednastavené hodnoty začátku a konce tréninkového plánu (teď, navždy)
 
-"""DALŠÍ"""
-# přidat možnost zrušit jeden trénink nebo zrušit všechny tréninky tohoto typu( všechny, všechny následující, všechny předchozí)
-
 """NAČTENÍ CYKLICKÉHO TRÉNINKOVÉHO PLÁNU DO KALENDÁŘE"""
 # při loadování dat se používá víc funkcí pro načtení jednotlivých souborů -> spoj ty funkce aby se v konstruktoru volala jenom jedna.
 
 """CALENDAR"""
-# kdyžtak předělej načítání dat, ať se nenačítají všechny tréninky ale jen ty co jsou potřeba
 # obarvi ghosty na bílo -> barvy dodělané, ale fakt hrozně
-# vůbec se ty tréninky nezobrazují správně -> sprav to
