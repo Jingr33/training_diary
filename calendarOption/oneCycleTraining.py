@@ -58,7 +58,8 @@ class OneCycleTraining ():
 
     def _lengthThroughCycles (self) -> int:
         """Vypočítá délku tréninkového plánu pomocí počtu cyklů."""
-        return int(self.cycles * self.days_length)
+        length = int(self.cycles) * int(self.days_length)
+        return length
     
     def _lengthThroughDates (self) -> int:
         """Vypočítá dělku tréninkového plánu pomocí počát. a konc. data."""

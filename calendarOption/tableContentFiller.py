@@ -58,9 +58,7 @@ class TabelContentFiller ():
                 continue
             # vypočet data začátku nového cyklu tréninkového plánu nejblíže před začátkem zobrazovaného období a po konci zobrazovaného období
             first_cycle = self._nearestDateToStart(plan)
-            print(plan.next_cycle[first_cycle])
             last_cycle = self._nearestDateToEnd(plan)
-            print(plan.next_cycle[last_cycle])
             # vygenerování plánovaných tréninků do kalendáře.
             ghost_trainings = self._GhostTrainings(plan, first_cycle, last_cycle)
             # vykreslení tréninků
@@ -70,10 +68,8 @@ class TabelContentFiller ():
         """Rozhodne, zda se tréninkový plán a zobrazené období v kalendáři časově protínají.
         Ano - tréninky se vypíší, Ne - tréninkový plán se přeskočí."""
         if self.last_date < train_plan.start_date:
-            print("za koncem")
             return False
         elif self.first_date > train_plan.end_date:
-            print("pred zacatkem")
             return False
         return True
 
@@ -87,6 +83,7 @@ class TabelContentFiller ():
                 if start_date == 0: # protože když to začíná uprostřed zobrazované části, tak by to hodilo index 0
                     start_date = 1
                 return start_date
+        return 1
 
     def _nearestDateToEnd (self, train_plan : object) -> int:
         """Najde nejbližší datum začátku dalšího cyklu tréninkového plánu po podlením datu
@@ -234,13 +231,14 @@ class TabelContentFiller ():
         prev_month_date = self._prevMonth(self.date) # data předchozího měsíce
         next_month_date = self._nextMonth(self.date) # data přístího měsíce
         key_dates = self._firstDay_NumOfDays(self.date) # klíčové údaje o zvoleném měsíci
+        key_dates_prev = self._firstDay_NumOfDays(prev_month_date) # klíčové údaje o předchozím měsíci
         # pokud je trénink v měsíci který odpovídá vybranému měsíci
         if training_date == self.date:
             frame_index = key_dates[0] + date_of_training.day - 1
-        # pokud je trénink v předchozím měsíci, al eve viditelné oblasti
+        # pokud je trénink v předchozím měsíci, ale ve viditelné oblasti
         elif training_date == prev_month_date:
             first_date = self._firstDate()  # první den zobrazený v kalendáři
-            frame_index = key_dates[1] - first_date.day - 1
+            frame_index = key_dates_prev[1] - first_date.day - 1
         # pokud je trénink v následujícím měsíci, ale ve viditelné oblasti
         elif training_date == next_month_date:
             frame_index = key_dates[0] + key_dates[1] + date_of_training.day - 1
