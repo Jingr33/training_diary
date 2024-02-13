@@ -11,11 +11,11 @@ class OneCycleTraining ():
     tréninkovém plánu."""
     def __init__(self, plan_data : list):
         self._setMainInfo(plan_data[0]) # zpracuje hlavní informace o plánu
-        self._setActivities(plan_data) # vytvoří list tréninků s aktivitami
         self._setDates() # nastavení dat ve formátu date
         self._missingData() # dolní chybějící data
         self.length = self._lengthThroughCycles() # nastavení délky cyklu v dních
         self.next_cycle = self._startNextCycle()
+        self._setActivities(plan_data) # vytvoří list tréninků s aktivitami
 
     def _setMainInfo (self, main_data : str) -> None:
         """Zpracuje a uloží data o začátku, konci, počtu cyklů a délce (počtu dní)

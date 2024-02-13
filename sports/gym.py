@@ -110,7 +110,7 @@ class Gym (Sport):
         """Rozklíčuje data z získané z tréninkové databáze pokud se
         jedná o trénink posilovna.
         Index_adjustment je úprava indexu, pokud tam chci poslat pole kde ty atributy neberu od 0."""
-        master.time = General.checkIntEntry(data_list[0 + index_adjustment])
+        master.time = Sport.floatEntryChecker(data_list[0 + index_adjustment])
         # zklouška, zda bylo něco zadáno
         if data_list[1 + index_adjustment] != unknown_text:
             master.leg = int(data_list[1 + index_adjustment])

@@ -75,3 +75,4 @@ class OneTraining ():
             return None
         self.sport = data_list[1]
         SetSport.findData(self, data_list)
+        print(self.time)
