@@ -79,7 +79,7 @@ class UpdateFrame (Frame):
         self._saveButton()
 
     def _updateTraining (self) -> None:
-        """uloží změny v tréninku do databáze tréninků."""
+        """Uloží změny v tréninku do databáze tréninků."""
         values = self._getValuesList()
         OneTraining(self, operation="update", data_list = values) # vytvoření tréninku s novými údaji
         self.master.kill()

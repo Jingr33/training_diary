@@ -100,7 +100,7 @@ class Sorting ():
         """Setřídí vložené listy v listu (2D listy) podle detailů a vrátí ho."""
         sorted = []
         # vyřazení tréninků, které není možné setřídit
-        to_sort = self._elimUnsortable(to_sort, "time") 
+        to_sort = self._elimUnsortable(to_sort, "distance") 
         # list indexů pro slovníky
         index_list = self._indexList(len(to_sort))
         # slovník tréninků

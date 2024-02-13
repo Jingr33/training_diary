@@ -10,6 +10,7 @@ class Table (ctk.CTkScrollableFrame):
     """Třída pro vytvoření tabulky přehledu tréninků."""
     def __init__(self, master :ctk.CTkBaseClass, fileData: list):
         super().__init__(master)
+        self.master = master
         self.data = fileData # cesta souboru který načítám do tabulky
         # inicializace grafického rozhraní
         self.initContent(self.data)

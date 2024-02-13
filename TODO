@@ -8,12 +8,6 @@
 # OneDay -> V nastavení sportu se přejmenují všechny comboBoxy, když zvolím nějakou možnost sportu - to oprav 
 # přídat potvrzovací frame, že tréninkový plán se uložil
 
-"""DALŠÍ"""
-# přidat možnost zrušit jeden trénink nebo zrušit všechny tréninky tohoto typu( všechny, všechny následující, všechny předchozí)
-
 """NAČÍTÁNÍ TRÉNINKŮ"""
 # přidat možnost, aby mohly být některé věci nezadány
 # upravit slovo nazadano pro nacitani treninku
-
-"""SETFRAME"""
-# dodělat špatné vstupy na set framu

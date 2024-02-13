@@ -120,7 +120,10 @@ class OneRow (ctk.CTkFrame):
         tlačítko smazat."""
         # vymazání tréninku z databázového souboru s tréninky
         self._deleteFromFile(trainings_path, self.training.id)
-        # zničení framu s řádkem tréninku
+        # skrytí framu, regenrování tabulky, zničení framu
+        self._frameHide()
+        actual_trainings = self.master.master.getActualTrainings()
+        self.master.master.regenerateTable(actual_trainings)
         self._frameDestroy()
 
     def _updateRow(self) -> None:
@@ -136,6 +139,10 @@ class OneRow (ctk.CTkFrame):
                 if (i + 1) != training_id:
                     f.write(rows[i])
 
+    def _frameHide (self) -> None:
+        """Metoda schová frame (od-zobrazí ho), ale frame zůstane existovat."""
+        self.pack_forget()
+
     def _frameDestroy (self) -> None:
-        """Smazaní řádku s térninkem z tabulky v Overview."""
+        """Smazání framu."""
         self.destroy()

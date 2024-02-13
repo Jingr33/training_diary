@@ -4,6 +4,7 @@ import customtkinter as ctk
 # import souborů
 from overviewOption.table import Table
 from oneTraining import OneTraining
+from general import General
 from configuration import trainings_path
 from overviewOption.filterFrame import FilterFrame
 from overviewOption.legend import Legend
@@ -14,14 +15,13 @@ class Overview (ctk.CTkFrame):
     """Třída pro vyvolání obsahu při zvolení možnosti přehled v menu."""
     def __init__(self, master :ctk.CTkBaseClass):
         super().__init__(master)
-        self.filtered_trainings = None
+        self.filtered_trainings = None # vyfiltrované tréninky
+        self.current_sorting = None # vytříděné tréninky
 
         # načtení dat po trénincích
         lines = self.laodFileLines(trainings_path)
-
         #pole jednotlivých instancí tréninků
         self.trainings = self.makeTrainings(lines)
-
         #vytvoření filtrovacího rozhraní
         self._initFilters()
         # vytvoření legendy tabulky
@@ -45,13 +45,11 @@ class Overview (ctk.CTkFrame):
         self.filter_frame.pack(side=TOP, fill=ctk.X, expand=False)
         self.filter_frame.configure(corner_radius = 0)
 
-
     def _initLegend (self) -> None:
         """Vytvoří frame s legendou tabulky."""
         self.legend = Legend(self)
         self.legend.pack(side=TOP, fill = ctk.X, padx = 0, pady=0)
         self.legend.configure(height = 45, corner_radius = 0)
-
 
     def _initTable(self, trainings) -> None:
         """Metoda iniciuje vytvoření tabulky přehledu tréninků."""
@@ -84,20 +82,21 @@ class Overview (ctk.CTkFrame):
         # vyfiltrování dat
         sorting = Sorting(trainings, sort_levels)
         sorted_trainings = sorting.GetSortedTrainings()
+        self.current_sorting = sorted_trainings 
         # přegenerování tréninků v tabulce
-        self._resortTable(sorted_trainings)
+        self.regenerateTable(sorted_trainings)
 
-    def _resortTable (self, sorted_trainings : list) -> None:
+    def regenerateTable (self, sorted_trainings : list) -> None:
         """Ze vstupních dat přegeneruje obsah tabulky a setřídí data 
         podle uživatelových požadavků."""
-        for widget in self.table.winfo_children():
-            widget.destroy()
+        General.deleteFrameWidgets(self.table)
         self.table.initContent(sorted_trainings)
-
 
     def getActualTrainings (self) -> list:
         """Vrátí list vyfiltrovaných (resp. nevyfiltrovaných) tréninků
         aktuálně zvolených uživatelem."""
+        if self.current_sorting:
+            return self.current_sorting
         if self.filtered_trainings:
             return self.filtered_trainings
         return self.trainings

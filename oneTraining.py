@@ -112,5 +112,4 @@ class OneTraining ():
         """Updatuje údaje o zadaném tréninku a přidá ho do databáze (starý ale nesmaže)."""
         data_list = self._isSetted(data_list)# při nezadání vstupu přidá neuvedeno
         prepared_string = General.prepareString(data_list)
-        print(prepared_string)
         self._writeToFile(prepared_string)
