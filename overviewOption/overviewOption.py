@@ -37,7 +37,7 @@ class Overview (ctk.CTkFrame):
         # nová iniciace tabulky s vyfiltrovanými daty
         for widget in self.table.winfo_children():
             widget.destroy()
-        self.table.initContent(self.filtered_trainings)
+        self.table._initContent(self.filtered_trainings)
 
     def _initFilters (self) -> None:
         """Vytvoří scrollable frame s filtrovacím rozhraním."""
@@ -90,7 +90,7 @@ class Overview (ctk.CTkFrame):
         """Ze vstupních dat přegeneruje obsah tabulky a setřídí data 
         podle uživatelových požadavků."""
         General.deleteFrameWidgets(self.table)
-        self.table.initContent(sorted_trainings)
+        self.table.initGUI(sorted_trainings)
 
     def getActualTrainings (self) -> list:
         """Vrátí list vyfiltrovaných (resp. nevyfiltrovaných) tréninků

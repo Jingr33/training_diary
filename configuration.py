@@ -68,3 +68,6 @@ sorting_text_color = {
     3 : "#000000",
     4 : "#000000",
 }
+
+# Overview - počet viditelných řádků na jedno zobrazení
+displayed_rows = 20
