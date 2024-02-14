@@ -9,6 +9,7 @@ class Sorting ():
     def __init__(self, trainings : list, sort_levels : dict):
         self.trainings = trainings # vytvoří se 2D list
         self.sort_levels = sort_levels # slovník úrovní jedlotlivých položek k setřídění
+        self.unsortable = [] # pro tréninky, které nelze setřídit
         # slovník přiřazující třídící metodu k jednotlivým tlačítkům
         self.sort_functions = {
             "b_date" : self._sortByDate,
@@ -16,12 +17,12 @@ class Sorting ():
             "b_time" : self._sortByTime,
             "b_details" : self._sortByDetails,
         }
-
         # střídění tréninků
         self._sortInOrder()
 
     def GetSortedTrainings (self) -> list:
         """Vrátí list setříděných tréninků."""
+        self.sorted_trainings.extend(self.unsortable)
         return self.sorted_trainings
     
     def _sortInOrder (self) -> None:
@@ -83,6 +84,8 @@ class Sorting ():
     def _sortByTime (self, to_sort : list) -> list:
         """Setřídí vložené listy v listu (2D listy) podle času a vrátí ho."""
         sorted = []
+        # vyřazení tréninků, které není možné setřídit
+        to_sort = self._elimUnsortable(to_sort, "time") 
         # list indexů pro slovníky
         index_list = self._indexList(len(to_sort))
         # slovník tréninků
@@ -96,12 +99,12 @@ class Sorting ():
     def _sortByDetails (self, to_sort : list) -> list:
         """Setřídí vložené listy v listu (2D listy) podle detailů a vrátí ho."""
         sorted = []
+        # vyřazení tréninků, které není možné setřídit
+        to_sort = self._elimUnsortable(to_sort, "distance") 
         # list indexů pro slovníky
         index_list = self._indexList(len(to_sort))
         # slovník tréninků
         trainings = self._trainingDict(to_sort, index_list)
-        # slovník časů pro třídění
-        # sort_elems = self._sortTimeDict(to_sort, index_list)
         # roztříděný list tréninků
         to_sort = self._sortIt_details(trainings)
         return to_sort
@@ -145,9 +148,8 @@ class Sorting ():
         """Vrátí slovník s časy (podle kterých se třídí) a jejich klíči."""
         sort_elems = {}
         for i in range(len(to_sort)):
-            sort_elems[index_list[i]] = int(to_sort[i].distance)
+            sort_elems[index_list[i]] = float(to_sort[i].distance)
         return sort_elems
-
 
     def _sortIt (self, sort_elems : dict, trainings : dict) -> list:
         """Setřídí prvky ve slovníku podle kterého se třídí, 
@@ -186,6 +188,18 @@ class Sorting ():
         """Vyhodnotí, zda se jednolivé listy třídí a setřídí je."""
         sorted_trainings = SetSport.sortEachTrainingDict(self, training_dict, key)
         return sorted_trainings
+    
+    def _elimUnsortable(self, trainings : list, criterion : str) -> list:
+        """Vyřadí z tréninkového listu určeného k setřídění tréniky, které nelze
+        uspořadát podle požadovaného kritéria. Vyřazené přidá do listu netříditelných tréninků."""
+        checked_trainings = []
+        for training in trainings:
+            try:
+                float(getattr(training, criterion))
+                checked_trainings.append(training)
+            except:
+                self.unsortable.append(training)
+        return checked_trainings
        
     def _createOverlist (self, groups : dict) -> list:
         """Vytvoří nadlist složený z vnitřích listů jednotlivých skupin."""

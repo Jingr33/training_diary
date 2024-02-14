@@ -51,3 +51,11 @@ class Sport():
         """Zapíše vlastnosti tréninku posilovna do listu."""
         data_list = [training.date, training.sport]
         return data_list
+    
+    @staticmethod
+    def hasAttribute (object : object, attribute : str, negative) -> str:
+        """Metoda ověří, zda má objekt atribut, pokud ano, vrátí ho, pokud ne, vrátí negative."""
+        if hasattr(object, attribute):
+            return getattr(object, attribute)
+        else:
+            return negative
