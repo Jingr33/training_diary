@@ -8,8 +8,3 @@
 2 / bìh / 75 / 8
 3 / volno
 ;
-03/02/2024 /  / 2 / 3
-1 / bìh / nezadano / nezadano
-2 / volno
-3 / posilovna / nezadano / nezadano
-;
