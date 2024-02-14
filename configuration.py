@@ -18,6 +18,7 @@ menu_list = ["Přehled", "Kalendář", "Další"]
 
 # nezadaný vstup
 unknown_text = "nezadano"
+unknown_text_label = "––"
 
 # cesta k souboru se všemi uloženými tréninky
 trainings_path = "training_database.txt"
@@ -51,6 +52,9 @@ colors = {
     "gray" : "#333333",
     "dark-gray" : "#2c2c2c",
     "light-gray" : "#444444",
+    "dark-red" : "#850101",
+    "dark-red-hover" : "#823e3e",
+    "dark-blue" : "#012f57",
 }
 
 #barvy stupňů třídění tréninků v přehledu
@@ -68,3 +72,6 @@ sorting_text_color = {
     3 : "#000000",
     4 : "#000000",
 }
+
+# Overview - počet viditelných řádků na jedno zobrazení
+displayed_rows = 20

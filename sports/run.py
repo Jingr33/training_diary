@@ -88,3 +88,90 @@ class Run (Sport):
         """Zapíše vlastnosti tréninku posilovna do listu."""
         data_list = [training.date, training.sport, training.time, training.distance]
         return data_list
+    
+    @staticmethod
+    def runDetailsInOverview (master : object):
+        """Metoda pro vytvoření specifických údajů o běhu do tabulky."""
+        distance_text = str(master.training.distance) + " km"
+        distance_l = Label(master, distance_text)
+        distance_l.pack(side = LEFT, fill = ctk.Y)
+        distance_l.configure(width = 250, height = 40, anchor = ctk.W)
+        master.content_wigets.append(distance_l)
+
+    @staticmethod
+    def setFrameRunWidgets (master : object):
+        """Vytvoření nastavovacích okének pro přidání tréninku BĚH."""
+        # zadání kilometrů
+        Label(master, 'Kilometry (km)').pack(anchor=ctk.W)
+        Entry(master, master.var_distance).pack(anchor=ctk.W)
+        master.distance_error_l = Label(master, "", ("Arial", 10))
+        master.distance_error_l.pack(anchor=ctk.W, side=TOP)
+
+    @staticmethod
+    def RunListForFile(master : object, training_list : list) -> None:
+        """Přidá k listu dat specifické informace o tréninku typu běh pro zapsání dat do 
+        tréninkové databáze."""
+        training_list.extend([master.var_time.get(), master.var_distance.get()])
+        return training_list
+    
+    @staticmethod
+    def verifyRun (master : object) -> bool:
+        """Ověří vstupy posilovny při zadávání nového tréninku."""
+        entry = master.var_distance.get()
+        verify_distance = False
+        try:
+            if entry:
+                float(entry)
+                master.distance_error_l.configure(text = "")
+            verify_distance = True
+        except:
+            master.distance_error_l.configure(text_color = 'red', text="Špatně zadaná hodnota.")
+        return verify_distance
+
+    @staticmethod
+    def rundistanceFiltrator(master : object, distance_run_filter :list) -> list:
+        """Vyfiltruje běh podle vzdálenosti."""
+        # pokud není filtr nastavený -> trénink projde filtrem vždy
+        bottom_condition = False # podmínka při nezadaném spodním filtru
+        top_condition = False # podmínika při nezadaném horním filtru
+        # spodní hranice filtru
+        if distance_run_filter[0] == "":
+            bottom_condition = True
+            distance_run_filter[0] = "0"
+        # horní hranice filtru
+        if distance_run_filter[1] == "":
+            top_condition = True
+            distance_run_filter[1] = "0"
+        # vytřídění dat podle zadaných mezí
+        filtered = []
+        for training in master.filtered_data:
+                if training.sport == sport_list[1]:
+                    try:
+                        float(training.distance)
+                        if (((float(training.distance) >= float(distance_run_filter[0])) or bottom_condition)
+                            and ((float(training.distance) <= float(distance_run_filter[1])) or top_condition)):
+                            filtered.append(training)
+                    except:
+                        continue
+                else:
+                    filtered.append(training)
+        return filtered
+
+    def updateRunGUI (master : object, training : object) -> None:
+        """Vytvoří widgety v okně pro úpravu tréninků v Overview, pokud se vybere trénink běh."""
+        dist_l = Label(master, "Vzdálenost: ") # label
+        dist_l.grid(column = 0, row = master.next_row, sticky = ctk.E)
+        dist_l.configure()
+
+        master.var_dist = StringVar()
+        dist_e = Entry(master, master.var_dist) # entry
+        dist_e.grid(column = 1, row = master.next_row, padx=master.label_padx)
+        dist_e.configure(width = master.box_width)
+        master.var_dist.set(Sport.hasAttribute(training, "distance", ""))
+
+        master.specific_widgets = [dist_l, dist_e]
+        master.next_row = master.next_row + 1
+
+    def updateRunData (master : object) -> None:
+        """Přidá do listu self.main_values hodnoty specifické pro trénink posilovna."""
+        master.main_values.extend([master.var_dist.get()])

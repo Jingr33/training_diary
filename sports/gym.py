@@ -3,7 +3,7 @@ import customtkinter as ctk
 from tkinter import *
 #importy souborů
 from sports.sport import Sport
-from configuration import sport_list, sport_color, gym_body_parts, unknown_text
+from configuration import sport_list, sport_color, gym_body_parts, unknown_text, unknown_text_label
 from ctkWidgets import Label, Entry, CheckBox
 from general import General
 
@@ -110,7 +110,7 @@ class Gym (Sport):
         """Rozklíčuje data z získané z tréninkové databáze pokud se
         jedná o trénink posilovna.
         Index_adjustment je úprava indexu, pokud tam chci poslat pole kde ty atributy neberu od 0."""
-        master.time = General.checkIntEntry(data_list[0 + index_adjustment])
+        master.time = Sport.floatEntryChecker(data_list[0 + index_adjustment])
         # zklouška, zda bylo něco zadáno
         if data_list[1 + index_adjustment] != unknown_text:
             master.leg = int(data_list[1 + index_adjustment])
@@ -125,6 +125,24 @@ class Gym (Sport):
             master.practicedParts = Gym.practicedPartsString(master)
         else:
             master.practicedParts = unknown_text
+
+        # master.time = data_list[2]
+        # master.leg = int(data_list[3])
+        # master.core = int(data_list[4])
+        # master.breast = int(data_list[5])
+        # master.shoulders = int(data_list[6])
+        # master.back = int(data_list[7])
+        # master.biceps = int(data_list[8])
+        # master.triceps = int(data_list[9])
+        # master.forearm = int(data_list[10])
+        # # vytvoření vlastnosti practicedParts
+        # isset = (master.leg + master.core + master.breast + master.shoulders + master.back + 
+        #          master.biceps + master.triceps + master.forearm)
+        # if isset:
+        #     master.practicedParts = Gym.practicedPartsString(master)
+        # else:
+        #     master.practicedParts = unknown_text_label
+
 
     @staticmethod
     def practicedPartsString (master : object):
@@ -188,3 +206,129 @@ class Gym (Sport):
                         training.shoulders, training.back, training.biceps, training.triceps,
                         training.forearm]
         return data_list
+
+    @staticmethod
+    def gymDetailsInOverview (master : object):
+        """Metoda pro vytvoření specifických údajů o posilovně do tabulky."""
+        practiced_l = Label(master, master.training.practicedParts)
+        practiced_l.pack(side = LEFT, fill = ctk.Y)
+        practiced_l.configure(width = 250, height = 40, anchor = ctk.W)
+        master.content_wigets.append(practiced_l)
+
+    @staticmethod
+    def setFrameGymWidgets (master : object):
+        """Vytvoření nastavovacích okének pro přidání tréninku POSILOVNA."""
+        # inicializace proměnných
+        master.var_legs = StringVar(value=0)
+        master.var_core = StringVar(value=0)
+        master.var_breast = StringVar(value=0)
+        master.var_shoulders = StringVar(value=0)
+        master.var_back = StringVar(value=0)
+        master.var_biceps = StringVar(value=0)
+        master.var_triceps = StringVar(value=0)
+        master.var_forearm = StringVar(value=0)
+        # vytvoření checkboxů s odcvičenými částmi
+        exercise_l = Label(master, "Odcvičeno")
+        exercise_l.pack(anchor=ctk.W)
+        leg_chb = CheckBox(master, gym_body_parts[0], master.var_legs)
+        leg_chb.pack(anchor=ctk.W)
+        core_chb = CheckBox(master, gym_body_parts[1], master.var_core)
+        core_chb.pack(anchor=ctk.W)
+        breast_chb = CheckBox(master, gym_body_parts[2], master.var_breast)
+        breast_chb.pack(anchor=ctk.W)
+        shoulders_chb = CheckBox(master, gym_body_parts[3], master.var_shoulders)
+        shoulders_chb.pack(anchor=ctk.W)
+        back_chb = CheckBox(master, gym_body_parts[4], master.var_back)
+        back_chb.pack(anchor=ctk.W)
+        biceps_chb = CheckBox(master, gym_body_parts[5], master.var_biceps)
+        biceps_chb.pack(anchor=ctk.W)
+        triceps_chb = CheckBox(master, gym_body_parts[6], master.var_triceps)
+        triceps_chb.pack(anchor=ctk.W)
+        forearm_chb = CheckBox(master, gym_body_parts[7], master.var_forearm)
+        forearm_chb.pack(anchor=ctk.W)
+
+    @staticmethod
+    def GymListForFile(master : object, training_list : list) -> None:
+        """Přidá k listu dat specifické informace o tréninku typu posilovna pro zapsání dat do 
+        tréninkové databáze."""
+        training_list.extend([master.var_time.get(), master.var_legs.get(), master.var_core.get(),
+                                master.var_breast.get(), master.var_shoulders.get(),
+                                master.var_back.get(), master.var_biceps.get(),
+                                master.var_triceps.get(), master.var_forearm.get()])
+        return training_list
+    
+    @staticmethod
+    def verifyGym (master : object) -> bool:
+        """Ověří vstupy posilovny při zadávání nového tréninku."""
+        return True # zatím netřeba ošetřovat
+    
+    @staticmethod
+    def gymPartsFiltrator(master : object, gym_parts_filter :list) -> list:
+        """Vyfiltruje posilovnu podle odcvičených částí."""
+        # vytvoření pole s názvy zvolených sportů ve filtru
+        strings_to_find = []
+        for i in range(len(gym_body_parts)):
+            if gym_parts_filter[i] == 1:
+                strings_to_find.append(gym_body_parts[i])
+        # cyklus přes tréninky
+        filtered = []
+        for training in master.filtered_data:
+            if training.sport == sport_list[0]: # výběr posilovacích tréninků
+                # každé slovo ze strings_to_find se zkusí najít v odcvičených sportech tréninku
+                for i in range(len(strings_to_find)):
+                    found = training.practicedParts.find(strings_to_find[i])
+                    if found >= 0:
+                        filtered.append(training)
+            else:
+                # pokud se nejedná o posilovnu, přidá se vždy
+                filtered.append(training)
+        return filtered
+
+    def updateGymGUI (master : object, training : object) -> None:
+        """Vytvoří widgety v okně pro úpravu tréninků v Overview, pokud se vybere trénink posilovna."""
+        master.var_leg = IntVar()
+        master.var_core = IntVar()
+        master.var_breast = IntVar()
+        master.var_shoulders = IntVar()
+        master.var_back = IntVar()
+        master.var_biceps = IntVar()
+        master.var_triceps = IntVar()
+        master.var_forearm = IntVar()
+        leg_chb = CheckBox(master, gym_body_parts[0], master.var_leg)
+        leg_chb.grid(column = 0, row = master.next_row)
+        leg_chb.configure(width=master.box_width)
+        core_chb = CheckBox(master, gym_body_parts[1], master.var_core)
+        core_chb.grid(column = 1, row = master.next_row)
+        core_chb.configure(width=master.box_width)
+        breast_chb = CheckBox(master, gym_body_parts[2], master.var_breast)
+        breast_chb.grid(column = 2, row = master.next_row)
+        breast_chb.configure(width=master.box_width)
+        shoulder_chb = CheckBox(master, gym_body_parts[3], master.var_shoulders)
+        shoulder_chb.grid(column = 3, row = master.next_row)
+        shoulder_chb.configure(width=master.box_width)
+        back_chb = CheckBox(master, gym_body_parts[4], master.var_back)
+        back_chb.grid(column = 0, row = master.next_row+1)
+        back_chb.configure(width=master.box_width)
+        biceps_chb = CheckBox(master, gym_body_parts[5], master.var_biceps)
+        biceps_chb.grid(column = 1, row = master.next_row+1)
+        biceps_chb.configure(width=master.box_width)
+        triceps_chb = CheckBox(master, gym_body_parts[6], master.var_triceps)
+        triceps_chb.grid(column = 2, row = master.next_row+1)
+        triceps_chb.configure(width=master.box_width)
+        forearm_chb = CheckBox(master, gym_body_parts[7], master.var_forearm)
+        forearm_chb.grid(column = 3, row = master.next_row+1)
+        forearm_chb.configure(width=master.box_width)
+        master.var_leg.set(Sport.hasAttribute(training, "leg", 0))
+        master.var_core.set(Sport.hasAttribute(training, "core", 0))
+        master.var_breast.set(Sport.hasAttribute(training, "breast", 0))
+        master.var_shoulders.set(Sport.hasAttribute(training, "shoulders", 0))
+        master.var_back.set(Sport.hasAttribute(training, "back", 0))
+        master.var_biceps.set(Sport.hasAttribute(training, "biceps", 0))
+        master.var_triceps.set(Sport.hasAttribute(training, "triceps", 0))
+        master.var_forearm.set(Sport.hasAttribute(training, "forearm", 0))
+        master.specific_widgets = [leg_chb, core_chb, breast_chb, shoulder_chb, back_chb, biceps_chb, triceps_chb, forearm_chb]
+        master.next_row = master.next_row + 2
+
+    def updateGymData (master : object) -> None:
+        """Přidá do listu self.main_values hodnoty specifické pro trénink posilovna."""
+        master.main_values.extend([master.var_leg.get(), master.var_core.get(), master.var_breast.get(), master.var_shoulders.get(), master.var_back.get(), master.var_biceps.get(), master.var_triceps.get(), master.var_forearm.get()])

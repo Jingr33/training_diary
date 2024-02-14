@@ -19,7 +19,7 @@ class OneActivity (Label):
         self.tooltip_alpha = 0.9
 
         #vytvoření objektu tréninku ze zadaných údajů
-        self.one_training = OneTraining()
+        self.one_training = OneTraining(self)
         self.one_training.setPlanData(selected_sport, details)
 
         # barva pozadí

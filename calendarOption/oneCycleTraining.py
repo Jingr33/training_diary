@@ -33,7 +33,7 @@ class OneCycleTraining ():
         a přidá je do listu."""
         self.activities = [None] * (len(plan_data) - 1)
         for i in range(1, len(plan_data)):
-            self.activities[i - 1] = OneTraining("load_plan", plan_data[i])
+            self.activities[i - 1] = OneTraining(self, "load_plan", plan_data[i])
 
     def _missingData (self) -> None:
         """Pokud některá z informací nebyla zadána, doplní se. (konec, počet cyklů)."""

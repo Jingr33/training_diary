@@ -1,6 +1,7 @@
 # import knihoven
 from datetime import date
 import os
+#import souborů
 from configuration import unknown_text
 
 class General():
@@ -66,12 +67,26 @@ class General():
             return None
         
     @staticmethod 
-    def checkKnownInt (integer_check : str) -> int:
+    def checkKnownInt (integer_check : str) -> float:
         """Zkontroluje, zda údaj ve tvaru integeru byl, pokud ne, uloží do proměnné None."""
         if integer_check == unknown_text:
             return None
-        return int(integer_check)
+        return float(integer_check)
     
+    # @staticmethod
+    # def lenghtOfPeriod (start : date, end : date) -> int:
+    #     """Metoda vrátí počet dní mezi počátečním a koncovým datem."""
+    #     ...
+
     @staticmethod
-    def lenghtOfPeriod (start : date, end : date) -> int:
-        """Metoda vrátí počet dní mezi počátečním a koncovým datem."""
+    def deleteFrameWidgets (widget_parent : object) -> None:
+        """Vymaže widgety ze zadaného framu."""
+        for widget in widget_parent.winfo_children():
+            widget.destroy()
+
+    @staticmethod
+    def deleteListWidgets (widgets : list) -> list:
+        """Vymaže widgety ze zadaného listu. Vrátí prázdný list"""
+        for widget in widgets:
+            widget.destroy()
+        return []

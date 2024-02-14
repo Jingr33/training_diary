@@ -100,3 +100,67 @@ class SetSport():
         elif training.sport == free_day: # volný den
             data_list = Sport.plan_FreeDayDataToList(training)
         return data_list
+    
+    @staticmethod
+    def detailsInOverview (master : object) -> None:
+        """Vytvoří label pro obsah detalního popisu tréninku v OneRow v přehledu tréninků."""
+        if master.training.sport == sport_list[0]: # posilovna
+            Gym.gymDetailsInOverview(master)
+        elif master.training.sport == sport_list[1]: # běh
+            Run.runDetailsInOverview(master)
+
+    @staticmethod
+    def setFrameWidgets (master : object, choice : str) -> None:
+        """Rozhodne, o který sport se jedná a vytvoří widgety pro nastavení tréninku daného sportu."""
+        if choice == sport_list[0]:
+            Gym.setFrameGymWidgets(master)
+        elif choice == sport_list[1]:
+            Run.setFrameRunWidgets(master)
+        else:
+            ... #TODO
+
+    @staticmethod
+    def fillListForFile (master : object, training_list : list) -> list:
+        """Rozhodne, o který sport se jedná a přidá k listu dat o tréninku specifické informace 
+        o sportu, který obsahuje do tréninkové databáze. Vrátí list s tréninkovými daty."""
+        if training_list[1] == sport_list[0]:
+            training_list = Gym.GymListForFile(master, training_list)
+        elif training_list[1] == sport_list[1]:
+            training_list = Run.RunListForFile(master, training_list)
+        else:
+            ... #TODO
+        return training_list
+    
+    @staticmethod
+    def verifyDetails (master : object) -> bool:
+        """Ověří vsupy detailů sportu při zadávání tréninku."""
+        if master.choice == sport_list[0]: # posilovna
+            verified = Gym.verifyGym(master)
+        elif master.choice == sport_list[1]: #běh
+            verified = Run.verifyRun(master)
+        return verified
+    
+    @staticmethod
+    def detailsFiltrator (master : object, detail_filter : list) -> list:
+        """Vyfiltruje data podle detalních možností sportů."""
+        # detaily posilovny
+        if detail_filter[0]:
+            master.filtered_data = Gym.gymPartsFiltrator(master, detail_filter[0])
+        # detaily běhu
+        master.filtered_data = Run.rundistanceFiltrator(master, detail_filter[1])
+
+    @staticmethod
+    def updateTrainingGUI (master : object, training : object, value : str) -> None:
+        """Vytvoří specifické GUI pro daný trénink, při udatování tréninkových hodnot."""
+        if value == sport_list[0]: # posilovna
+            Gym.updateGymGUI(master, training)
+        elif value == sport_list[1]: # běh
+            Run.updateRunGUI(master, training)
+
+    @staticmethod
+    def updateTrainingData (master : object) -> None:
+        """Získá data zadaná uživatelem v okně pro úpravu jednotlivého tréninku v Overview."""
+        if master.main_values[1] == sport_list[0]: # posilovna
+            Gym.updateGymData(master)
+        elif master.main_values[1] == sport_list[1]: # běh
+            Run.updateRunData(master)

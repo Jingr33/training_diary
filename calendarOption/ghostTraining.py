@@ -44,7 +44,7 @@ class GhostTraining ():
             for j in range(len(self.planned_trainings)):
                 train_date = self._prepareDate(self.planned_trainings[j], i)
                 ghost_training = copy.deepcopy(self.planned_trainings[j]) # trénink z plánu se zkkopíruje do ghosta
-                one_training = OneTraining() # instance one_training
+                one_training = OneTraining(self) # instance one_training
                 one_training.setGhostDate(ghost_training, train_date) # funkce nastaví tréninku datum
                 ghosts.append(ghost_training)
         return ghosts
