@@ -17,10 +17,11 @@ class OneTraining ():
             self._unlockTheData(file_line)
         elif operation == "save":
             self._getTrainingToFile(data_list)
-        elif operation == "update":
-            self._updateTraining(data_list)
         elif operation == "load_plan":
             self._setCyclePlanTraining(file_line)
+        elif operation == "update":
+            self._updateTraining(data_list)
+
 
     def setGhostDate (self, ghost_training : object, real_date : date) -> None:
         """Nastaví ghost tréninku datum ve kterém se bude zobrazovat."""

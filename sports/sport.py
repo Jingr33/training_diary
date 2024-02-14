@@ -32,7 +32,7 @@ class Sport():
             float(entry)
             return entry
         except:
-            if entry == "":
+            if entry == "" or entry == unknown_text:
                 return unknown_text
             else:
                 return None

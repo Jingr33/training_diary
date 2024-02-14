@@ -18,7 +18,6 @@ class TabelContentFiller ():
         self.last_date = self._lastDate()
         # list s kalendářními daty pro jednotlivé framy
         self.dates_list = self._datesDayList()
-
         # listy tréninků
         self.trainings = self._loadTrainingns()
         self.cycle_plans = self._loadCyclePlan()
@@ -238,7 +237,8 @@ class TabelContentFiller ():
         # pokud je trénink v předchozím měsíci, ale ve viditelné oblasti
         elif training_date == prev_month_date:
             first_date = self._firstDate()  # první den zobrazený v kalendáři
-            frame_index = key_dates_prev[1] - first_date.day - 1
+            # frame_index = key_dates_prev[1] - first_date.day - 1
+            frame_index = date_of_training.day - first_date.day
         # pokud je trénink v následujícím měsíci, ale ve viditelné oblasti
         elif training_date == next_month_date:
             frame_index = key_dates[0] + key_dates[1] + date_of_training.day - 1

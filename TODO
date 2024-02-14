@@ -1,14 +1,16 @@
 """OVERVIEW"""
+# ikony nastavení změn a oprav pozadí
+# potvrzovací oknoo při uprave a smazani trninku
 # obrázek setting buttonu opravit
+# bugují se různé kombinace filtrů a sortingu tak to nějak vyřeš
 
 """TRAINING PLAN"""
 # CycleTraining -> nejde měnění nstavení columnconfiguration při zvětšování a zmenšování počtu dní
 # OneDay -> V nastavení sportu se přejmenují všechny comboBoxy, když zvolím nějakou možnost sportu - to oprav 
-# přídat potvrzovací frame, že tréninkový plán se uložil
-# přídat přednastavené hodnoty začátku a konce tréninkového plánu (teď, navždy)
-
-"""NAČTENÍ CYKLICKÉHO TRÉNINKOVÉHO PLÁNU DO KALENDÁŘE"""
-# při loadování dat se používá víc funkcí pro načtení jednotlivých souborů -> spoj ty funkce aby se v konstruktoru volala jenom jedna.
+# přidat potvrzovací frame, že tréninkový plán se uložil
 
 """CALENDAR"""
 # obarvi ghosty na bílo -> barvy dodělané, ale fakt hrozně
+
+"""NAČÍTÁNÍ TRÉNINKŮ"""
+# upravit slovo nazadano pro nacitani treninku
