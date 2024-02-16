@@ -175,3 +175,11 @@ class Run (Sport):
     def updateRunData (master : object) -> None:
         """Přidá do listu self.main_values hodnoty specifické pro trénink posilovna."""
         master.main_values.extend([master.var_dist.get()])
+
+    def getRunTrainings (master : object) -> list:
+        """Vrátí list tréninků typu běh."""
+        run_trainings = []
+        for training in master.trainings:
+            if training.sport == sport_list[1]:
+                run_trainings.append(training)
+        return run_trainings

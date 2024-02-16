@@ -37,24 +37,11 @@ class OneTraining ():
         self._setTrainingID()
         # uložení data tréninku
         self.date = data_list[0]
+        self._setRealDate()
         #rozdělení tréninku podle sportu
         self.sport = SetSport.whichSport(data_list[1])
         # rozklíčuje a přiřadí data jako vlastnosti tréninku.
         SetSport.findData(self, data_list)
-
-    # def _unlockTheData(self, file_line):
-    #     """Funkce rozklíčuje data ze souboru a přiřadí je objektu."""
-    #     # rozdělení řádku ze souboru na jednolivé údaje
-    #     data_list = General.separateData(file_line)
-
-    #     # uložení data tréninku
-    #     self.date = data_list[0]
-
-    #     #rozdělení tréninku podle sportu
-    #     self.sport = SetSport.whichSport(data_list[1])
-
-    #     # rozklíčuje a přiřadí data jako vlastnosti tréninku.
-    #     SetSport.findData(self, data_list)
 
     def trainingDateBetween(self, first_date : date, second_date : date) -> bool:
         """Rozhodne, zda je datum mezi zadanými datovými hranicemi VČETNĚ."""
@@ -95,16 +82,15 @@ class OneTraining ():
         self.sport = data_list[1]
         SetSport.findData(self, data_list)
 
-    # def _separateData(self, data_line):
-    #     """Rozdělení dat z řádku na jednotlivé údaje."""
-    #     data_list = data_line.split(" / ")
-    #     del data_list[-1]
-    #     return data_list
-
     def _setTrainingID (self) -> None:
         """Metoda nastaví tréninku id jako jeho vlastnost."""
         increaseID(training_id)
         self.id = training_id
+
+    def _setRealDate (self) -> None:
+        """Nastaví tréninku vlastnost real_date. (datum ve formátu date)"""
+        date_list = self.date.split(". ")
+        self.real_date = date(int("20" + date_list[2]), int(date_list[1]), int(date_list[0]))
     
     def _getTrainingToFile (self, data_list : list) -> None:
         """Uloží data do souboru ve správném formátu."""

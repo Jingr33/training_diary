@@ -335,3 +335,11 @@ class Gym (Sport):
     def updateGymData (master : object) -> None:
         """Přidá do listu self.main_values hodnoty specifické pro trénink posilovna."""
         master.main_values.extend([master.var_leg.get(), master.var_core.get(), master.var_breast.get(), master.var_shoulders.get(), master.var_back.get(), master.var_biceps.get(), master.var_triceps.get(), master.var_forearm.get()])
+
+    def getGymTrainings (master : object) -> list:
+        """Vrátí list tréninků typu posilovna."""
+        gym_trainings = []
+        for training in master.trainings:
+            if training.sport == sport_list[0]:
+                gym_trainings.append(training)
+        return gym_trainings

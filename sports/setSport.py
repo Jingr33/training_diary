@@ -164,3 +164,13 @@ class SetSport():
             Gym.updateGymData(master)
         elif master.main_values[1] == sport_list[1]: # běh
             Run.updateRunData(master)
+
+    @staticmethod
+    def getOneSportTrainings(master : object, sport : str) -> list:
+        """Vrátí list tréninků patřící zadanému sportu."""
+        if sport == sport_list[0]:  #posilovna
+            trainings  = Gym.getGymTrainings(master)
+        elif sport == sport_list[1]: # běh
+            trainings = Run.getRunTrainings(master)
+        return trainings
+    

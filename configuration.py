@@ -14,7 +14,7 @@ ghost_color = {
 }
 
 # list výběrových tlačítek v menuFramu
-menu_list = ["Přehled", "Kalendář", "Další"]
+menu_list = ["Přehled", "Kalendář", "Statistiky"]
 
 # nezadaný vstup
 unknown_text = "nezadano"
@@ -75,3 +75,9 @@ sorting_text_color = {
 
 # Overview - počet viditelných řádků na jedno zobrazení
 displayed_rows = 20
+
+# možnosti v nastavení období, pro které graf vyobrazuje hodnoty 
+chart_range_option = ["den", "týden", "měsíc", "rok"]
+
+# pozadí framů s grafem
+chart_frame_color = "#262626"

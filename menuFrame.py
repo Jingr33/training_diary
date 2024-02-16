@@ -37,7 +37,8 @@ class Frame (ctk.CTkFrame):
             self.content_frame.calendarOption()
 
         elif option == menu_list[2]:
-            ... #TODO
+            self._oldWidgetsDestroy()
+            self.content_frame.StatisticsOption()
 
     def _oldWidgetsDestroy(self):
         """Metoda vymaže obsah contentFramu, při přepnutí na jinou záložku."""

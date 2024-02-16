@@ -1,6 +1,11 @@
 # import knihoven
 from datetime import date
 import os
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,) # pro přenesení matplotlibu do tkintru
+from tkinter import * 
+import customtkinter as ctk
+from math import floor
 #import souborů
 from configuration import unknown_text
 
@@ -90,3 +95,23 @@ class General():
         for widget in widgets:
             widget.destroy()
         return []
+    
+    @staticmethod
+    def pasteChart(master : object, grid : (tuple), columnspan : int) -> None:
+        """Vytvoří widgetu s matplotlib grafem.\n
+        master - objekt\n
+        grid - tuple (sloupec, řádek).\n
+        colulmnspan - int"""
+        # vytvoření figure
+        width = 100
+        height = 5
+        master.figure = Figure(figsize=(width, height), dpi=(100))
+        # převedení do tkinteru
+        figure_canvas = FigureCanvasTkAgg(master.figure, master)
+        figure_canvas.draw()
+        # vytvoření subplotu
+        master.dots = master.figure.add_subplot()
+        #vytvoření matplotlibu v tkinteru
+        widget = figure_canvas.get_tk_widget()
+        widget.grid(column = grid[0], row = grid[1], columnspan=columnspan, padx = 12, pady = 5)
+
