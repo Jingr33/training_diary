@@ -10,7 +10,7 @@ from statisticsOption.dataLoader import DataLoader
 from sports.setSport import SetSport
 from general import General
 from ctkWidgets import Frame, Label, ComboBox, Button, Entry
-from configuration import chart_range_option, chart_frame_color, sport_list
+from configuration import chart_range_option, chart_frame_color, sport_list, sport_color
 
 class SportChart (Frame):
     """Frame s grafem ukazující poměr vykonaných sportů."""
@@ -21,6 +21,9 @@ class SportChart (Frame):
         self.time_range_func = [self._dailyColumn, self._weeklyColumn, self._monthlyColumn, self._yearlyColumn]
         self.today = date.today()
         self.actual_date = self.today
+        self.figure = None
+        self.chart = None # proměnná pro graf
+        self.xdata = None # popisky osy x (data)
         self.configure(corner_radius = 10, fg_color = chart_frame_color)
         self._initGUI()
 
@@ -93,28 +96,65 @@ class SportChart (Frame):
     def _dailyColumn (self) -> list:
         """Rozdělí časové úseky po dni a vrátí list tuplů a počátečním a koncovým dnem
         časového úseku."""
+        periods = self._setColumnDates(0, 0, 1)
+        xdata = self._firstDatesList(periods)
+        self._chartXData(xdata, True, True)
+        return periods
+    
+    def _weeklyColumn (self) -> None:
+        periods = self._setColumnDates(0, 0, 7)
+        xdata = self._firstDatesList(periods)
+        self._chartXData(xdata, True, True)
+        return periods
+
+    def _monthlyColumn (self) -> None:
+        periods = self._setColumnDates(0, 1, 0)
+        xdata = self._firstDatesList(periods)
+        self._chartXData(xdata, True, False)
+        return periods
+    
+    def _yearlyColumn (self) -> None:
+        periods = self._setColumnDates(1, 0, 0)
+        xdata = self._firstDatesList(periods)
+        self._chartXData(xdata, False, False)
+        return periods
+
+    def _setColumnDates(self, year : int, month : int, day : int) -> list:
+        """Vytvoří list dat složený z tuplů obsahujících počáteční a koncová data každého 
+        sloupce v grafu. Vstupy jsou 0 nebo 1int, podle toho, o kterou hodnotu (a kolik) se mají jednotlivé sloupce lišit."""
         central_date = self.actual_date
         periods = [None] * 7
         for i in range(-3, 4):
-            start_date = self._surroundingFirstDate(central_date, 0, 0, i)
+            start_date = self._surroundingFirstDate(central_date, i*year, i*month, i*day)
             end_date = start_date
             periods[i + 3] = (start_date, end_date)
         return periods
     
-    def _weeklyColumn (self) -> None:
-        ...
-
-    def _monthlyColumn (self) -> None:
-        ...
-    
-    def _yearlyColumn (self) -> None:
-        ...
+    def _firstDatesList (self, periods : list) -> list:
+        """Ze vstupního listu tuplů počátečních a koncových dat časovéhoúseku zobrazovaného
+          sloupcem vytvoří list počátečních dat sloupců pro popis osy x v grafu."""
+        xdata = [None] * len(periods)
+        for i in range(len(periods)):
+            xdata[i] = periods[i][0]
+        return xdata
 
     def _surroundingFirstDate (self, central_date : date, 
                                year : int, month : int, day : int) -> date:
         """Vrátí první den období zobrazovaného v některém z okolních sloupců."""
         start_date = central_date + relativedelta(years = year, months = month, days = day)
         return start_date
+    
+    def _chartXData(self, xdata : list, months : bool, days : bool) -> None:
+        """Nastaví vlastnost xdata (labely jednotlivých sloupců v grafu na x-ové ose.) tak,
+        aby vizuálně odpovídaly zvolenému období."""
+        for i in range(len(xdata)):
+            chart_date = str(xdata[i].year)
+            if months:
+                chart_date = str(xdata[i].month) + "/" + chart_date
+            if days:
+                chart_date = str(xdata[i].day) + "/" + chart_date
+            xdata[i] = chart_date
+        self.xdata = xdata
 
     def _getTrainingsInPeriod (self, date_tuples : list) -> list:
         """Vrátí list listů s tréninky pro každou časovou periodu."""
@@ -152,10 +192,19 @@ class SportChart (Frame):
         num_of_columns = 7
         ind = arange(num_of_columns)
         transp_data = self._invertList(data)
-        width = 0.35
+        width = 0.6
         for i in range(len(data[0])):
-            plot = plt.bar(ind, transp_data[i], width, bottom=transp_data[0])
-        plt.show()
+            if i == 0:
+                self.chart.bar(ind, transp_data[i], width, color = sport_color[sport_list[i]])
+            else:
+                self.chart.bar(ind, transp_data[i], width, bottom = transp_data[0], color = sport_color[sport_list[i]])
+        self.chart.legend(sport_list)
+        self.chart.set_xlabel("Datum")
+        self.chart.set_ylabel("Počet tréninků")
+        self.chart.set_title("Počet typů tréninků za období")
+        self.chart.set_xticks(range(len(self.xdata)))
+        self.chart.set_xticklabels(self.xdata, rotation='horizontal', fontsize = 8)
+
 
     def _invertList (self, data : list) -> list:
         """Vrátí 2d list transponovaně."""

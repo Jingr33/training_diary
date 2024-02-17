@@ -14,3 +14,7 @@
 
 """NAČÍTÁNÍ TRÉNINKŮ"""
 # upravit slovo nazadano pro nacitani treninku
+
+"""GRAFY"""
+# graf se zobrazí až po úpravě stavu okna
+# opravit v grafu sportů y osu a jeji zobrazovaní
