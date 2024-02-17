@@ -27,7 +27,6 @@ class SportChart (Frame):
         self.configure(corner_radius = 10, fg_color = chart_frame_color)
         self._initGUI()
 
-
         # , bbox_inches='tight' 
 
     def _initGUI(self) -> None:
@@ -54,36 +53,35 @@ class SportChart (Frame):
 
     def _initSetTime (self) -> None:
         """Vytvoří widgety pro nastavování zobrazovaného období."""
-        prev_button = Button(self, "<", ...)
+        prev_button = Button(self, "<", self._prevPeriod)
         prev_button.grid(column = 1, row = 2, sticky = ctk.E)
         prev_button.configure(corner_radius = 6, height= 30, width=30)
 
         self.var_central_date = ctk.StringVar()
         central_date = Entry(self, self.var_central_date)
         central_date.grid(column = 2, row = 2, padx = 6, pady = 5)
-        central_date.configure(width = 75)
+        central_date.configure(width = 85)
         self.var_central_date.set(self.today)
-        # event pro přegenerování grafu při přepsání data
-        central_date.bind("<FocusOut>", self._updateChart)
+        # event pro přegenerování grafu při přepsání data v entry
+        central_date.bind("<FocusOut>", self._newDateInEntry)
+        central_date.bind("<Enter>", self._newDateInEntry)
 
-        next_button = Button(self, ">", ...)
+        next_button = Button(self, ">", self._nextPeriod)
         next_button.grid(column = 3, row = 2, sticky = ctk.W)
         next_button.configure(corner_radius = 6, height= 30, width=30)
 
     def _updateChart (self, value) -> None:
         """Updatuje graf při jakékoliv změně nastavení ve framu."""
-        border_dates = self._setTimeRange(value)
-        trainings = self._getTrainingsInPeriod(border_dates)
+        self.border_dates = self._setTimeRange(value)
+        trainings = self._getTrainingsInPeriod(self.border_dates)
         chart_data = self._numberOfTrainings(trainings)
         self._makeChart(chart_data)
-
 
     def _setTimeRange(self, value) -> None:
         """Nastaví období zobrazované jedním sloupcem v grafu. Vrátí list hraničních dat 
         pro každý sloupec grafu."""
         self.range = value
-        self.var_central_date.set(self.today)
-        self.actual_date = self.today
+        self.var_central_date.set(self.actual_date)
         border_dates = self._setDateBorders(value)
         return border_dates
         
@@ -126,7 +124,7 @@ class SportChart (Frame):
         periods = [None] * 7
         for i in range(-3, 4):
             start_date = self._surroundingFirstDate(central_date, i*year, i*month, i*day)
-            end_date = start_date
+            end_date = self._surroundingLastDate(start_date, year, month, day)
             periods[i + 3] = (start_date, end_date)
         return periods
     
@@ -140,10 +138,16 @@ class SportChart (Frame):
 
     def _surroundingFirstDate (self, central_date : date, 
                                year : int, month : int, day : int) -> date:
-        """Vrátí první den období zobrazovaného v některém z okolních sloupců."""
+        """Vrátí první den období zobrazovaného daným sloupcem v grafu."""
         start_date = central_date + relativedelta(years = year, months = month, days = day)
         return start_date
     
+    def _surroundingLastDate (self, start_date : date, 
+                              year : int, month : int, day : int) -> date:
+        """Vrátí poslední den období zobrazovaného daným sloupcem v grafu."""
+        end_date = start_date + relativedelta(years = year, months = month, days = day - 1)
+        return end_date
+
     def _chartXData(self, xdata : list, months : bool, days : bool) -> None:
         """Nastaví vlastnost xdata (labely jednotlivých sloupců v grafu na x-ové ose.) tak,
         aby vizuálně odpovídaly zvolenému období."""
@@ -189,6 +193,10 @@ class SportChart (Frame):
     
     def _makeChart (self, data : list) -> None:
         """Vytvoří nový obsah grafu."""
+        # vytvoření subplotu
+        self.figure.clf()
+        self.chart = self.figure.add_subplot(111)
+        # vykreslení grafu
         num_of_columns = 7
         ind = arange(num_of_columns)
         transp_data = self._invertList(data)
@@ -198,6 +206,10 @@ class SportChart (Frame):
                 self.chart.bar(ind, transp_data[i], width, color = sport_color[sport_list[i]])
             else:
                 self.chart.bar(ind, transp_data[i], width, bottom = transp_data[0], color = sport_color[sport_list[i]])
+        self._chartLabels()
+
+    def _chartLabels (self) -> None:
+        """Nastaví popisky grafu."""
         self.chart.legend(sport_list)
         self.chart.set_xlabel("Datum")
         self.chart.set_ylabel("Počet tréninků")
@@ -205,7 +217,54 @@ class SportChart (Frame):
         self.chart.set_xticks(range(len(self.xdata)))
         self.chart.set_xticklabels(self.xdata, rotation='horizontal', fontsize = 8)
 
-
     def _invertList (self, data : list) -> list:
         """Vrátí 2d list transponovaně."""
         return transpose(data)
+    
+    def _prevPeriod (self) -> None:
+        """Po stusknutí tlačítka "<" se nastaví datum středového sloupce na o jeden dřívější 
+        cyklus a celý graf se posune o cyklus do minulosti."""
+        self.actual_date = self.border_dates[2][0]
+        self.var_central_date.set(self.actual_date)
+        self._updateChart(self.range)
+
+    def _nextPeriod (self) -> None:
+        """Po stusknutí tlačítka ">" se nastaví datum středového sloupce na o jeden pozdější
+        cyklus a celý graf se posune o cyklus do budoucnosti."""
+        self.actual_date = self.border_dates[4][0]
+        self.var_central_date.set(self.actual_date)
+        self._updateChart(self.range)
+
+    def _newDateInEntry(self, value) -> None:
+        """Funkce zkontroluje datum zapsané uživatelem do entry pod grafem.
+        Pokud je vpořádku, aktualizuje graf s tímto datem, pokud ne, vrátí původní."""
+        new_date = self.var_central_date.get()
+        date_check = self._checkNewDate(new_date) # kontrola data
+        if date_check:
+            self.var_central_date.set(self.actual_date)
+        self._updateChart(self.range)
+
+    def _checkNewDate (self, new_date : str) -> bool:
+        """Zkontroluje, zda se jedná o datum. Vrátí T/F. Pokud True -> nastaví datum jako actual_date."""
+        date_check = True
+        try:
+            separator = self._findSeparator(new_date)
+            if separator:
+                date_list = new_date.split(separator)
+                dt_date = date(int("20" + date_list[2]), int(date_list[1]), int(date_list[0]))
+                self.actual_date = dt_date
+            else:
+                date_check = False
+        except:
+            date_check = False
+        return date_check
+    
+    def _findSeparator(self, new_date : str) -> str:
+        """Najde oddělovač zadaného data. Pokud se nejedná o žádný z oddělovačů, vrátí None."""
+        separators = ["-", "/", ". "]
+        for one_sep in separators:
+            index = new_date.find(one_sep)
+            if index >= 0:
+                return one_sep
+        return None
+    

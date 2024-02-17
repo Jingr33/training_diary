@@ -109,8 +109,8 @@ class General():
         # převedení do tkinteru
         figure_canvas = FigureCanvasTkAgg(master.figure, master)
         figure_canvas.draw()
-        # vytvoření subplotu
-        master.chart = master.figure.add_subplot(111)
+        # # vytvoření subplotu
+        # master.chart = master.figure.add_subplot(111)
         #vytvoření matplotlibu v tkinteru
         widget = figure_canvas.get_tk_widget()
         widget.grid(column = grid[0], row = grid[1], columnspan=columnspan, padx = 12, pady = 5)
