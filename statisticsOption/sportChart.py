@@ -26,7 +26,8 @@ class SportChart (Frame):
         self.xdata = None # popisky osy x (data)
         self.configure(corner_radius = 10, fg_color = chart_frame_color)
         self._initGUI()
-
+        self.range = self.var_option.get()
+        self._updateChart(self.range)
         # , bbox_inches='tight' 
 
     def _initGUI(self) -> None:
@@ -61,10 +62,10 @@ class SportChart (Frame):
         central_date = Entry(self, self.var_central_date)
         central_date.grid(column = 2, row = 2, padx = 6, pady = 5)
         central_date.configure(width = 85)
-        self.var_central_date.set(self.today)
+        self.var_central_date.set(General.changeDateForamt(self.today))
         # event pro přegenerování grafu při přepsání data v entry
         central_date.bind("<FocusOut>", self._newDateInEntry)
-        central_date.bind("<Enter>", self._newDateInEntry)
+        central_date.bind("<Return>", self._newDateInEntry)
 
         next_button = Button(self, ">", self._nextPeriod)
         next_button.grid(column = 3, row = 2, sticky = ctk.W)
@@ -76,12 +77,13 @@ class SportChart (Frame):
         trainings = self._getTrainingsInPeriod(self.border_dates)
         chart_data = self._numberOfTrainings(trainings)
         self._makeChart(chart_data)
+        self.figure.canvas.draw() # aby se zobrazil aktuální graf
 
     def _setTimeRange(self, value) -> None:
         """Nastaví období zobrazované jedním sloupcem v grafu. Vrátí list hraničních dat 
         pro každý sloupec grafu."""
         self.range = value
-        self.var_central_date.set(self.actual_date)
+        self.var_central_date.set(General.changeDateForamt(self.actual_date))
         border_dates = self._setDateBorders(value)
         return border_dates
         
@@ -225,14 +227,14 @@ class SportChart (Frame):
         """Po stusknutí tlačítka "<" se nastaví datum středového sloupce na o jeden dřívější 
         cyklus a celý graf se posune o cyklus do minulosti."""
         self.actual_date = self.border_dates[2][0]
-        self.var_central_date.set(self.actual_date)
+        self.var_central_date.set(General.changeDateForamt(self.actual_date))
         self._updateChart(self.range)
 
     def _nextPeriod (self) -> None:
         """Po stusknutí tlačítka ">" se nastaví datum středového sloupce na o jeden pozdější
         cyklus a celý graf se posune o cyklus do budoucnosti."""
         self.actual_date = self.border_dates[4][0]
-        self.var_central_date.set(self.actual_date)
+        self.var_central_date.set(General.changeDateForamt(self.actual_date))
         self._updateChart(self.range)
 
     def _newDateInEntry(self, value) -> None:
@@ -241,7 +243,7 @@ class SportChart (Frame):
         new_date = self.var_central_date.get()
         date_check = self._checkNewDate(new_date) # kontrola data
         if date_check:
-            self.var_central_date.set(self.actual_date)
+            self.var_central_date.set(General.changeDateForamt(self.actual_date))
         self._updateChart(self.range)
 
     def _checkNewDate (self, new_date : str) -> bool:
@@ -251,7 +253,7 @@ class SportChart (Frame):
             separator = self._findSeparator(new_date)
             if separator:
                 date_list = new_date.split(separator)
-                dt_date = date(int("20" + date_list[2]), int(date_list[1]), int(date_list[0]))
+                dt_date = date(int(date_list[2]), int(date_list[1]), int(date_list[0]))
                 self.actual_date = dt_date
             else:
                 date_check = False

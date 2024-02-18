@@ -22,7 +22,7 @@ class General():
         return checked
     
     @staticmethod
-    def checkDateEntry(entry : str) -> bool:
+    def checkDateEntry(entry : str, separator = "/") -> bool:
         """Ověří, zda je vstupní hodnota platné datum.
         vstup : dd/mm/yyyy"""
         try:
@@ -36,6 +36,11 @@ class General():
         except:
             checked = False
         return checked
+    
+    @staticmethod
+    def changeDateForamt (dt_date : date) -> str:
+        """Změní formát data z formátu date na psaný formát data."""
+        return str(dt_date.day) + ". " + str(dt_date.month) + ". " + str(dt_date.year)
     
     @staticmethod
     def prepareString(list :list) -> str:
@@ -78,11 +83,6 @@ class General():
             return None
         return float(integer_check)
     
-    # @staticmethod
-    # def lenghtOfPeriod (start : date, end : date) -> int:
-    #     """Metoda vrátí počet dní mezi počátečním a koncovým datem."""
-    #     ...
-
     @staticmethod
     def deleteFrameWidgets (widget_parent : object) -> None:
         """Vymaže widgety ze zadaného framu."""
