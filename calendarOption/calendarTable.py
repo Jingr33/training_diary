@@ -42,14 +42,6 @@ class calendarTable (ctk.CTkScrollableFrame):
                 self.day_frames[i] = frame
                 i = i + 1
 
-    def fillDatesToTable (self) -> None:
-        """Metoda pro naplnění framů (jednotlivých dní) a jejich labelů daty dní, které obsahují."""
-        self.table_filler = TabelContentFiller(self.date) # instance objektu plnícího tabulku daty
-        dates_list = self.table_filler.dates_list # vytvoření listu s daty daného měsíce
-        self.table_filler.datesToLabelsConfig(self.day_frames, dates_list) # zapsaní měsíců do framů
-        self.table_filler.displayTrainingWidget(self.day_frames) #zapsání stripů s tréninky do kalendáře
-
-
     def regenerateDates (self, master) -> None:
         """Metoda pro přegenerování dat při přepnutí kalendáře na jiný měsíc.
         Eventová metoda od prev a next buttonů."""
@@ -57,3 +49,10 @@ class calendarTable (ctk.CTkScrollableFrame):
         self.date = self.master.slider_frame.setted_date
         #přepsání dat v kalendáři
         self.fillDatesToTable()
+
+    def fillDatesToTable (self) -> None:
+        """Metoda pro naplnění framů (jednotlivých dní) a jejich labelů daty dní, které obsahují."""
+        self.table_filler = TabelContentFiller(self.date) # instance objektu plnícího tabulku daty
+        dates_list = self.table_filler.dates_list # vytvoření listu s daty daného měsíce
+        self.table_filler.datesToLabelsConfig(self.day_frames, dates_list) # zapsaní měsíců do framů
+        self.table_filler.displayTrainingWidget(self.day_frames) #zapsání stripů s tréninky do kalendáře
