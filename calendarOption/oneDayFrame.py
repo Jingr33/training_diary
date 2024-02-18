@@ -4,6 +4,7 @@ import customtkinter as ctk
 # importy souborů
 from ctkWidgets import Frame, Label
 from calendarOption.oneStrip import OneStrip
+from configuration import colors
 
 
 class OneDayFrame (Frame):
@@ -22,6 +23,14 @@ class OneDayFrame (Frame):
         strip.configure(width=15, corner_radius = 8, padx = 2, pady = 2)
         # přidání stripu do pole (využije se při promazávání stripů)
         self.strips.append(strip)
+
+    def createFreeDay (self) -> None:
+        """Vytvoření labelu s nápisem volného dne."""
+        label = Label(self, "Volný den", ("Arial", 12))
+        label.pack(side = TOP, fill = ctk.BOTH)
+        self.configure(fg_color = colors["free-day-gray"])
+        # přidání stripu do pole (využije se při promazávání stripů)
+        self.strips.append(label)
 
     def _initGUI(self) -> None:
         """Inicializace obsahu framů jednotlivých dní."""

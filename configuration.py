@@ -55,6 +55,7 @@ colors = {
     "dark-red" : "#850101",
     "dark-red-hover" : "#823e3e",
     "dark-blue" : "#012f57",
+    "free-day-gray" : "#2f2f2f",
 }
 
 #barvy stupňů třídění tréninků v přehledu

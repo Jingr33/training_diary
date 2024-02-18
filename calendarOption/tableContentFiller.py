@@ -41,9 +41,16 @@ class TabelContentFiller ():
 
     def _renderActivities (self, frame_list : tuple, strips_to_render : list) -> None:
         """Vykreslí stripy tréninků do jednotlivých framů v kalendáři."""
-        for training in strips_to_render:
-            index_of_frame = self._frameIndexOfDay(training.real_date)
-            frame_list[index_of_frame].createStrip(training)
+        for activity in strips_to_render:
+            index_of_frame = self._frameIndexOfDay(activity.real_date)
+            frame_list[index_of_frame].createStrip(activity)
+
+    def _renderFreeDay (self, frame_list : tuple, free_days_to_render : list) -> None:
+        """VYkreslí labely jednotlivých dnů do kalendáře, pokud už dny nejsou obsazeny aktivitou."""
+        for day in free_days_to_render:
+            index_of_frame = self._frameIndexOfDay(day.real_date)
+            if not frame_list[index_of_frame].strips:
+                frame_list[index_of_frame].createFreeDay()
 
     def _displayPlans (self, frame_list : tuple) -> None:
         """Zobrazí naplánované tréninky z tréninkových plánů."""
@@ -59,13 +66,14 @@ class TabelContentFiller ():
             first_cycle = self._nearestDateToStart(plan)
             last_cycle = self._nearestDateToEnd(plan)
             # vygenerování plánovaných tréninků do kalendáře.
-            ghost_trainings = self._GhostTrainings(plan, first_cycle, last_cycle)
+            ghost_trainings, ghost_free_days = self._GhostTrainings(plan, first_cycle, last_cycle)
             # vykreslení tréninků
             self._renderActivities(frame_list, ghost_trainings)
+            self._renderFreeDay(frame_list, ghost_free_days)
 
     def _intersectDates (self, train_plan : object) -> bool:
         """Rozhodne, zda se tréninkový plán a zobrazené období v kalendáři časově protínají.
-        Ano - tréninky se vypíší, Ne - tréninkový plán se přeskočí."""
+        Ano - tréninky se vypíší, Ne - tréninkový plán se přeskočí.""" 
         if self.last_date < train_plan.start_date:
             return False
         elif self.first_date > train_plan.end_date:
@@ -94,13 +102,16 @@ class TabelContentFiller ():
         return len(train_plan.next_cycle)
     
     def _GhostTrainings (self, train_plan : object, first_cycle : int, last_cycle : int) -> list:
-        """Zavolá třídu GhostTrainings, která vytvoří list tréninků podle tréninkového plánu pro dané období"""
+        """Zavolá třídu GhostTrainings, která vytvoří list tréninků a lsit volných dní podle 
+        tréninkového plánu pro dané období. Vrátí 2 listy."""
         ghost_training = GhostTraining(train_plan, first_cycle, last_cycle)
         train_list = ghost_training.getGhostTrainList()
-        train_list = self._ghostTremCheck(train_list)
-        return train_list
-    
-    def _ghostTremCheck(self, ghost_trainings : list) -> list:
+        free_days_list = ghost_training.getFreeDaysList()
+        train_list = self._ghostTermCheck(train_list)
+        free_days_list = self._ghostTermCheck(free_days_list)
+        return train_list, free_days_list
+        
+    def _ghostTermCheck(self, ghost_trainings : list) -> list:
         """Kontroloní funkce, pokud v listu tréninků skončí trénink, který by nebyl ve 
         zobrazovaném období, tak se vyřadí."""
         for ghost in ghost_trainings:
