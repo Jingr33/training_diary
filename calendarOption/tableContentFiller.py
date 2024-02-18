@@ -40,7 +40,6 @@ class TabelContentFiller ():
         self._renderActivities(frame_list, self.trainings)
         # vykreslední tréninkových plánů
         self._displayPlans(frame_list)
-        print("###############################x")
 
     def _renderActivities (self, frame_list : tuple, strips_to_render : list) -> None:
         """Vykreslí stripy tréninků do jednotlivých framů v kalendáři."""
@@ -51,11 +50,8 @@ class TabelContentFiller ():
     def _renderFreeDay (self, frame_list : tuple, free_days_to_render : list) -> None:
         """VYkreslí labely jednotlivých dnů do kalendáře, pokud už dny nejsou obsazeny aktivitou."""
         for day in free_days_to_render:
-            print(day.real_date)
             index_of_frame = self._frameIndexOfDay(day.real_date)
-            print(frame_list[index_of_frame].strips)
             if not frame_list[index_of_frame].strips:
-                print("kreslím")
                 frame_list[index_of_frame].createFreeDay()
 
     def _displayPlans (self, frame_list : tuple) -> None:

@@ -2,9 +2,8 @@
 from tkinter import *
 import customtkinter as ctk
 from datetime import datetime
-import calendar
 # importy souborů
-from ctkWidgets import Frame, Button, Label
+from ctkWidgets import Frame, Button, Label, Switch
 from configuration import months
 
 class SetMonth (Frame):
@@ -37,6 +36,11 @@ class SetMonth (Frame):
         self.next_b = Button(self, "next", self._nextMonth)
         self.next_b.pack(side=LEFT, anchor = ctk.CENTER, pady = 15)
         self.next_b.configure(width=40)
+
+        var_switch = IntVar()
+        self.switcher = Switch(self, "test", ..., var_switch)
+        self.switcher.pack(side=RIGHT, anchor = ctk.W)
+        self.switcher.configure(width = 150)
 
     def _currentMonth (self) -> tuple:
         """Vytvoří tuple o aktuálním měsící."""
