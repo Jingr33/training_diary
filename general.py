@@ -106,6 +106,7 @@ class General():
         width = 100
         height = 5
         master.figure = Figure(figsize=(width, height), dpi=(100))
+        master.figure.tight_layout()
         # převedení do tkinteru
         figure_canvas = FigureCanvasTkAgg(master.figure, master)
         figure_canvas.draw()

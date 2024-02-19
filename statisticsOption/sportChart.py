@@ -205,10 +205,21 @@ class SportChart (Frame):
         width = 0.6
         for i in range(len(data[0])):
             if i == 0:
-                self.chart.bar(ind, transp_data[i], width, color = sport_color[sport_list[i]])
+                bar_plot = self.chart.bar(ind, transp_data[i], width, color = sport_color[sport_list[i]])
             else:
-                self.chart.bar(ind, transp_data[i], width, bottom = transp_data[0], color = sport_color[sport_list[i]])
+                bar_plot = self.chart.bar(ind, transp_data[i], width, bottom = transp_data[0], color = sport_color[sport_list[i]])
+            self._barLabel(bar_plot, transp_data[i])
         self._chartLabels()
+
+    def _barLabel (self, plot : object, data : list) -> None:
+        """Přidá každému sloupci v grafu popisek s číslem jeho četnosti."""
+        self.chart.bar_label(plot, label_type='center', fmt = lambda label: self._barLabelFormat(label))
+
+    def _barLabelFormat (self, label : str) -> str:
+        """Naformátuje label sloupce -> pokud je nula nevypíše ho."""
+        if label:
+            return int(label)
+        return ""
 
     def _chartLabels (self) -> None:
         """Nastaví popisky grafu."""
