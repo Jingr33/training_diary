@@ -8,3 +8,13 @@
 2 / bìh / 75 / 8
 3 / volno
 ;
+03/03/2024 /  / 5 / 8
+1 / bìh / nezadano / nezadano
+2 / volno
+3 / volno
+4 / volno
+5 / volno
+6 / volno
+7 / volno
+8 / posilovna / 5 / 0 / 0 / 1 / 0 / 1 / 0 / 1 / 0
+;

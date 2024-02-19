@@ -62,8 +62,8 @@ class TabelContentFiller ():
         """Zobrazí v kalendáři naplánované tréninky pocházející z cyklickýxh tréninkových plánů."""
         for plan in self.cycle_plans:
             # pokud nesedí plán do data, celý tréninkový plán se přeskočí
-            if not self._intersectDates(plan):
-                continue
+            if self._planInPast(): continue
+            if not self._intersectDates(plan): continue
             # vypočet data začátku nového cyklu tréninkového plánu nejblíže před začátkem zobrazovaného období a po konci zobrazovaného období
             first_cycle = self._nearestDateToStart(plan)
             last_cycle = self._nearestDateToEnd(plan)
@@ -72,6 +72,13 @@ class TabelContentFiller ():
             # vykreslení tréninků
             self._renderActivities(frame_list, ghost_trainings)
             self._renderFreeDay(frame_list, ghost_free_days)
+
+    def _planInPast (self) -> bool:
+        """Zkontroluje, zda je trénink zobrazené období v minulosti, pokud ano, tréninkové plány se
+        nezobrazují, pokud ne nebo část ne, plán se zobrazí."""
+        if date.today() > self.last_date:
+            return True
+        return False
 
     def _intersectDates (self, train_plan : object) -> bool:
         """Rozhodne, zda se tréninkový plán a zobrazené období v kalendáři časově protínají.
@@ -111,16 +118,29 @@ class TabelContentFiller ():
         free_days_list = ghost_training.getFreeDaysList()
         train_list = self._ghostTermCheck(train_list)
         free_days_list = self._ghostTermCheck(free_days_list)
+        train_list = self._ghostTermInPast(train_list)
+        free_days_list = self._ghostTermInPast(free_days_list)
         return train_list, free_days_list
         
     def _ghostTermCheck(self, ghost_trainings : list) -> list:
         """Kontroloní funkce, pokud v listu tréninků skončí trénink, který by nebyl ve 
         zobrazovaném období, tak se vyřadí."""
+        trimmed_ghost_trains = []
         for ghost in ghost_trainings:
             # pokud trénink není v rozmezí zobrazovaných dní, odmaže se z listu tréninků
-            if not self.first_date <= ghost.real_date <= self.last_date:
-                ghost_trainings.remove(ghost)
-        return ghost_trainings
+            if self.first_date <= ghost.real_date <= self.last_date:
+                trimmed_ghost_trains.append(ghost)
+        return trimmed_ghost_trains
+    
+    def _ghostTermInPast(self, ghost_activities : list) -> list:
+        """Pokud je aktivita v minulosti, vyřadí se z list aktivit."""
+        today = date.today()
+        future_activities = []
+        for activity in ghost_activities:
+            # pokud je už po datu, kdy aktivita měla proběhnout, odmaže se z listu aktivit
+            if not activity.real_date < today:
+                future_activities.append(activity)
+        return future_activities
 
     def _datesDayList (self) -> list:
         """Metoda vrátí list dat pro každý den (čtvereček) z kalendáře."""

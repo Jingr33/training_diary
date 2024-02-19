@@ -24,7 +24,7 @@ class SetMonth (Frame):
 
         # button pro překliknutí na dřívější měsíc
         self.prev_b = Button(self, "prev", self._prevMonth)
-        self.prev_b.pack(side=LEFT, anchor = ctk.CENTER, pady = 15)
+        self.prev_b.pack(side=LEFT, anchor = ctk.E, pady = 15)
         self.prev_b.configure(width=40)
 
         # label aktuálního měsíce
@@ -34,13 +34,8 @@ class SetMonth (Frame):
 
         # button pro překliknutí na následující měsíc
         self.next_b = Button(self, "next", self._nextMonth)
-        self.next_b.pack(side=LEFT, anchor = ctk.CENTER, pady = 15)
+        self.next_b.pack(side=LEFT, anchor = ctk.W, pady = 15)
         self.next_b.configure(width=40)
-
-        var_switch = IntVar()
-        self.switcher = Switch(self, "test", ..., var_switch)
-        self.switcher.pack(side=RIGHT, anchor = ctk.W)
-        self.switcher.configure(width = 150)
 
     def _currentMonth (self) -> tuple:
         """Vytvoří tuple o aktuálním měsící."""
