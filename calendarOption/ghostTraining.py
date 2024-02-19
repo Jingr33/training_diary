@@ -19,13 +19,17 @@ class GhostTraining ():
         self.ghost_trainings = self._createGhostTrainsList(first_cycle, last_cycle)
         self.ghost_free_days = self._createGhostFreeDays(first_cycle, last_cycle)
 
-    def getGhostTrainList (self) -> list:
-        """Vrátí list smýšlených tréninků z tréninkoého plánu."""
-        return self.ghost_trainings
+    def getGhostActivList (self, train_or_fd : str) -> list:
+        """Vrátí list smýšlených tréninků z tréninkoého plánu. Vstup je string, který udává, zda funkce
+        vrátí list tréninků nebo volných dní ("train" / "fd")."""
+        if train_or_fd == "training":
+            return self.ghost_trainings
+        elif train_or_fd == "fd":
+            return self.ghost_free_days
 
-    def getFreeDaysList (self) -> list:
-        """Vrátí list smyšlených volných dní z tréninkového plánu."""
-        return self.ghost_free_days
+    # def getFreeDaysList (self) -> list:
+    #     """Vrátí list smyšlených volných dní z tréninkového plánu."""
+    #     return self.ghost_free_days
 
     def _trainingOrFreeDay (self, plan) -> None:
         """Nastaví jako vlstnost list tréninků a list volných dní v tréninkovém plánu."""

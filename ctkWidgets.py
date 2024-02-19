@@ -52,3 +52,8 @@ class Scrollbar (ctk.CTkScrollbar):
     def __init__(self, master :ctk.CTkBaseClass, command):
         super().__init__(master)
         self.configure(command=command)
+
+class Switch (ctk.CTkSwitch):
+    def __init__(self, master : ctk.CTkBaseClass, text, command, variable):
+        super().__init__(master)
+        self.configure(text=text, command=command, variable=variable)
