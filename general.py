@@ -1,13 +1,14 @@
 # import knihoven
 from datetime import date
 import os
+import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,) # pro přenesení matplotlibu do tkintru
 from tkinter import * 
 import customtkinter as ctk
-from math import floor
+from numpy import transpose
 #import souborů
-from configuration import unknown_text
+from configuration import unknown_text, colors
 
 class General():
     """Třídá základních statických funkcí používaných na hodně místech."""
@@ -105,14 +106,19 @@ class General():
         # vytvoření figure
         width = 100
         height = 5
+        # nastavení designu
+        plt.style.use('dark_background')
+        # figure
         master.figure = Figure(figsize=(width, height), dpi=(100))
         master.figure.tight_layout()
         # převedení do tkinteru
         figure_canvas = FigureCanvasTkAgg(master.figure, master)
         figure_canvas.draw()
-        # # vytvoření subplotu
-        # master.chart = master.figure.add_subplot(111)
         #vytvoření matplotlibu v tkinteru
         widget = figure_canvas.get_tk_widget()
         widget.grid(column = grid[0], row = grid[1], columnspan=columnspan, padx = 12, pady = 5)
 
+    @staticmethod
+    def _invertList (data : list) -> list:
+        """Vrátí 2d list transponovaně."""
+        return transpose(data)

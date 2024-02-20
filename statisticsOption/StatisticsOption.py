@@ -3,6 +3,7 @@ from tkinter import *
 import customtkinter as ctk
 # import souborů
 from statisticsOption.sportChart import SportChart
+from statisticsOption.timeChart import TimeChart
 from statisticsOption.dataLoader import DataLoader
 
 
@@ -25,9 +26,9 @@ class Statistics (ctk.CTkScrollableFrame):
         sport_chart.configure(corner_radius = 8)
 
         # testovací framy
-        sport_chart = SportChart(self) # graf poměru vykonaných sportů
+        sport_chart = TimeChart(self) # graf poměru vykonaných sportů
         sport_chart.grid(column = 0, row = 1,ipadx = 8, ipady = 8, padx = 9, pady = 9)
-        sport_chart = SportChart(self) # graf poměru vykonaných sportů
+        sport_chart = TimeChart(self) # graf poměru vykonaných sportů
         sport_chart.grid(column = 1, row = 0,ipadx = 5, ipady = 5, padx = 9, pady = 9)
         sport_chart = SportChart(self) # graf poměru vykonaných sportů
         sport_chart.grid(column = 1, row = 1,ipadx = 5, ipady = 5, padx = 5, pady = 5)

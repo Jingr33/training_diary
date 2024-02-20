@@ -1,13 +1,9 @@
 # import knihoven
 from tkinter import * 
 import customtkinter as ctk
-import matplotlib.pyplot as plt
 from datetime import date
 from dateutil.relativedelta import *
-from numpy import transpose, arange
 # import souborů
-from statisticsOption.dataLoader import DataLoader
-from sports.setSport import SetSport
 from general import General
 from ctkWidgets import Frame, Label, ComboBox, Button, Entry
 from configuration import chart_range_option, chart_frame_color, sport_list, sport_color
@@ -167,18 +163,7 @@ class BarChart (Frame):
                 chart_date = str(xdata[i].day) + "/" + chart_date
             xdata[i] = chart_date
         self.xdata = xdata
-
-    # def _getTrainingsInPeriod (self, date_tuples : list) -> list:
-    #     """Vrátí list listů s tréninky pro každou časovou periodu."""
-    #     data_loader = DataLoader()
-    #     training_lists = [None] * len(date_tuples)
-    #     i = 0
-    #     for date_tuple in date_tuples:
-    #         one_period = data_loader.getTrainingsInDate(data_loader.trainings, date_tuple[0], date_tuple[1])
-    #         training_lists[i] = one_period
-    #         i = i + 1
-    #     return training_lists
-    
+   
     def _numberOfTrainings (self, periods : list) -> list:
         """Spočítá, kolik tréninků v zadaném listu náleželo jednotlivým sportům.
         Vrátí list listů s počty tréninků."""
@@ -198,48 +183,7 @@ class BarChart (Frame):
                    train_numbers[i] = train_numbers[i] + 1
                    break
         return train_numbers
-    
-    # def _makeChart (self, data : list) -> None:
-    #     """Vytvoří nový obsah grafu."""
-    #     # vytvoření subplotu
-    #     self.figure.clf()
-    #     self.chart = self.figure.add_subplot(111)
-    #     # vykreslení grafu
-    #     num_of_columns = 7
-    #     ind = arange(num_of_columns)
-    #     transp_data = self._invertList(data)
-    #     width = 0.6
-    #     for i in range(len(data[0])):
-    #         if i == 0:
-    #             bar_plot = self.chart.bar(ind, transp_data[i], width, color = sport_color[sport_list[i]])
-    #         else:
-    #             bar_plot = self.chart.bar(ind, transp_data[i], width, bottom = transp_data[0], color = sport_color[sport_list[i]])
-    #         self._barLabel(bar_plot, transp_data[i])
-    #     self._chartLabels()
-
-    # def _barLabel (self, plot : object, data : list) -> None:
-    #     """Přidá každému sloupci v grafu popisek s číslem jeho četnosti."""
-    #     self.chart.bar_label(plot, label_type='center', fmt = lambda label: self._barLabelFormat(label))
-
-    # def _barLabelFormat (self, label : str) -> str:
-    #     """Naformátuje label sloupce -> pokud je nula nevypíše ho."""
-    #     if label:
-    #         return int(label)
-    #     return ""
-
-    # def _chartLabels (self) -> None:
-    #     """Nastaví popisky grafu."""
-    #     self.chart.legend(sport_list)
-    #     self.chart.set_xlabel("Datum")
-    #     self.chart.set_ylabel("Počet tréninků")
-    #     self.chart.set_title("Počet typů tréninků za období")
-    #     self.chart.set_xticks(range(len(self.xdata)))
-    #     self.chart.set_xticklabels(self.xdata, rotation='horizontal', fontsize = 8)
-
-    # def _invertList (self, data : list) -> list:
-    #     """Vrátí 2d list transponovaně."""
-    #     return transpose(data)
-    
+        
     def _prevPeriod (self) -> None:
         """Po stusknutí tlačítka "<" se nastaví datum středového sloupce na o jeden dřívější 
         cyklus a celý graf se posune o cyklus do minulosti."""

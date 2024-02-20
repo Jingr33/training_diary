@@ -5,8 +5,8 @@ sport_list = ["posilovna", "běh"]
 free_day = "volno"
 # barvy jednotlivých sportů #TODO nastavovatelnost
 sport_color = {
-    sport_list[0] : "#e74c3c",
-    sport_list[1] : "#3498db",
+    sport_list[0] : "#3498DB", # posilovna
+    sport_list[1] : "#C0392B", # běh
 }
 ghost_color = {
     sport_list[0]: "#e6c8c5",
@@ -51,10 +51,13 @@ months = {
 colors = {
     "gray" : "#333333",
     "dark-gray" : "#2c2c2c",
+    "dark-gray-2" : "#262626",
     "light-gray" : "#444444",
     "dark-red" : "#850101",
     "dark-red-hover" : "#823e3e",
     "dark-blue" : "#012f57",
+    "light-blue" : "#98d9ed",
+    "black" : "#000000",
 }
 
 #barvy stupňů třídění tréninků v přehledu
