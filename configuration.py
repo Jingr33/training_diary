@@ -9,8 +9,8 @@ sport_color = {
     sport_list[1] : "#C0392B", # běh
 }
 ghost_color = {
-    sport_list[0]: "#e6c8c5",
-    sport_list[1]: "#b6cfe0",
+    sport_list[0]: "#3498DB",
+    sport_list[1]: "#C0392B",
 }
 
 # list výběrových tlačítek v menuFramu

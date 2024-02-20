@@ -2,6 +2,7 @@
 from tkinter import *
 import customtkinter as ctk
 from CTkToolTip import *
+from pywinstyles import set_opacity
 # importy souborů
 from ctkWidgets import Label
 from sports.setSport import SetSport
@@ -23,5 +24,6 @@ class OneStrip (Label):
         """Nastaví barvu pozadí labelu."""
         if hasattr(training, "ghost"):
             self.configure(fg_color = ghost_color[training.sport])
+            set_opacity(self, value = 0.3) # nastavení opacity pozadí labelu
         else:
             self.configure(fg_color = sport_color[training.sport])
