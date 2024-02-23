@@ -6,7 +6,7 @@ from dateutil.relativedelta import *
 # import souborů
 from general import General
 from ctkWidgets import Frame, Label, ComboBox, Button, Entry
-from configuration import chart_range_option, chart_frame_color, sport_list, sport_color
+from configuration import chart_range_option, chart_frame_color, sport_list
 
 
 class BarChart (Frame):
@@ -23,16 +23,16 @@ class BarChart (Frame):
         self.xdata = None # popisky osy x (data)
         self.configure(corner_radius = 10, fg_color = chart_frame_color)
 
-    def _initChartFrame(self, chartTrigger) -> None:
+    def _initChartFrame(self, chartTrigger, chart_name : str) -> None:
         """Vytvoření grafického rozhraní framu s grafem.
         Vstup: funkce obsatarávající aktualizaci dat v grafu."""
-        self._initWidgets(chartTrigger)
+        self._initWidgets(chartTrigger, chart_name)
         General.pasteChart(self, (0, 1), 5)
 
-    def _initWidgets (self, chartTrigger) -> None:
+    def _initWidgets (self, chartTrigger, chart_name : str) -> None:
         """Vytvoří widgety nad grafem sportů."""
-        name = Label(self, "Sporty", ("Arial", 20, "bold"))
-        name.grid(column = 0, row = 0, padx = 5, pady = 15)
+        name = Label(self, chart_name, ("Arial", 20, "bold"))
+        name.grid(column = 0, row = 0, columnspan = 3, sticky = ctk.W, padx = 10, pady = 15)
 
         range_l = Label(self, "Období:")
         range_l.grid(column = 3, row = 0, sticky=ctk.E, padx = 5)
@@ -202,16 +202,16 @@ class BarChart (Frame):
         """Funkce zkontroluje datum zapsané uživatelem do entry pod grafem.
         Pokud je vpořádku, aktualizuje graf s tímto datem, pokud ne, vrátí původní."""
         new_date = self.var_central_date.get()
-        date_check = self._checkNewDate(new_date) # kontrola data
+        date_check = self.checkNewDate(new_date) # kontrola data
         if date_check:
             self.var_central_date.set(General.changeDateForamt(self.actual_date))
         self._updateBarChart(self.range, self.getTrainings, self.makeChart)
 
-    def _checkNewDate (self, new_date : str) -> bool:
+    def checkNewDate (self, new_date : str) -> bool:
         """Zkontroluje, zda se jedná o datum. Vrátí T/F. Pokud True -> nastaví datum jako actual_date."""
         date_check = True
         try:
-            separator = self._findSeparator(new_date)
+            separator = General.findSeparator(new_date)
             if separator:
                 date_list = new_date.split(separator)
                 dt_date = date(int(date_list[2]), int(date_list[1]), int(date_list[0]))
@@ -221,12 +221,3 @@ class BarChart (Frame):
         except:
             date_check = False
         return date_check
-    
-    def _findSeparator(self, new_date : str) -> str:
-        """Najde oddělovač zadaného data. Pokud se nejedná o žádný z oddělovačů, vrátí None."""
-        separators = ["-", "/", ". "]
-        for one_sep in separators:
-            index = new_date.find(one_sep)
-            if index >= 0:
-                return one_sep
-        return None

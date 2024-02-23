@@ -1,17 +1,19 @@
-# import knihoven
+#import knihoven
 from tkinter import * 
 import customtkinter as ctk
 import matplotlib.pyplot as plt
 from dateutil.relativedelta import *
 from numpy import arange
+from math import floor
 # import souborů
 from statisticsOption.dataLoader import DataLoader
 from statisticsOption.barChart import BarChart
 from general import General
-from configuration import sport_list, sport_color, colors
+from configuration import colors
 
-class SportChart (BarChart):
-    """Frame s grafem ukazující poměr vykonaných sportů."""
+
+class TimeColumnChart (BarChart):
+    """Frame s grafem ukazující počet odsportovaných minut v jednotlivých obdobích."""
     def __init__(self, master : ctk.CTkBaseClass):
         super().__init__(master)
         self.master = master
@@ -20,11 +22,11 @@ class SportChart (BarChart):
         self.figure = None
         self.chart = None # proměnná pro graf
         self.xdata = None # popisky osy x (data)
-        self._initChartFrame(self._updateChart)
+        self._initChartFrame(self._updateChart, "Čas")
         self._updateChart()
 
     def _updateChart(self, value = None) -> None:
-        """Funkce pro přegenerování grafu při změně vstupních dat."""
+        """Metoda pro přegenerování grafu při změně vstupních dat."""
         self._chartTrigger(self._getTrainings, self._makeChart)
 
     def _getTrainings (self, date_tuples : list) -> None:
@@ -45,13 +47,16 @@ class SportChart (BarChart):
         return training_lists
     
     def _numberOfTrainings (self, periods : list) -> list:
-        """Spočítá, kolik tréninků v zadaném listu náleželo jednotlivým sportům.
-        Vrátí list listů s počty tréninků."""
-        periods_numbers = []
-        for period in periods:
-            period_numbers = self._periodNumbers(period)
-            periods_numbers.append(period_numbers)
-        return periods_numbers
+        """Spočátá odcvičené minuty v jednotlivých obdobích."""
+        period_minutes = [0] * len(periods)
+        for i in range(len(periods)): # pro každou periodu (sloupec)
+            for training in periods[i]: # trénink ve sloupci
+                try:
+                    time = int(training.time)
+                except:
+                    time = 0
+                period_minutes[i] = period_minutes[i] + time
+        return period_minutes
 
     def _makeChart (self, data : list) -> None:
         """Vytvoří nový obsah grafu."""
@@ -63,36 +68,36 @@ class SportChart (BarChart):
         ind = arange(num_of_columns)
         transp_data = General._invertList(data)
         width = 0.6
-        for i in range(len(data[0])):
-            if i == 0:
-                bar_plot = self.chart.bar(ind, transp_data[i], width, color = sport_color[sport_list[i]])
-            else:
-                bar_plot = self.chart.bar(ind, transp_data[i], width, bottom = transp_data[0], color = sport_color[sport_list[i]])
-            self._barLabel(bar_plot, transp_data[i])
-        self._modifyAxes()
+        bar_plot = self.chart.bar(ind, transp_data, width, color = colors["light-blue"])
+        self._barLabel(bar_plot)
+        self._modifyDesign()
         self._chartLabels()
 
-    def _barLabel (self, plot : object, data : list) -> None:
+    def _barLabel (self, plot : object) -> None:
         """Přidá každému sloupci v grafu popisek s číslem jeho četnosti."""
-        self.chart.bar_label(plot, label_type='center', fmt = lambda label: self._barLabelFormat(label),
-                             fontsize = 9, color = colors["black"])
+        self.chart.bar_label(plot, label_type='center', fmt = lambda label: self._barLabelFormat(label), 
+                             fontsize = 8, color = colors["black"])
 
     def _barLabelFormat (self, label : str) -> str:
         """Naformátuje label sloupce -> pokud je nula nevypíše ho."""
-        if label:
-            return int(label)
-        return ""
+        hours = floor(int(label) / 60)
+        minutes = int(label) % 60
+        text = ""
+        if hours:
+            text = text + str(hours) + " hod"
+        if minutes:
+            text = text + "\n" + str(minutes) + " min"
+        return text
 
     def _chartLabels (self) -> None:
         """Nastaví popisky grafu."""
-        self.chart.legend(sport_list, facecolor = colors["dark-gray-2"], frameon=False)
         self.chart.set_xlabel("Datum")
-        self.chart.set_ylabel("Počet tréninků")
-        self.chart.set_title("Počet typů tréninků za období")
+        self.chart.set_ylabel("Odsportovaný čas")
+        self.chart.set_title("Množství sportovní aktivity")
         self.chart.set_xticks(range(len(self.xdata)))
         self.chart.set_xticklabels(self.xdata, rotation='horizontal', fontsize = 8)
 
-    def _modifyAxes (self) -> None:
+    def _modifyDesign (self) -> None:
         """úUprva vzhledu os grafu."""
         self.chart.spines['top'].set_visible(False)
         self.chart.spines['right'].set_visible(False)

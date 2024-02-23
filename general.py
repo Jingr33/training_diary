@@ -37,6 +37,15 @@ class General():
         except:
             checked = False
         return checked
+        
+    def findSeparator(new_date : str) -> str:
+        """Najde oddělovač zadaného data. Pokud se nejedná o žádný z oddělovačů, vrátí None."""
+        separators = ["-", "/", ". "]
+        for one_sep in separators:
+            index = new_date.find(one_sep)
+            if index >= 0:
+                return one_sep
+        return None
     
     @staticmethod
     def changeDateForamt (dt_date : date) -> str:
