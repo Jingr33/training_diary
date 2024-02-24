@@ -8,7 +8,8 @@ from tkinter import *
 import customtkinter as ctk
 from numpy import transpose
 #import souborů
-from configuration import unknown_text, colors
+from configuration import unknown_text
+from ctkWidgets import Label
 
 class General():
     """Třídá základních statických funkcí používaných na hodně místech."""
@@ -131,3 +132,11 @@ class General():
     def _invertList (data : list) -> list:
         """Vrátí 2d list transponovaně."""
         return transpose(data)
+    
+    @staticmethod
+    def renderErrorToChart (master : object, text : str, grid : tuple) -> None:
+        """Vytvoří label s erorovým nápisem na místo vykreslení grafu v případě, že data zaslaná 
+        do grafu jsou prázdná."""
+        master.error_l = Label(master, text, ("Arial", 13, "bold"))
+        master.error_l.grid(row = grid[0], column = grid[1], columnspan = 4,
+                             padx = 5, pady = 5, sticky = "NSEW")

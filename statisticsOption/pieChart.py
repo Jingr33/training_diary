@@ -14,6 +14,7 @@ class PieChart (Frame):
     def __init__(self, master : ctk.CTkBaseClass):
         super().__init__(master)
         self.master = master
+        self.error_l = None
         self.columnconfigure([0,3], weight=2)
         self.columnconfigure([1,2], weight = 3)
         self.configure(corner_radius = 10, fg_color = chart_frame_color)
@@ -151,8 +152,22 @@ class PieChart (Frame):
     def _updateChart (self, getTrainings, makeChart) -> None:
         """Přegeneruje obsah grufu při inicializace nebo změně nastavení parametrů."""
         chart_content = getTrainings(self.start_date, self.end_date)
+        if self._callErrorLabel(chart_content):
+            return None
         makeChart(chart_content)
         self.figure.canvas.draw() # aby se zobrazil aktuální graf
+
+    def _callErrorLabel (self, chart_content : tuple) -> bool:
+        """Pokud nebyly nalezeny tréninky, zavolá se chyboví hláška a tvorba grafu se ukončí. 
+        Pokud je chyba zobrazena, ale tréninky již byly nalezeny, odstraní se."""
+        if not chart_content[0]:
+            self.figure.clf()
+            General.renderErrorToChart(self, "V tomto období nebyly nalezeny\nžádné tréninky.", (1, 0))
+            return True
+        elif self.error_l:
+            self.error_l.grid_forget()
+            General.pasteChart(self, (0, 1), 4)
+            self.error_l = None
 
     def _setSport (self, value) -> None:
         """Nastavení sportu zakliknutého v comboboxu."""

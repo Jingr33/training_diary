@@ -9,12 +9,11 @@
 # OneDay -> V nastavení sportu se přejmenují všechny comboBoxy, když zvolím nějakou možnost sportu - to oprav 
 # přidat potvrzovací frame, že tréninkový plán se uložil
 
-"""CALENDAR"""
-# obarvi ghosty na bílo -> barvy dodělané, ale fakt hrozně
 
 """NAČÍTÁNÍ TRÉNINKŮ"""
 # upravit slovo nazadano pro nacitani treninku
 
 """GRAFY"""
 # při žádném tréninku vypsat label
-
+# dodělat stringy podrobnostních grafů
+# zajistit aby u grafu nemohlo být první zatum až za druhým

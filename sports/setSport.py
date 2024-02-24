@@ -2,7 +2,7 @@
 from sports.sport import Sport
 from sports.gym import Gym
 from sports.run import Run
-from configuration import sport_list, free_day
+from configuration import sport_list, free_day, gym_chart_strings
 
 class SetSport():
     """Třída pro nastavení základních vlastností pro jednotlivé sporty."""
@@ -188,7 +188,7 @@ class SetSport():
         """Metoda vrátí typ grafu, který se má použít a slovník stringů pro naplnění popisků grafu."""
         if sport == sport_list[0]: # posilovna
             chart_type = "pie"
-            chart_strings = ""
+            chart_strings = gym_chart_strings
         elif sport == sport_list[1]: # běh
             chart_type = "bar"
             chart_strings = ""

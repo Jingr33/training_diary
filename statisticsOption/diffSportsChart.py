@@ -7,6 +7,7 @@ import numpy as np
 from statisticsOption.pieChart import PieChart
 from statisticsOption.dataLoader import DataLoader
 from sports.setSport import SetSport
+from general import General
 from configuration import colors
 
 class DiffSportsChart (PieChart):
@@ -14,6 +15,7 @@ class DiffSportsChart (PieChart):
     def __init__(self, master : ctk.CTkBaseClass):
         super().__init__(master)
         self.master = master
+        self.error_l = None
 
         self._initPieChartFrame("Podrobnosti", self._getTrainings, self._makeChart, True)
         self._updateChart(self._getTrainings, self._makeChart)
@@ -24,6 +26,8 @@ class DiffSportsChart (PieChart):
         data_loader = DataLoader()
         # setted sport je z rodičovké třídy
         trainings = data_loader.getOneSportTrainings(data_loader.trainings, self.setted_sport, first_date, last_date)
+        if not trainings:
+            return (0, 0, 0)
         chart_content = self._makeChartContent(trainings)
         return chart_content
     
@@ -41,7 +45,7 @@ class DiffSportsChart (PieChart):
         elif chart_type == "bar":
             self._makeBarChart(chart_content, chart_strings)
 
-    def _makePieChart (self, chart_content : list, chart_strings : list) -> None:
+    def _makePieChart (self, chart_content : list, chart_strings : dict) -> None:
         """Vytvoření koláčového typu grafu."""
         legend, counts, color = chart_content
         # vytvoření subplotu
@@ -53,7 +57,7 @@ class DiffSportsChart (PieChart):
         self.chart.pie(counts, labels = legend, startangle = 90, explode = explode, colors = color,
                        radius = 1.2, autopct = lambda pct: self._editPtc(pct, train_sum), textprops = {'fontsize' : 11})
         self._modifyInterface()
-        self._chartLabels()
+        self._chartLabels(chart_strings)
 
     def _makeBarChart (self, chart_content : list, chart_strings : list) -> None:
         """Vytvoření sloupcového typu grafu."""
@@ -69,6 +73,6 @@ class DiffSportsChart (PieChart):
         self.figure.set_facecolor(colors["dark-gray-2"])
         self.chart.set_facecolor(colors["dark-gray-2"])
 
-    def _chartLabels (self) -> None:
+    def _chartLabels (self, strings : dict) -> None:
         """Nastaví posisky grafu."""
-        self.chart.set_title("Počet tréninků za období", pad = 20)
+        self.chart.set_title(strings["title"], pad = 20)

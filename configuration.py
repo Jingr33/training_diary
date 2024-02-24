@@ -96,3 +96,12 @@ chart_range_option = ["den", "týden", "měsíc", "rok"]
 
 # pozadí framů s grafem
 chart_frame_color = "#262626"
+
+# stringy grafu podrobností posilovny
+gym_chart_strings = {
+    "title" : "Poměr odcvičených částí těla",
+}
+# stringy grafu podrobností běhu
+run_chart_strings = {
+    ...
+}
