@@ -22,7 +22,7 @@ class TimeColumnChart (BarChart):
         self.figure = None
         self.chart = None # proměnná pro graf
         self.xdata = None # popisky osy x (data)
-        self._initChartFrame(self._updateChart, "Čas")
+        self._initBarChartFrame(self._updateChart, "Čas")
         self._updateChart()
 
     def _updateChart(self, value = None) -> None:
@@ -93,7 +93,7 @@ class TimeColumnChart (BarChart):
         """Nastaví popisky grafu."""
         self.chart.set_xlabel("Datum")
         self.chart.set_ylabel("Odsportovaný čas")
-        self.chart.set_title("Množství sportovní aktivity")
+        self.chart.set_title("Množství sportovní aktivity", pad = 10)
         self.chart.set_xticks(range(len(self.xdata)))
         self.chart.set_xticklabels(self.xdata, rotation='horizontal', fontsize = 8)
 

@@ -4,9 +4,9 @@ import customtkinter as ctk
 from datetime import date
 from dateutil.relativedelta import *
 #import souborů
-from ctkWidgets import Frame, Label, Entry, Button
+from ctkWidgets import Frame, Label, Entry, Button, ComboBox
 from general import General
-from configuration import chart_frame_color
+from configuration import chart_frame_color, sport_list
 
 
 class PieChart (Frame):
@@ -21,14 +21,17 @@ class PieChart (Frame):
         self.start_date = self._addPeriod(self.today, (0, 0, -7))
         self.end_date = self.today
 
-    def _initChartFrame (self, chart_name : str, getTrainingsFunc, makeChartFunc) -> None:
+    def _initPieChartFrame (self, chart_name : str, getTrainingsFunc, makeChartFunc, sport_setting = False) -> None:
         """Vytvoření framu.
         Vstupy: master, funkce s parametry (fisrt_Date, laste_date), vrátí list tréninků. 
         Funkce s parametrem listu dat, vytvoří graf."""
+        self.sport_setting = sport_setting
         self.getTrainings = getTrainingsFunc
         self.makeChart = makeChartFunc
         self._initWidgets(chart_name)
         General.pasteChart(self, (0, 1), 4)
+        if self.sport_setting:
+            self._initSportSetting()
 
     def _initWidgets (self, chart_name : str) -> None:
         """Vytvoření widget v framu grafu."""
@@ -69,6 +72,17 @@ class PieChart (Frame):
         self.var_to.set(General.changeDateForamt(self.end_date))
         to_e.bind('<Return>', self._setStartDate)
         to_e.bind('<FocusOut>', self._setStartDate)
+
+    def _initSportSetting (self) -> None:
+        """VYtvoření widget pro možnost nastavení jednotlivých sportů v koláčovém grafu."""
+        sport_l = Label(self, "Sport:")
+        sport_l.grid(row = 0, column = 2)
+
+        self.var_sport = StringVar()
+        sport_e = ComboBox(self, sport_list, self._setSport,  self.var_sport)
+        sport_e.grid(row = 0, column = 3)
+        self.var_sport.set(sport_list[0])
+        self.setted_sport = sport_list[0]
 
     def _setStartDate (self, value) -> None:
         """Nastavení počátečního data."""
@@ -136,6 +150,11 @@ class PieChart (Frame):
 
     def _updateChart (self, getTrainings, makeChart) -> None:
         """Přegeneruje obsah grufu při inicializace nebo změně nastavení parametrů."""
-        chart_legend, chart_counts, chart_colors = getTrainings(self.start_date, self.end_date)
-        makeChart(chart_legend, chart_counts, chart_colors)
+        chart_content = getTrainings(self.start_date, self.end_date)
+        makeChart(chart_content)
         self.figure.canvas.draw() # aby se zobrazil aktuální graf
+
+    def _setSport (self, value) -> None:
+        """Nastavení sportu zakliknutého v comboboxu."""
+        self.setted_sport = self.var_sport.get()
+        self._updateChart(self.getTrainings, self.makeChart) 

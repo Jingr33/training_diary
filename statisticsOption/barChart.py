@@ -23,7 +23,7 @@ class BarChart (Frame):
         self.xdata = None # popisky osy x (data)
         self.configure(corner_radius = 10, fg_color = chart_frame_color)
 
-    def _initChartFrame(self, chartTrigger, chart_name : str) -> None:
+    def _initBarChartFrame(self, chartTrigger, chart_name : str) -> None:
         """Vytvoření grafického rozhraní framu s grafem.
         Vstup: funkce obsatarávající aktualizaci dat v grafu."""
         self._initWidgets(chartTrigger, chart_name)

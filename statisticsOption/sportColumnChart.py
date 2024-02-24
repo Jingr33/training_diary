@@ -20,7 +20,7 @@ class SportColumnChart (BarChart):
         self.figure = None
         self.chart = None # proměnná pro graf
         self.xdata = None # popisky osy x (data)
-        self._initChartFrame(self._updateChart, "Sporty")
+        self._initBarChartFrame(self._updateChart, "Sporty")
         self._updateChart()
 
     def _updateChart(self, value = None) -> None:
@@ -88,7 +88,7 @@ class SportColumnChart (BarChart):
         self.chart.legend(sport_list, facecolor = colors["dark-gray-2"], frameon=False)
         self.chart.set_xlabel("Datum")
         self.chart.set_ylabel("Počet tréninků")
-        self.chart.set_title("Počet typů tréninků za období")
+        self.chart.set_title("Počet typů tréninků za období", pad = 10)
         self.chart.set_xticks(range(len(self.xdata)))
         self.chart.set_xticklabels(self.xdata, rotation='horizontal', fontsize = 8)
 

@@ -16,4 +16,5 @@
 # upravit slovo nazadano pro nacitani treninku
 
 """GRAFY"""
-# nastavit výšky grafu
+# při žádném tréninku vypsat label
+

@@ -183,3 +183,10 @@ class Run (Sport):
             if training.sport == sport_list[1]:
                 run_trainings.append(training)
         return run_trainings
+    
+    def makeRunContent (trainings : list) -> tuple:
+        """Vytvoří náplň pro koláčový graf podrobností uběhnutých kilometrů běhu."""
+        print(trainings)
+        for training in trainings:
+            print(training.distance)
+        return None 

@@ -1,5 +1,6 @@
 # import knihoven
 from tkinter import *
+import customtkinter as ctk
 from datetime import date
 import matplotlib.pyplot as plt
 import numpy as np
@@ -10,11 +11,11 @@ from configuration import colors, sport_color
 
 class SportRatioChart (PieChart):
     """Třída pro vytvoření koláčového grafu s počty tréninků jednotlivých sportů v daném období."""
-    def __init__(self, master):
+    def __init__(self, master : ctk.CTkBaseClass):
         super().__init__(master)
         self.master = master
         # vytvoření framu s widgetami
-        self._initChartFrame("Sporty", self._getTrainings, self._makeChart)
+        self._initPieChartFrame("Sporty", self._getTrainings, self._makeChart)
         self._updateChart(self._getTrainings, self._makeChart)
 
     def _getTrainings (self, first_date : date, last_date : date) -> list:
@@ -22,14 +23,14 @@ class SportRatioChart (PieChart):
         #načtení listu tréninků
         data_loader = DataLoader()
         trainings = data_loader.getTrainingsInDate(data_loader.trainings, first_date, last_date)
-        legend, count, colors = self._makeChartContent(trainings)
-        return legend, count, colors
+        chart_content = self._makeChartContent(trainings)
+        return chart_content
 
     def _makeChartContent (self, trainings) -> list:
         """Vytvoří list údajů o počtech tréninků a list názvů jednotlivých výsečí pro graf."""
         sport_dict = self._sportCountDict(trainings)
-        legend, count, colors = self._chartContentLists(sport_dict)
-        return legend, count, colors
+        chart_content = self._chartContentLists(sport_dict)
+        return chart_content
 
     def _sportCountDict (self, trainings : list) -> dict:
         """Ze zadaných tréninnků vytvoří slovník, kde klíč je název sportu a hodnota je počet 
@@ -52,17 +53,18 @@ class SportRatioChart (PieChart):
         colors = []
         for sport in legend:
             colors.append(sport_color[sport])
-        return legend, count, colors
+        return (legend, count, colors)
             
-    def _makeChart (self, legend : list, counts : list, colors : list) -> None:
+    def _makeChart (self, chart_content : tuple) -> None:
         """Vytvoří koláčový graf poměru počtu tréninků naležících jednotlivým sportům za období."""
+        legend, counts, color = chart_content
         # vytvoření subplotu
         self.figure.clf()
         self.chart = self.figure.add_subplot(111)
         # vytvoření grafu
         explode = [0.035] * len(legend)
         train_sum = sum(counts)
-        self.chart.pie(counts, labels = legend, startangle = 90, explode = explode, colors = colors, 
+        self.chart.pie(counts, labels = legend, startangle = 90, explode = explode, colors = color, 
                        radius = 1.2, autopct = lambda pct: self._editPtc(pct, train_sum), textprops = {'fontsize' : 11})
         self._modifyInterface()
         self._chartLabels()
@@ -79,4 +81,4 @@ class SportRatioChart (PieChart):
 
     def _chartLabels (self) -> None:
         """Nastaví posisky grafu."""
-        self.chart.set_title("Počet tréninků za období")
+        self.chart.set_title("Počet tréninků za období", pad = 20)

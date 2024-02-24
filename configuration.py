@@ -8,10 +8,10 @@ sport_color = {
     sport_list[0] : "#3498DB", # posilovna
     sport_list[1] : "#C0392B", # běh
 }
-ghost_color = {
-    sport_list[0]: "#3498DB",
-    sport_list[1]: "#C0392B",
-}
+# ghost_color = {
+#     sport_list[0]: "#3498DB",
+#     sport_list[1]: "#C0392B",
+# }
 
 # list výběrových tlačítek v menuFramu
 menu_list = ["Přehled", "Kalendář", "Statistiky"]
@@ -58,6 +58,18 @@ colors = {
     "dark-blue" : "#012f57",
     "light-blue" : "#98d9ed",
     "black" : "#000000",
+}
+
+# barevná paletta pro koláčový graf 
+pie_chart_palette = {
+    "Nohy" : "#009596",
+    "Střed těla" : "#003737",
+    "Prsa" : "#F4C145",
+    "Ramena" : "#C58C00",
+    "Záda" : "#F0AB00",
+    "Biceps" : "#EF9234",
+    "Triceps" : "#EC7A08",
+    "Předloktí" : "#C46100",
 }
 
 #barvy stupňů třídění tréninků v přehledu

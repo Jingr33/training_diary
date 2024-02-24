@@ -40,3 +40,14 @@ class DataLoader ():
                 trains_between.append(training)
         return trains_between
     
+    def getOneSportTrainings (self, trainings : list, sport_name : str,
+                               first_date : date, last_date : date) -> list:
+        """Vrátí tréninky naležící pouze jednomu sportu v časovém rozmezí."""
+        # vybere tréninky v termínu
+        in_term_trains = self.getTrainingsInDate(trainings, first_date, last_date)
+        # vybere tréninky podle sportu 
+        one_sport = []
+        for training in in_term_trains:
+            if training.sport == sport_name:
+                one_sport.append(training)
+        return one_sport
