@@ -24,7 +24,7 @@ class DiffSportsChart (PieChart):
         """Vrátí listů legend jednotlivých výsečí a počtů sportů pro jednotlivé tréninky."""
         #načtení listu tréninků
         data_loader = DataLoader()
-        # setted sport je z rodičovké třídy
+        # setted sport je z rodičovské třídy
         trainings = data_loader.getOneSportTrainings(data_loader.trainings, self.setted_sport, first_date, last_date)
         if not trainings:
             return (0, 0, 0)
@@ -33,8 +33,7 @@ class DiffSportsChart (PieChart):
     
     def _makeChartContent (self, trainings : list) -> list:
         """Vrátí list obsahu pro výseče koláčového grafu."""
-        sport = trainings[0].sport
-        chart_content = SetSport.makeChartContent(trainings, sport)
+        chart_content = SetSport.makeChartContent(trainings, self.setted_sport)
         return chart_content
 
     def _makeChart(self, chart_content : list) -> None:
@@ -61,7 +60,18 @@ class DiffSportsChart (PieChart):
 
     def _makeBarChart (self, chart_content : list, chart_strings : list) -> None:
         """Vytvoření sloupcového typu grafu."""
-        ...
+                # vytvoření subplotu
+        self.figure.clf()
+        self.chart = self.figure.add_subplot(111)
+        # vykreslení grafu
+        num_of_columns = 7
+        ind = np.arange(num_of_columns)
+        width = 0.6
+        bar_plot = self.chart.bar(ind, chart_content, width)
+        self._barLabel(bar_plot, chart_content)
+        self._modifyInterface()
+        self._chartLabels(chart_strings)
+
 
     def _editPtc (self, pct, sum) -> str:
         """Formátuje popisek procent na formát (počet, procenta)."""
@@ -76,3 +86,14 @@ class DiffSportsChart (PieChart):
     def _chartLabels (self, strings : dict) -> None:
         """Nastaví posisky grafu."""
         self.chart.set_title(strings["title"], pad = 20)
+
+    def _barLabel (self, plot : object, data : list) -> None:
+        """Přidá každému sloupci v grafu popisek s číslem jeho četnosti."""
+        self.chart.bar_label(plot, label_type='center', fmt = lambda label: self._barLabelFormat(label),
+                             fontsize = 9, color = colors["black"])
+
+    def _barLabelFormat (self, label : str) -> str:
+        """Naformátuje label sloupce -> pokud je nula nevypíše ho."""
+        if label:
+            return int(label)
+        return ""

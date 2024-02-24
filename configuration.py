@@ -103,5 +103,5 @@ gym_chart_strings = {
 }
 # stringy grafu podrobností běhu
 run_chart_strings = {
-    ...
+    "title" : "Celkové uběhnutá vzdálenost"
 }

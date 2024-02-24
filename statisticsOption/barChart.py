@@ -123,7 +123,7 @@ class BarChart (Frame):
 
     def _setColumnDates(self, year : int, month : int, day : int) -> list:
         """Vytvoří list dat složený z tuplů obsahujících počáteční a koncová data každého 
-        sloupce v grafu. Vstupy jsou 0 nebo 1int, podle toho, o kterou hodnotu (a kolik) se mají jednotlivé sloupce lišit."""
+        sloupce v grafu. Vstupy jsou 0 nebo 1 int, podle toho, o kterou hodnotu (a kolik) se mají jednotlivé sloupce lišit."""
         central_date = self.actual_date
         periods = [None] * 7
         for i in range(-3, 4):

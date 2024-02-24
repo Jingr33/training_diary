@@ -1,5 +1,6 @@
 # import knihoven
 from datetime import date
+from dateutil.relativedelta import *
 import os
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
@@ -140,3 +141,17 @@ class General():
         master.error_l = Label(master, text, ("Arial", 13, "bold"))
         master.error_l.grid(row = grid[0], column = grid[1], columnspan = 4,
                              padx = 5, pady = 5, sticky = "NSEW")
+
+    @staticmethod    
+    def surroundingFirstDate (central_date : date, 
+                               year : int, month : int, day : int) -> date:
+        """Vrátí první den období zobrazovaného daným sloupcem v grafu."""
+        start_date = central_date + relativedelta(years = year, months = month, days = day)
+        return start_date
+    
+    @staticmethod
+    def surroundingLastDate (start_date : date, 
+                              year : int, month : int, day : int) -> date:
+        """Vrátí poslední den období zobrazovaného daným sloupcem v grafu."""
+        end_date = start_date + relativedelta(years = year, months = month, days = day - 1)
+        return end_date
