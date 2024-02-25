@@ -12,7 +12,7 @@ class SinglePlanFrame (Frame):
     def __init__(self, master : ctk.CTkBaseClass):
         super().__init__(master)
         self.master = master
-        self.last_term_row = 2
+        self.term_entry_index = 0
         # nastavení mřížky
         self.columnconfigure([0, 1, 2, 3, 4, 5], weight=1)
         self.rowconfigure([0, 2, 3, 4, 5, 6, 7, 8, 9], weight = 1)
@@ -96,25 +96,45 @@ class SinglePlanFrame (Frame):
         terms_label = Label(self, "Konkrétní data:")
         terms_label.grid(row = 2, column = 5, columnspan = 2)
         # zadaná druhého data (prvního v pořadí)
-        self.last_term_row = 2
+        self.term_entry_index = 0
         self.terms = {
             "labels" : [],
             "entries" : [],
             "vars" : [],
-            "events" : [],
         }
-        self._addTermsEntry(self.last_term_row)
+        self._addTermsEntry(self.term_entry_index)
 
-    def _addTermsEntry (self, last_row : int) -> None:
+    def _addTermsEntry (self, index : int) -> None:
         """Vytvoří další entry a label (s číslem) pro zadaní konkrétního dalšího data tréninku."""
-        term_label = Label(self, "1. ")
-        term_label.grid(row = last_row + 1, column = 5, sticky = "E", padx = 5)
+        term_label = Label(self, str(index + 1) + ". ")
+        term_label.grid(row = index + 3, column = 5, sticky = "E", padx = 5)
         var_term = StringVar()
         term_entry = Entry(self, var_term)
-        term_entry.grid(row = last_row + 1, column = 6)
+        term_entry.grid(row = index + 3, column = 6)
         term_entry.configure(width = self.entry_width)
-        ###############################################
+        term_entry.bind("<Key>", lambda value: self._regenerateTermEntry(index))
+        if index >= 2:
+            self.terms["entries"][index - 2].unbind("<Key>")
         self.terms["labels"].append(term_label)
         self.terms["entries"].append(term_entry)
         self.terms["vars"].append(var_term)
-        self.terms["events"].append(...)
+
+    def _removeTermsentry (self, index : int) -> None:
+        """Odebere poslední entry a label (s číslem) pro zadání konkrétního dalšího data tréninku."""
+        self.terms["entries"][-1].unbind("<Key>")
+        self.terms["entries"][-3].bind("<Key>", lambda value: self._regenerateTermEntry(index - 1))
+        self.terms["labels"][-1].destroy()
+        self.terms["entries"][-1].destroy()
+        del self.terms["labels"][-1]
+        del self.terms["entries"][-1]
+        del self.terms["vars"][-1]
+
+    def _regenerateTermEntry (self, index : int) -> None:
+        """Upraví počet řádků pro zapsání termínu nového tréninku."""
+        # print(self.terms["vars"][index].get())
+        if (self.terms["entries"][index]) and (index < 6):
+            self._addTermsEntry(index + 1)
+        print(self.terms["entries"][index].get())
+        print(self.terms["entries"][index - 1].get())
+        if (not self.terms["entries"][index].get()) and (not self.terms["entries"][index - 1].get()) and (index >= 1):
+            self._removeTermsentry(index)
