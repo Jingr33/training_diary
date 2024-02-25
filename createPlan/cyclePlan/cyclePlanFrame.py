@@ -25,7 +25,7 @@ class CyclePlanFrame (Frame):
         self.rowconfigure(1, weight=200)
         self.rowconfigure(5, weight=2)
 
-        self._initBackButton() # tlačítko zpět
+        General.initBackButton(self) # tlačítko zpět
         self._initGui() # základní nastavení
         self._initDetailsFrame() # vnořený frame
         self._initSaveButton() # ukládací tlačítko
@@ -40,23 +40,14 @@ class CyclePlanFrame (Frame):
         self.end_e.bind('<FocusOut>', self._verifyEnd)
         self.cycles_e.bind('<FocusOut>', self._verifyCycle)
 
-    def _initBackButton (self) -> None:
-        """Talčítko zpět."""
-        back_button = Button(self, "Zpět", self.master.backToChoiceWindow)
-        back_button.grid(row=0, column=0, sticky="NW")
-        back_button.configure(width=40)
-
-
     def _initGui (self) -> None:
         """Vytvoření grafického prostředí."""
         # proměnné pro uživatelské vstupy
         self.var_start = StringVar()
         self.var_end = StringVar()
         self.var_cycles = StringVar()
-
         #paddingy
         pady = 7
-
         # widgety
         start_l = Label(self, "Začátek (dd/mm/yyyy): ")
         start_l.grid(row=2, column=0, pady=pady, sticky="E")
@@ -94,7 +85,6 @@ class CyclePlanFrame (Frame):
         #paddingy
         padx_frame = 3
         pady_frame = 3
-
         self.details_frame = PlanCalendar(self)
         self.details_frame.grid(row=1, column=0, columnspan = 5, sticky="NSWE", 
                            padx = padx_frame, pady = pady_frame)
@@ -198,7 +188,6 @@ class CyclePlanFrame (Frame):
         date_check = self._dateChecker(self.var_start.get())
         self._StartCheckReaction(date_check)
 
-
     def _verifyEnd (self, value) -> None:
         """Získá a ověří vstupní hodnoty konce tréninkového plánu."""
         # ověření koncového data
@@ -238,7 +227,6 @@ class CyclePlanFrame (Frame):
         else:
             self.end_error_l.configure(text = "Špatné zadání.")
             self.end_verified = False
-
 
     def _cycleCheckReaction(self, cycle_chceck : bool) -> None:
         """Provede reakci na ověření vstupu počtu cyklů tréninkového plánu.

@@ -48,7 +48,6 @@ class CreatePlan (ctk.CTkToplevel):
         # vypnutí aktuálního okna
         self.withdraw()
 
-
     def _kill(self) -> None:
         """Zničí okno."""
         self.destroy()

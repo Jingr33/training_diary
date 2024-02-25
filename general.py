@@ -10,7 +10,7 @@ import customtkinter as ctk
 from numpy import transpose
 #import souborů
 from configuration import unknown_text
-from ctkWidgets import Label
+from ctkWidgets import Label, Button
 
 class General():
     """Třídá základních statických funkcí používaných na hodně místech."""
@@ -155,3 +155,10 @@ class General():
         """Vrátí poslední den období zobrazovaného daným sloupcem v grafu."""
         end_date = start_date + relativedelta(years = year, months = month, days = day - 1)
         return end_date
+    
+    @staticmethod
+    def initBackButton (master : object) -> None:
+        """Talčítko zpět v nastavování tréninkového plánu."""
+        back_button = Button(master, "Zpět", master.master.backToChoiceWindow)
+        back_button.grid(row=0, column=0, sticky="NW")
+        back_button.configure(width=40)
