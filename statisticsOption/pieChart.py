@@ -71,8 +71,8 @@ class PieChart (Frame):
         self.to_e = Entry(self, self.var_to)
         self.to_e.grid(row = 3, column = 3, padx = self.entry_padx, pady = self.pady)
         self.var_to.set(General.changeDateForamt(self.end_date))
-        self.to_e.bind('<Return>', self._setStartDate)
-        self.to_e.bind('<FocusOut>', self._setStartDate)
+        self.to_e.bind('<Return>', self._setEndDate)
+        self.to_e.bind('<FocusOut>', self._setEndDate)
 
     def _initSportSetting (self) -> None:
         """VYtvoření widget pro možnost nastavení jednotlivých sportů v koláčovém grafu."""
@@ -107,12 +107,12 @@ class PieChart (Frame):
             separator = General.findSeparator(entry_date)
             if separator:
                 date_list = entry_date.split(separator)
-                self.start_date = date(int(date_list[2]), int(date_list[1]), int(date_list[0]))
-                self.var_from.set(General.changeDateForamt(self.start_date))
+                self.end_date = date(int(date_list[2]), int(date_list[1]), int(date_list[0]))
+                self.var_to.set(General.changeDateForamt(self.end_date))
             else:
-                self.var_from.set(General.changeDateForamt(self.start_date))
+                self.var_to.set(General.changeDateForamt(self.end_date))
         except:
-            self.var_from.set(General.changeDateForamt(self.start_date))
+            self.var_to.set(General.changeDateForamt(self.end_date))
         self._updateChart(self.getTrainings, self.makeChart)
 
     def _setWeekPeriod (self) -> None:
