@@ -2,6 +2,7 @@
 from tkinter import *
 import customtkinter as ctk
 # import souborů
+from overviewOption.confirmAlert import ConfirmAlert
 from overviewOption.table import Table
 from oneTraining import OneTraining
 from general import General
@@ -26,6 +27,8 @@ class Overview (ctk.CTkFrame):
         self._initFilters()
         # vytvoření legendy tabulky
         self._initLegend()
+        # confirmation alert - prázdný
+        self._initConfirmAlert()
         # funkce pro vytvoření tabulky
         self._initTable(self.trainings)
 
@@ -50,6 +53,12 @@ class Overview (ctk.CTkFrame):
         self.legend = Legend(self)
         self.legend.pack(side=TOP, fill = ctk.X, padx = 0, pady=0)
         self.legend.configure(height = 45, corner_radius = 0)
+
+    def _initConfirmAlert (self) -> None:
+        """Vytvoří prázdný konfirmační alert."""
+        confirm_alert = ConfirmAlert(self)
+        confirm_alert.pack(side = TOP, fill = ctk.X)
+        confirm_alert.configure(fg_color = "transparent", height = 0)
 
     def _initTable(self, trainings) -> None:
         """Metoda iniciuje vytvoření tabulky přehledu tréninků."""
@@ -100,3 +109,10 @@ class Overview (ctk.CTkFrame):
         if self.filtered_trainings:
             return self.filtered_trainings
         return self.trainings
+    
+    def confirmationAlert (self, action : str) -> None:
+        """Vytvoří konfirmační aletr, o změně stavu tréninku."""
+        ...
+        # confirm_alert = ConfirmAlert(self, action)
+        # confirm_alert.pack(side = TOP, fill = ctk.X)
+        # confirm_alert.configure(fg_color = "transparent", height = 20)

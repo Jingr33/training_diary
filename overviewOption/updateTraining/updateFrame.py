@@ -83,7 +83,7 @@ class UpdateFrame (Frame):
         values = self._getValuesList()
         OneTraining(self, operation="update", data_list = values) # vytvoření tréninku s novými údaji
         self.master.kill()
-        self.master.master.deleteRow() # smazání starého tréninku
+        self.master.master.deleteRow("update") # smazání starého tréninku
 
     def _getValuesList (self) -> list:
         """Vrátí list zadaných hodnot."""

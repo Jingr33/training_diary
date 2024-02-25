@@ -13,6 +13,7 @@ class OneRow (ctk.CTkFrame):
     """Třída vytvoří jeden řádek tréninku v tabulce v přehledu tréninků."""
     def __init__(self, master: ctk.CTkBaseClass, one_training):
         super().__init__(master)
+        self.master = master
         self.training = one_training
         # listy jednotlivých typů widget
         self.content_wigets = []
@@ -115,7 +116,7 @@ class OneRow (ctk.CTkFrame):
             image = img("images//back_icon.png", (20, 20))
         self.setting_button.configure(image = image)
 
-    def deleteRow(self) -> None:
+    def deleteRow(self, action = "delete") -> None:
         """Metoda smaže řádek z tabulky a vymaže trénink ze záznamů po kliknutí na 
         tlačítko smazat."""
         # vymazání tréninku z databázového souboru s tréninky
@@ -123,6 +124,7 @@ class OneRow (ctk.CTkFrame):
         # skrytí framu, regenrování tabulky, zničení framu
         self._frameHide()
         actual_trainings = self.master.master.getActualTrainings()
+        self.master.master.confirmationAlert(action)
         self.master.master.regenerateTable(actual_trainings)
         self._frameDestroy()
 
@@ -146,3 +148,4 @@ class OneRow (ctk.CTkFrame):
     def _frameDestroy (self) -> None:
         """Smazání framu."""
         self.destroy()
+
