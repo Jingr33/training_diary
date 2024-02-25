@@ -47,6 +47,9 @@ months = {
     12 : "prosinec",
 }
 
+# dny v týdnu
+days_in_week = ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota", "Neděle"]
+
 # paleta barev
 colors = {
     "gray" : "#333333",
