@@ -5,13 +5,13 @@ sport_list = ["posilovna", "běh"]
 free_day = "volno"
 # barvy jednotlivých sportů #TODO nastavovatelnost
 sport_color = {
-    sport_list[0] : "#e74c3c",
-    sport_list[1] : "#3498db",
+    sport_list[0] : "#3498DB", # posilovna
+    sport_list[1] : "#C0392B", # běh
 }
-ghost_color = {
-    sport_list[0]: "#e6c8c5",
-    sport_list[1]: "#b6cfe0",
-}
+# ghost_color = {
+#     sport_list[0]: "#3498DB",
+#     sport_list[1]: "#C0392B",
+# }
 
 # list výběrových tlačítek v menuFramu
 menu_list = ["Přehled", "Kalendář", "Statistiky"]
@@ -51,11 +51,26 @@ months = {
 colors = {
     "gray" : "#333333",
     "dark-gray" : "#2c2c2c",
+    "dark-gray-2" : "#262626",
     "light-gray" : "#444444",
     "dark-red" : "#850101",
     "dark-red-hover" : "#823e3e",
     "dark-blue" : "#012f57",
     "free-day-gray" : "#2f2f2f",
+    "light-blue" : "#98d9ed",
+    "black" : "#000000",
+}
+
+# barevná paletta pro koláčový graf 
+pie_chart_palette = {
+    "Nohy" : "#009596",
+    "Střed těla" : "#003737",
+    "Prsa" : "#F4C145",
+    "Ramena" : "#C58C00",
+    "Záda" : "#F0AB00",
+    "Biceps" : "#EF9234",
+    "Triceps" : "#EC7A08",
+    "Předloktí" : "#C46100",
 }
 
 #barvy stupňů třídění tréninků v přehledu
@@ -82,3 +97,12 @@ chart_range_option = ["den", "týden", "měsíc", "rok"]
 
 # pozadí framů s grafem
 chart_frame_color = "#262626"
+
+# stringy grafu podrobností posilovny
+gym_chart_strings = {
+    "title" : "Poměr odcvičených částí těla",
+}
+# stringy grafu podrobností běhu
+run_chart_strings = {
+    "title" : "Celkové uběhnutá vzdálenost"
+}

@@ -3,7 +3,7 @@ import customtkinter as ctk
 from tkinter import *
 #importy souborů
 from sports.sport import Sport
-from configuration import sport_list, sport_color, gym_body_parts, unknown_text, unknown_text_label
+from configuration import sport_list, sport_color, gym_body_parts, unknown_text, pie_chart_palette
 from ctkWidgets import Label, Entry, CheckBox
 from general import General
 
@@ -128,24 +128,6 @@ class Gym (Sport):
             master.practicedParts = Gym.practicedPartsString(master)
         else:
             master.practicedParts = unknown_text
-
-        # master.time = data_list[2]
-        # master.leg = int(data_list[3])
-        # master.core = int(data_list[4])
-        # master.breast = int(data_list[5])
-        # master.shoulders = int(data_list[6])
-        # master.back = int(data_list[7])
-        # master.biceps = int(data_list[8])
-        # master.triceps = int(data_list[9])
-        # master.forearm = int(data_list[10])
-        # # vytvoření vlastnosti practicedParts
-        # isset = (master.leg + master.core + master.breast + master.shoulders + master.back + 
-        #          master.biceps + master.triceps + master.forearm)
-        # if isset:
-        #     master.practicedParts = Gym.practicedPartsString(master)
-        # else:
-        #     master.practicedParts = unknown_text_label
-
 
     @staticmethod
     def practicedPartsString (master : object):
@@ -343,3 +325,22 @@ class Gym (Sport):
             if training.sport == sport_list[0]:
                 gym_trainings.append(training)
         return gym_trainings
+    
+    def makeGymContent (trainings : list) -> list:
+        """Vytvoří list jednotlivých odtrénovaných částí těla."""
+        practiced_parts = []
+        parts_dict = {}
+        colors = []
+        for training in trainings:
+            if training.practicedParts != unknown_text:
+                parts = training.practicedParts.split(", ")
+                practiced_parts.extend(parts)
+        for part in practiced_parts:
+            if part in parts_dict:
+                parts_dict[part] = parts_dict[part] + 1
+            else:
+                parts_dict[part] = 1
+                colors.append(pie_chart_palette[part])
+        legend_list = parts_dict.keys()
+        count_list = parts_dict.values()
+        return [legend_list, count_list, colors]
