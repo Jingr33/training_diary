@@ -42,37 +42,37 @@ class PieChart (Frame):
 
     def _initTimeSetting (self) -> None:
         """Vytvoření widget pro nastavení období zobrazovaném v grafu."""
-        pady = 1
+        self.pady = 1
         button_padx = 1
-        entry_padx = 5
+        self.entry_padx = 5
         from_l = Label(self, "Od:")
-        from_l.grid(row = 2, column = 0, padx = entry_padx, pady = pady, sticky = "WS")
+        from_l.grid(row = 2, column = 0, padx = self.entry_padx, pady = self.pady, sticky = "WS")
 
         self.var_from = StringVar()
         from_e = Entry(self, self.var_from)
-        from_e.grid(row = 3, column = 0, padx = entry_padx, pady = pady)
+        from_e.grid(row = 3, column = 0, padx = self.entry_padx, pady = self.pady)
         self.var_from.set(General.changeDateForamt(self.start_date))
         from_e.bind('<Return>', self._setStartDate)
         from_e.bind('<FocusOut>', self._setStartDate)
 
         week = Button(self, "Týden", self._setWeekPeriod)
-        week.grid(row = 2, column = 1, padx = button_padx, pady = pady, sticky = "E")
+        week.grid(row = 2, column = 1, padx = button_padx, pady = self.pady, sticky = "E")
         month = Button(self, "Měsíc", self._setMonthPeriod)
-        month.grid(row = 2, column = 2, padx = button_padx, pady = pady, sticky = "W")
+        month.grid(row = 2, column = 2, padx = button_padx, pady = self.pady, sticky = "W")
         three_month = Button(self, "3 měsíce", self._setThreeMonthPeriod)
-        three_month.grid(row = 3, column = 1, padx = button_padx, pady = pady, sticky = "E")
+        three_month.grid(row = 3, column = 1, padx = button_padx, pady = self.pady, sticky = "E")
         year = Button(self, "Rok", self._setYearPeriod)
-        year.grid(row = 3, column = 2, padx = button_padx, pady = pady, sticky = "W")
+        year.grid(row = 3, column = 2, padx = button_padx, pady = self.pady, sticky = "W")
 
-        to_l = Label(self, "Do:")
-        to_l.grid(row = 2, column = 3, padx = entry_padx, pady = pady, sticky = "WS")
+        self.to_l = Label(self, "Do:")
+        self.to_l.grid(row = 2, column = 3, padx = self.entry_padx, pady = self.pady, sticky = "WS")
 
         self.var_to = StringVar()
-        to_e = Entry(self, self.var_to)
-        to_e.grid(row = 3, column = 3, padx = entry_padx, pady = pady)
+        self.to_e = Entry(self, self.var_to)
+        self.to_e.grid(row = 3, column = 3, padx = self.entry_padx, pady = self.pady)
         self.var_to.set(General.changeDateForamt(self.end_date))
-        to_e.bind('<Return>', self._setStartDate)
-        to_e.bind('<FocusOut>', self._setStartDate)
+        self.to_e.bind('<Return>', self._setStartDate)
+        self.to_e.bind('<FocusOut>', self._setStartDate)
 
     def _initSportSetting (self) -> None:
         """VYtvoření widget pro možnost nastavení jednotlivých sportů v koláčovém grafu."""
@@ -160,7 +160,10 @@ class PieChart (Frame):
     def _callErrorLabel (self, chart_content : tuple) -> bool:
         """Pokud nebyly nalezeny tréninky, zavolá se chyboví hláška a tvorba grafu se ukončí. 
         Pokud je chyba zobrazena, ale tréninky již byly nalezeny, odstraní se."""
-        if not chart_content[0]:
+        chart_content_sum = 0
+        if isinstance(chart_content[0], int): # pokud je to číselné pole, uděla se jeho suma
+            chart_content_sum = sum(chart_content)
+        if (not chart_content[0]) and (not chart_content_sum):
             self.figure.clf()
             General.renderErrorToChart(self, "V tomto období nebyly nalezeny\nžádné tréninky.", (1, 0))
             return True

@@ -58,6 +58,10 @@ class DataLoader ():
                 one_sport.append(one_sport_period)
         return one_sport
     
+    def getPeriods (self) -> list:
+        """Vrátí list tuplů (počáteční datum, koncové datum) sloupce."""
+        return self.periods
+    
     def _sortOneSport (self, term_trains : list, sport_name : str) -> list:
         """Z listu tréninků vybere tréninky pouze jednoho sportu."""
         one_sport = []
@@ -74,4 +78,5 @@ class DataLoader ():
             start_date = General.surroundingFirstDate(first_date, i*0, i*0, i*delta.days)
             end_date = General.surroundingLastDate(start_date, 0, 0, delta.days)
             periods[i + 3] = (start_date, end_date)
+        self.periods = periods
         return periods
