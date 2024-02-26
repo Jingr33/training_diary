@@ -56,9 +56,9 @@ class Overview (ctk.CTkFrame):
 
     def _initConfirmAlert (self) -> None:
         """Vytvoří prázdný konfirmační alert."""
-        confirm_alert = ConfirmAlert(self)
-        confirm_alert.pack(side = TOP, fill = ctk.X)
-        confirm_alert.configure(fg_color = "transparent", height = 0)
+        self.confirm_alert = ConfirmAlert(self)
+        self.confirm_alert.pack(side = TOP, fill = ctk.X)
+        self.confirm_alert.configure(fg_color = "transparent", height = 0)
 
     def _initTable(self, trainings) -> None:
         """Metoda iniciuje vytvoření tabulky přehledu tréninků."""
@@ -111,8 +111,5 @@ class Overview (ctk.CTkFrame):
         return self.trainings
     
     def confirmationAlert (self, action : str) -> None:
-        """Vytvoří konfirmační aletr, o změně stavu tréninku."""
-        ...
-        # confirm_alert = ConfirmAlert(self, action)
-        # confirm_alert.pack(side = TOP, fill = ctk.X)
-        # confirm_alert.configure(fg_color = "transparent", height = 20)
+        """Vytvoří konfirmační alert, o změně stavu tréninku."""
+        self.confirm_alert.setAlertMessage(action)
