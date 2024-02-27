@@ -3,13 +3,13 @@ from tkinter import *
 import customtkinter as ctk
 # import souborů
 from overviewOption.confirmAlert import ConfirmAlert
+from overviewOption.legend import Legend
 from overviewOption.table import Table
+from overviewOption.filterFrame import FilterFrame
+from overviewOption.sorting import Sorting
 from oneTraining import OneTraining
 from general import General
 from configuration import trainings_path
-from overviewOption.filterFrame import FilterFrame
-from overviewOption.legend import Legend
-from overviewOption.sorting import Sorting
 
 
 class Overview (ctk.CTkFrame):
@@ -77,8 +77,11 @@ class Overview (ctk.CTkFrame):
     def makeTrainings (self, data_lines) -> list:
         """Metoda vytvoří pole jednotlivých tréninků."""
         trainings = []
+        i = 0
         for one_line in data_lines:
-            one_training = OneTraining(self, "load", one_line)
+            training_id = i
+            i = i + 1
+            one_training = OneTraining(self, "load", one_line, training_id=training_id)
             trainings.append(one_training)
         return trainings
     

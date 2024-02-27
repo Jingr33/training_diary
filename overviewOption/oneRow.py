@@ -61,7 +61,7 @@ class OneRow (ctk.CTkFrame):
         # udává, zda je řádek právě v nastavení pro zobrazení tréninku nebo zobrazení nastavení
         self.is_setting = False
         # vytvoření obrázku
-        image = img("images\setting_icon.JPG", (20, 20))
+        image = img("images\setting_icon.png", (20, 20))
         # button
         self.setting_button = Button(self, "", self.rowSettings)
         self.setting_button.pack(side=RIGHT, fill = ctk.Y, pady = 5, padx = 5)
@@ -111,7 +111,7 @@ class OneRow (ctk.CTkFrame):
     def _changeButtonImage (self) -> None:
         """Změní obrázek v setting_buttonu."""
         if self.is_setting:
-            image = img("images//setting_icon.JPG", (20, 20))
+            image = img("images//setting_icon.png", (20, 20))
         else:
             image = img("images//back_icon.png", (20, 20))
         self.setting_button.configure(image = image)
@@ -136,9 +136,10 @@ class OneRow (ctk.CTkFrame):
         """Vymaže trénink z databáze tréninků."""
         with open(path, "r+") as f:
             rows = f.readlines() # načtení souboru po řádcích
-            f.seek(0) # kurzor na začátek
+            f.seek(0) # kurzor na začátek            
+            f.truncate()
             for i in range(len(rows)):
-                if (i + 1) != training_id:
+                if (i) != training_id:
                     f.write(rows[i])
 
     def _frameHide (self) -> None:

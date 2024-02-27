@@ -2,7 +2,6 @@
 from datetime import date
 #importy souborů
 from sports.setSport import SetSport
-from globalVariables import increaseID, training_id
 from configuration import free_day, trainings_path, unknown_text
 from sports.setSport import SetSport
 from general import General
@@ -11,10 +10,10 @@ class OneTraining ():
     """Třída pro vytvoření instance jednoho tréninku z dat v souboru.
     load - možnost načíst data ze souboru -> trénink pak má všechny svoje vlastnosti, které se o něm ukládají
     save - ..."""
-    def __init__(self, master : object, operation = "", file_line = "", data_list = ""):
+    def __init__(self, master : object, operation = "", file_line = "", data_list = "", training_id = 0):
         self.master = master
         if operation == "load":
-            self._unlockTheData(file_line)
+            self._unlockTheData(file_line, training_id)
         elif operation == "save":
             self._getTrainingToFile(data_list)
         elif operation == "load_plan":
@@ -29,12 +28,12 @@ class OneTraining ():
         date_list = str(real_date).split("-")
         ghost_training.date = date_list[2] + "/" + date_list[1] + "/" + date_list[0]
 
-    def _unlockTheData(self, file_line):
+    def _unlockTheData(self, file_line, training_id : int):
         """Funkce rozklíčuje data ze souboru a přiřadí je objektu."""
         # rozdělení řádku ze souboru na jednolivé údaje
         data_list = General.separateData(file_line)
         # nastavení od tréninku
-        self._setTrainingID()
+        self._setTrainingID(training_id)
         # uložení data tréninku
         self.date = data_list[0]
         self._setRealDate()
@@ -82,9 +81,8 @@ class OneTraining ():
         self.sport = data_list[1]
         SetSport.findData(self, data_list)
 
-    def _setTrainingID (self) -> None:
+    def _setTrainingID (self, training_id : int) -> None:
         """Metoda nastaví tréninku id jako jeho vlastnost."""
-        increaseID(training_id)
         self.id = training_id
 
     def _setRealDate (self) -> None:
@@ -117,6 +115,7 @@ class OneTraining ():
     def _writeToFile (self, string):
         """Metoda pro zapsání dat do souboru."""
         with open(trainings_path, 'a') as f:  
+            f.seek(2)
             f.write(string + " / \n")
 
     def _isSetted (self, list : list) -> list:
