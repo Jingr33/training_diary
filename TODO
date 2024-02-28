@@ -1,7 +1,3 @@
-"""OVERVIEW"""
-# potvrzovací okno při uprave a smazani trninku
-# nefunguje updatování tréninků -> nemažou se staré
-
 """TRAINING PLAN"""
 # CycleTraining -> nejde měnění nstavení columnconfiguration při zvětšování a zmenšování počtu dní
 # přidat potvrzovací frame, že tréninkový plán se uložil
