@@ -45,13 +45,13 @@ class SinglePlanFrame (Frame):
         train_label = Label(self, "Trénink: ")
         train_label.grid(row = 3, column = 0, sticky = "E", padx = label_px)
         self.choose_train = sport_list[0]
-        train_cb = ComboBox(self, sport_list, ..., self.choose_train)
+        train_cb = ComboBox(self, sport_list, self._initDetailFrame, self.choose_train)
         train_cb.grid(row = 3, column = 1, sticky = "W", pady = self.entry_pady)
         train_cb.configure(width = self.entry_width)
         # frame pro nastavení detailů
-        detail_frame = SetDetailsFrame(self)
-        detail_frame.grid(row = 4, column = 0, columnspan = 2, rowspan = 6, padx = 10, pady = 15)
-        detail_frame.configure(width = 200, height = 200)
+        self.detail_frame = SetDetailsFrame(self)
+        self.detail_frame.grid(row = 4, column = 0, columnspan = 2, rowspan = 6, padx = (60, 5), pady = 15, sticky = "NSWE")
+        self.detail_frame.configure(width = 200, height = 200, fg_color = "transparent")
 
     def _initIterationColumns (self) -> None:
         """Vytvoří widgety pro nastavení opakování tréninků."""
@@ -151,6 +151,10 @@ class SinglePlanFrame (Frame):
         # if (not self.terms["entries"][index].get()) and (not self.terms["entries"][index - 1].get()) and (index >= 1):
         #     self._removeTermsentry(index)
             
+    def _initDetailFrame (self, value : str) -> None:
+        """Vytvoří grafické rozhraní nastavování detailu tréninku podle zvoleného sportu."""
+        self.detail_frame.initWidgets(value)
+
     def _savePlan (self) -> None:
         """Uložení plánu."""
         ...

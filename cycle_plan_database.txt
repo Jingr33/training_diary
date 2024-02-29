@@ -18,3 +18,8 @@
 7 / volno
 8 / posilovna / 5 / 0 / 0 / 1 / 0 / 1 / 0 / 1 / 0
 ;
+26/02/2024 / 26/02/2024 /  / 7
+1 / posilovna / nezadano / 0 / 0 / 1 / 1 / 1 / 1 / 1 / 1
+1 / posilovna / nezadano / 1 / 1 / 1 / 1 / 1 / 1 / 1 / 1
+1 / bìh / 1 / 0.1
+;

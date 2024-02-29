@@ -196,3 +196,12 @@ class Run (Sport):
                     continue
             i = i + 1
         return distances
+    
+    def singlePlanRun (master : object) -> None:
+        """Vytvoří widgety pro nastavení tréninku běh v nastavení jednoduchého tréninkového plánu."""
+        distance_label = Label(master, "Očekávaná\nvzdálenost:")
+        distance_label.grid(row = 0, column = 0, sticky = "E", pady = 2)
+        master.var_distance = StringVar()
+        distance_entry = Entry(master, master.var_distance)
+        distance_entry.grid(row = 0, column = 1, sticky = "W", padx = 5, pady = 2)
+        distance_entry.configure(width = master.entry_width)

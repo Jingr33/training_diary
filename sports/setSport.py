@@ -193,3 +193,11 @@ class SetSport():
             chart_type = "bar"
             chart_strings = run_chart_strings
         return chart_type, chart_strings
+    
+    @staticmethod
+    def singlePlanDetails (master : object, sport : str) -> None:
+        """Metoda vytvoří obsah framu s nastavením podrobností tréninku podle sportu v jednodichém nastavení tréninkového plánu."""
+        if sport == sport_list[0]: # posilovna
+            Gym.singlePlanGym(master)
+        elif sport == sport_list[1]: #běh
+            Run.singlePlanRun(master)

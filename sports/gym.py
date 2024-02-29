@@ -344,3 +344,24 @@ class Gym (Sport):
         legend_list = parts_dict.keys()
         count_list = parts_dict.values()
         return [legend_list, count_list, colors]
+    
+    def singlePlanGym (master : object) -> None:
+        """Vytvoří widgety pro nastavení tréninku posilovna v nastavení jednoduchého tréninkového plánu."""
+        master.gym_checkboxes = []
+        master.gym_vars = []
+        row = 0
+        column = 0
+        for i in range(len(gym_body_parts)):
+            var = IntVar(value = 0)
+            checkbox = CheckBox(master, gym_body_parts[i], var)
+            if not i % 2:
+                print("zde")
+                column = 0
+                row = row + 1
+            else: 
+                column = 1
+            print(row)
+            print("i: " + str(i))
+            checkbox.grid(row = row, column = column, padx = 1, pady = 1)
+            master.gym_checkboxes.append(checkbox)
+            master.gym_vars.append(var)
