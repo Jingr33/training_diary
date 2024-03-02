@@ -201,3 +201,11 @@ class SetSport():
             Gym.singlePlanGym(master)
         elif sport == sport_list[1]: #běh
             Run.singlePlanRun(master)
+
+    @staticmethod
+    def singlePlanEntry (master : object, sport : str) -> list:
+        """Ověření uživatelského vstupu do detailního framu v singlePlan. Zároveň nastaví do vlastnosti frame_data rodičovského objektu zadaná data (pokud jsou správné)."""
+        if sport == sport_list[0]: # posilovna
+            return Gym.singlePlanEntry(master)
+        elif sport == sport_list[1]: # běh
+            return Run.singlePlanEntry(master)

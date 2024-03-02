@@ -3,7 +3,7 @@ import customtkinter as ctk
 from tkinter import *
 #importy souborů
 from sports.sport import Sport
-from configuration import sport_list, sport_color
+from configuration import sport_list, sport_color, colors
 from ctkWidgets import Label, Entry
 from general import General
 
@@ -202,6 +202,18 @@ class Run (Sport):
         distance_label = Label(master, "Očekávaná\nvzdálenost:")
         distance_label.grid(row = 0, column = 0, sticky = "E", pady = 2)
         master.var_distance = StringVar()
-        distance_entry = Entry(master, master.var_distance)
-        distance_entry.grid(row = 0, column = 1, sticky = "W", padx = 5, pady = 2)
-        distance_entry.configure(width = master.entry_width)
+        master.distance_entry = Entry(master, master.var_distance)
+        master.distance_entry.grid(row = 0, column = 1, sticky = "W", padx = 5, pady = 2)
+        master.distance_entry.configure(width = master.entry_width)
+
+    @staticmethod
+    def singlePlanEntry (master : object) -> bool:
+        """Ověření uživatelského vstupu do detailního framu v singlePlan. Pokud je vstup správný, nastaví získaná data do vlastnosti rodičovského objektu frame_data"""
+        float_entry = General.checkFloatEntry(master.var_distance.get())
+        unknown_entry = master.var_distance.get() == ""
+        if float_entry or unknown_entry:
+            General.setDefaultBorder(master.distance_entry)
+            master.frame_data = [master.var_distance.get()]
+            return True
+        General.setRedBorder(master.distance_entry)
+        return False

@@ -13,7 +13,7 @@ class CreatePlan (ctk.CTkToplevel):
         super().__init__(master)
         self.title('Výběr tréninkového plánu')
         self.grab_set()
-        self.protocol('WM_DELETE_WINDOW', self._kill)
+        self.protocol('WM_DELETE_WINDOW', self.kill)
         self.geometry("500x400")
         # vxtvoření grafického rozhraní
         self._createGui()
@@ -48,6 +48,6 @@ class CreatePlan (ctk.CTkToplevel):
         # vypnutí aktuálního okna
         self.withdraw()
 
-    def _kill(self) -> None:
+    def kill(self) -> None:
         """Zničí okno."""
         self.destroy()

@@ -355,13 +355,19 @@ class Gym (Sport):
             var = IntVar(value = 0)
             checkbox = CheckBox(master, gym_body_parts[i], var)
             if not i % 2:
-                print("zde")
                 column = 0
                 row = row + 1
             else: 
                 column = 1
-            print(row)
-            print("i: " + str(i))
             checkbox.grid(row = row, column = column, padx = 1, pady = 1)
             master.gym_checkboxes.append(checkbox)
             master.gym_vars.append(var)
+
+    @staticmethod
+    def singlePlanEntry (master : object) -> bool:
+        """Ověření uživatelského vstupu do detailního framu v singlePlan. Pokud je vstup správný, nastaví data do listu frame_data (valstnost rodičovské třídy)."""
+        for i in range(len(master.gym_vars)):
+            master.frame_data.append(master.gym_vars[i].get())
+        if not 1 in master.frame_data:
+            master.frame_data = [""]
+        return True # nic se tu teď neověřuje

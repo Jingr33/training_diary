@@ -9,7 +9,7 @@ from tkinter import *
 import customtkinter as ctk
 from numpy import transpose
 #import souborů
-from configuration import unknown_text
+from configuration import unknown_text, colors
 from ctkWidgets import Label, Button
 
 class General():
@@ -24,22 +24,33 @@ class General():
             checked = False
         return checked
     
+    def checkFloatEntry (entry : str) -> bool:
+        """Ověří, zda je vstupní hodnota float."""
+        try:
+            float(entry)
+            return True
+        except:
+            return False
+    
     @staticmethod
     def checkDateEntry(entry : str, separator = "/") -> bool:
         """Ověří, zda je vstupní hodnota platné datum.
         vstup : dd/mm/yyyy"""
         try:
-            date_list = entry.split("/") # rozdělí vstup
+            date_list = entry.split(separator) # rozdělí vstup
             str_day, str_month, str_year = date_list # uloží list do proměnných
-            day = int(str_day) # převede na int
-            month = int(str_month)
-            year = int(str_year)
-            entry_date = date(year, month, day) # vytvoří datum
+            first = int(str_day) # převede na int
+            second = int(str_month)
+            third = int(str_year)
+            try:
+                entry_date = date(third, second, first) # vytvoří datum
+            except:
+                entry_date = date(first, second, third)
             checked = True
         except:
             checked = False
         return checked
-        
+
     def findSeparator(new_date : str) -> str:
         """Najde oddělovač zadaného data. Pokud se nejedná o žádný z oddělovačů, vrátí None."""
         separators = ["-", "/", ". "]
@@ -49,6 +60,17 @@ class General():
                 return one_sep
         return None
     
+    @staticmethod
+    def stringToDate (date_str : str) -> date:
+        """Ze stringu typu pro datum vytvoří datum."""
+        sep = General.findSeparator(date_str)
+        date_list = date_str.split(sep)
+        if len(date_list[0]) > 2:
+            new_date = date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
+        else:
+            new_date = date(int(date_list[2]), int(date_list[1]), int(date_list[0]))
+        return new_date
+
     @staticmethod
     def changeDateForamt (dt_date : date) -> str:
         """Změní formát data z formátu date na psaný formát data."""
@@ -145,7 +167,7 @@ class General():
     @staticmethod    
     def surroundingFirstDate (central_date : date, 
                                year : int, month : int, day : int) -> date:
-        """Vrátí první den období zobrazovaného daným sloupcem v grafu."""
+        """Vrátí datum posunuté od půdního o zadané množství času."""
         start_date = central_date + relativedelta(years = year, months = month, days = day)
         return start_date
     
@@ -162,3 +184,13 @@ class General():
         back_button = Button(master, "Zpět", master.master.backToChoiceWindow)
         back_button.grid(row=0, column=0, sticky="NW")
         back_button.configure(width=40)
+
+    @staticmethod
+    def setRedBorder (widget : object) -> None:
+        """V případě neplatnosti vstupu nastaví okraj widgety na červenou barvu."""
+        widget.configure(border_color = colors["dark-red"])
+
+    @staticmethod
+    def setDefaultBorder (widget : object) -> None:
+        """V případě opravení vstupu nastaví okraj widgety na původní barvu."""
+        widget.configure(border_color = colors["entry-border"])

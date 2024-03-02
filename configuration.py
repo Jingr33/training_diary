@@ -22,8 +22,10 @@ unknown_text_label = "––"
 
 # cesta k souboru se všemi uloženými tréninky
 trainings_path = "training_database.txt"
-# cesta k souboru s tréninkovými plány
+# cesta k souboru s cyklickými tréninkovými plány
 cycle_plans_path = "cycle_plan_database.txt"
+# cesta k souboru s jednoduchými tréninkovými plány
+single_plans_path = "single_plan_database.txt"
 
 # jednotlivé části těla pro treénink v posilovně
 gym_body_parts = ["Nohy", "Střed těla", "Prsa", "Ramena", "Záda", "Biceps", "Triceps", "Předloktí"]
@@ -62,6 +64,7 @@ colors = {
     "free-day-gray" : "#2f2f2f",
     "light-blue" : "#98d9ed",
     "black" : "#000000",
+    "entry-border" : "#5a5a5a",
 }
 
 # barevná paletta pro koláčový graf 

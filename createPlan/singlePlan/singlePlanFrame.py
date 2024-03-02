@@ -1,11 +1,12 @@
 # importy knihoven
 from tkinter import *
 import customtkinter as ctk
+from datetime import date
 #importy souborů
 from createPlan.singlePlan.setDetailsFrame import SetDetailsFrame
 from ctkWidgets import Frame, Label, Entry, ComboBox, CheckBox, Button
 from general import General
-from configuration import sport_list, days_in_week
+from configuration import sport_list, days_in_week, single_plans_path
 
 class SinglePlanFrame (Frame):
     """Frame s nastavení single tréninkového plánu."""
@@ -38,16 +39,16 @@ class SinglePlanFrame (Frame):
         date_label = Label(self, "Datum: ")
         date_label.grid(row = 2, column = 0, sticky = "E", padx = label_px)
         self.var_date = StringVar()
-        date_entry = Entry(self, self.var_date)
-        date_entry.grid(row = 2, column = 1, sticky = "W", pady = self.entry_pady)
-        date_entry.configure(width = self.entry_width)
+        self.date_entry = Entry(self, self.var_date)
+        self.date_entry.grid(row = 2, column = 1, sticky = "W", pady = self.entry_pady)
+        self.date_entry.configure(width = self.entry_width)
         # typ tréninku
         train_label = Label(self, "Trénink: ")
         train_label.grid(row = 3, column = 0, sticky = "E", padx = label_px)
-        self.choose_train = sport_list[0]
-        train_cb = ComboBox(self, sport_list, self._initDetailFrame, self.choose_train)
-        train_cb.grid(row = 3, column = 1, sticky = "W", pady = self.entry_pady)
-        train_cb.configure(width = self.entry_width)
+        self.choose_train = StringVar(value = "nevybráno")
+        self.train_cb = ComboBox(self, sport_list, self._initDetailFrame, self.choose_train)
+        self.train_cb.grid(row = 3, column = 1, sticky = "W", pady = self.entry_pady)
+        self.train_cb.configure(width = self.entry_width)
         # frame pro nastavení detailů
         self.detail_frame = SetDetailsFrame(self)
         self.detail_frame.grid(row = 4, column = 0, columnspan = 2, rowspan = 6, padx = (60, 5), pady = 15, sticky = "NSWE")
@@ -74,7 +75,7 @@ class SinglePlanFrame (Frame):
         self.cb_values = [None] * 7
         self.checkboxes = [None] * 7
         for i in range(0, 7):
-            cb_value = IntVar()
+            cb_value = IntVar(value = 0)
             checkbox = CheckBox(self, days_in_week[i], cb_value)
             checkbox.grid(row = 3+i, column = 3, padx = padx, pady = self.cb_pady)
             self.cb_values[i] = cb_value
@@ -86,16 +87,16 @@ class SinglePlanFrame (Frame):
         iter_label = Label(self, "Počet opakování")
         iter_label.grid(row = 2, column = 4)
         self.var_iter = StringVar()
-        iter_entry = Entry (self, self.var_iter)
-        iter_entry.grid(row = 3, column = 4)
-        iter_entry.configure(width = self.entry_width)
+        self.iter_entry = Entry (self, self.var_iter)
+        self.iter_entry.grid(row = 3, column = 4)
+        self.iter_entry.configure(width = self.entry_width)
         # jednou za počet dní
         cycle_lenght_label = Label(self, "Jednou za ... dní:")
         cycle_lenght_label.grid(row = 4, column = 4, sticky = "S")
         self.var_cycle_lenght = StringVar()
-        cycle_lenght_entry = Entry(self, self.var_cycle_lenght)
-        cycle_lenght_entry.grid(row = 5, column = 4)
-        cycle_lenght_entry.configure(width = self.entry_width)
+        self.cycle_lenght_entry = Entry(self, self.var_cycle_lenght)
+        self.cycle_lenght_entry.grid(row = 5, column = 4)
+        self.cycle_lenght_entry.configure(width = self.entry_width)
 
     def _initParticularDates (self) -> None:
         """Vytvoří widgety pro nastavení jednotlivých dat tréninků."""
@@ -146,8 +147,6 @@ class SinglePlanFrame (Frame):
         """Upraví počet řádků pro zapsání termínu nového tréninku."""
         if index <= 5:
             self._addTermsEntry(index + 1)
-        # print(self.terms["entries"][index].get())
-        # print(self.terms["entries"][index - 1].get())
         # if (not self.terms["entries"][index].get()) and (not self.terms["entries"][index - 1].get()) and (index >= 1):
         #     self._removeTermsentry(index)
             
@@ -156,5 +155,204 @@ class SinglePlanFrame (Frame):
         self.detail_frame.initWidgets(value)
 
     def _savePlan (self) -> None:
-        """Uložení plánu."""
-        ...
+        """Při kliknutí na tlačítko uložit zhodnotí správnost vstupů a plán do databáze."""
+        checked = self._checkAllEntries()
+        if checked:
+            data_list = self._getEntryData()
+            self._saveInDatabase(data_list)
+            self._destroySelf()
+
+    def _checkAllEntries (self) -> bool:
+        """Funkce pro vyhodnocení správnosti všech vstupů."""
+        date = self._checkMainDate()
+        sport = self._checkSport()
+        details = self._checkDetailsFrameEntry(sport)
+        repeat = self._checkRepeatEntries()
+        other_terms = self._checkOtherTermsEntry()
+        logical = self._checkLogicalEntry()
+        if date and sport and details and repeat and other_terms and logical:
+            return True
+        return False
+
+    def _checkMainDate (self) -> bool:
+        """Zkontroluje platnost hlavního data, vrátí bool."""
+        try:
+            new_date = self.var_date.get()
+            separator = General.findSeparator(new_date)
+            if General.checkDateEntry(new_date, separator):
+                General.setDefaultBorder(self.date_entry)
+                return True
+            else:
+                General.setRedBorder(self.date_entry)
+                return False
+        except:
+            General.setRedBorder(self.date_entry)
+            return False
+        
+    def _checkSport (self) -> bool:
+        """Zkontroluje platnost nastaveného sportu."""
+        if self.choose_train.get() in sport_list:
+            General.setDefaultBorder(self.train_cb)
+            return True
+        General.setRedBorder(self.train_cb)
+        return False
+
+    def _checkDetailsFrameEntry (self, sport_checked : bool) -> bool:
+        """Zkontroluje vstupy detailů nastavení tréninku daného sportu (pokud je co kontrolovat)."""
+        if sport_checked:
+            return self.detail_frame.checkEntry()
+        return False
+    
+    def _checkRepeatEntries (self) -> None:
+        """Metoda ověří oba vstupy pro nastavení četnosti a častosti opakování tréninku."""
+        iter = self._checkIterationEntry()
+        freq = self._checkFrequencyEntry()
+        if iter and freq:
+            return True
+
+    def _checkIterationEntry (self) -> bool:
+        """Ověří vstup počtu iterací tréninku, vrátí bool."""
+        if General.checkIntEntry(self.var_iter.get()) or self.var_iter.get() == "":
+            General.setDefaultBorder(self.iter_entry)
+            return True
+        General.setRedBorder(self.iter_entry)
+        return False
+
+    def _checkFrequencyEntry (self) -> bool:
+        """Ověří vstup častosti opakování tréninku, vrátí bool."""
+        if General.checkIntEntry(self.var_cycle_lenght.get()) or self.var_cycle_lenght.get() == "":
+            General.setDefaultBorder(self.cycle_lenght_entry)
+            return True
+        General.setRedBorder(self.cycle_lenght_entry)
+        return False
+    
+    def _checkOtherTermsEntry (self) -> bool:
+        """Ověří a obraví vstupy (podle spravnosti) nastavení dalšícho konkrétních dat tréninku."""
+        for i in range(len(self.terms["vars"])):
+            if self.terms["vars"][i].get() == "":
+                return self._otherTermsBorderTrue(i)
+            try:
+                sep = General.findSeparator(self.terms["vars"][i].get())
+                checked = General.checkDateEntry(self.terms["vars"][i].get(), sep)
+                if checked:
+                    return self._otherTermsBorderTrue(i)
+                else:
+                    return self._otherTermsBorderFalse(i)
+            except:
+                return self._otherTermsBorderFalse(i)
+            
+    def _otherTermsBorderTrue (self, index : int) -> bool:
+        General.setDefaultBorder(self.terms["entries"][index])
+        return True
+    
+    def _otherTermsBorderFalse (self, index : int) -> bool:
+        General.setRedBorder(self.terms["entries"][index])
+        return False
+    
+    def _checkLogicalEntry (self) -> bool:
+        """Vrátí bool, kontroluje, zda jsou zadané všechnx potřebné parametry pro zapsání dat do souboru."""
+        days_in_week = False
+        for value in self.cb_values:
+            if value.get() != 0:
+                days_in_week = True
+                continue
+        if (days_in_week or self.var_cycle_lenght.get()) and (not self.var_iter.get()):
+            General.setRedBorder(self.iter_entry)
+            return False
+        General.setDefaultBorder(self.iter_entry)
+        return True
+    
+    def _getEntryData (self) -> list:
+        """Získá data zadaná uživatel jako list datumů a list podrobností tréninku. Vrátí jako 2d list [data, podrobnosti]."""
+        train_details = self._getTrainingData()
+        terms = self._getDates()
+        return [terms, train_details]
+
+    def _getTrainingData (self) -> list:
+        """Získá data o tréninku. Vrátí list dat, který bude tvořit 1 řádek v souboru s tréninkovými plány."""
+        sport_line = [self.choose_train.get()]
+        sport_line.extend(self.detail_frame.getData())
+        return sport_line
+
+    def _getDates (self) -> list:
+        """Získá data, ve kterých se trénink zopakuje. Vrátí list těchto dat pro zapsání jednoho řádku do souboru databáze sinle plánů."""
+        main_date = General.stringToDate(self.var_date.get())
+        date_line = [main_date] # hlavní datum
+        date_line.extend(self._getOtherTerms()) # přidaní konkrétních dat
+        if self.var_cycle_lenght.get() != "":
+            date_line.extend(self._getRepeatingDates(main_date)) # přádaní cyklů
+        date_line.extend(self._getInWeekRepeat(main_date, int(self.var_iter.get())))
+        date_line.sort()
+        date_line = self._changeToDatabaseDate(date_line)
+        return date_line
+
+    def _getOtherTerms (self) -> list:
+        """Vrátí list datumů získaných z části zadávání konkrétních data tréninku."""
+        dates = []
+        for i in range(len(self.terms["vars"])):
+            if self.terms["vars"][i].get() == "": continue
+            other_date = General.stringToDate(self.terms["vars"][i].get())
+            dates.append(other_date)
+        return dates
+
+    def _getRepeatingDates (self, start_date : date) -> list:
+        """Vrátí list datumů s části zadávání frekvence a počtu opakování tréninku."""
+        dates = [None] * int(self.var_iter.get())
+        for i in range(int(self.var_iter.get())):
+            days = int(self.var_cycle_lenght.get())
+            next_date = General.surroundingFirstDate(start_date, 0, 0, (i + 1)*days)
+            dates[i] = next_date
+        return dates
+    
+    def _getInWeekRepeat (self, start_date : date, repetition) -> list:
+        """Vrátí list datumů získaných z části opakování tréninků v týdnu."""
+        if self._checkEmptyWeek():
+            print("zde")
+            return []
+        dates = []
+        for day_of_week in range(len(self.cb_values)):
+            if self.cb_values[day_of_week].get() == 0: continue #den nebyl nastaven -> přeskočí se
+            dates.extend(self._dayOfWeekDayDates(start_date, day_of_week, repetition))
+        return dates
+    
+    def _checkEmptyWeek (self) -> None:
+        """Zkontroluje, zda bylo něco zadání do nastavení opakování tréninků v jednotlivých dnech v týdnu."""
+        for value in self.cb_values: # pokud není zadán žádný den v týdnu
+            if value.get() == 1:
+                return False
+        return True
+
+    def _dayOfWeekDayDates (self, start_date : date, day_in_week : int, repetition : int) -> list:
+        """Vrátí pro každý den v týdnu list dat, ve kterých se trénink zopakuje."""
+        start_date_day = start_date.weekday()
+        first_repeat = day_in_week - start_date_day # za kolik dní od počátku nastane první opakování tréninku
+        if day_in_week < start_date_day: # pokud je první opakování před počátečním datem, bude o  týden později
+            first_repeat = first_repeat + 7
+        dates = [General.surroundingFirstDate(start_date, 0, 0, first_repeat)]
+        for i in range(1, repetition):
+            dates.append(General.surroundingFirstDate(dates[0], 0, 0, i*7))
+        return dates
+    
+    def _changeToDatabaseDate (self, date_list : list) -> None:
+        for i in range(len(date_list)):
+            date_list[i] = General.changeDateForamt(date_list[i])
+        return date_list
+    
+    def _saveInDatabase (self, data_list : list) -> None:
+        """Uloží data do databáze jednoduchých tréninkových plánu."""
+        for i in range(len(data_list)):
+            data_list[i] = General.prepareString(data_list[i])
+        with open (single_plans_path, 'a') as f:
+            f.seek(2)
+            for line in data_list:
+                f.write(line +  " / \n")
+            f.write(";\n")
+
+    def _destroySelf (self) -> None:
+        """Zavře toto okno i kono výběru plánu."""
+        self.master.backToChoiceWindow()
+        self.master.master.kill()
+
+###############################################################################
+# to ověřování prázdnosti dnů v týdnu nefunguje jak má, tak to sprav
+###############################################################################
