@@ -2,6 +2,7 @@
 from tkinter import *
 import customtkinter as ctk
 from datetime import date
+from icecream import ic
 #importy souborů
 from createPlan.singlePlan.setDetailsFrame import SetDetailsFrame
 from ctkWidgets import Frame, Label, Entry, ComboBox, CheckBox, Button
@@ -255,7 +256,7 @@ class SinglePlanFrame (Frame):
         for value in self.cb_values:
             if value.get() != 0:
                 days_in_week = True
-                continue
+                break
         if (days_in_week or self.var_cycle_lenght.get()) and (not self.var_iter.get()):
             General.setRedBorder(self.iter_entry)
             return False
@@ -281,7 +282,7 @@ class SinglePlanFrame (Frame):
         date_line.extend(self._getOtherTerms()) # přidaní konkrétních dat
         if self.var_cycle_lenght.get() != "":
             date_line.extend(self._getRepeatingDates(main_date)) # přádaní cyklů
-        date_line.extend(self._getInWeekRepeat(main_date, int(self.var_iter.get())))
+        date_line.extend(self._getInWeekRepeat(main_date, self.var_iter.get())) # dny v týdnu
         date_line.sort()
         date_line = self._changeToDatabaseDate(date_line)
         return date_line
@@ -304,10 +305,12 @@ class SinglePlanFrame (Frame):
             dates[i] = next_date
         return dates
     
-    def _getInWeekRepeat (self, start_date : date, repetition) -> list:
-        """Vrátí list datumů získaných z části opakování tréninků v týdnu."""
+    def _getInWeekRepeat (self, start_date : date, repetition : str) -> list:
+        """Pokud jsou iterace zadány, vrátí list datumů získaných z části opakování tréninků v týdnu."""
+        if not General.checkIntEntry(repetition):
+            return []
+        repetition = int(repetition)
         if self._checkEmptyWeek():
-            print("zde")
             return []
         dates = []
         for day_of_week in range(len(self.cb_values)):
@@ -352,7 +355,3 @@ class SinglePlanFrame (Frame):
         """Zavře toto okno i kono výběru plánu."""
         self.master.backToChoiceWindow()
         self.master.master.kill()
-
-###############################################################################
-# to ověřování prázdnosti dnů v týdnu nefunguje jak má, tak to sprav
-###############################################################################
