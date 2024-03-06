@@ -50,9 +50,16 @@ class SinglePlanFrame (Frame):
         self.train_cb = ComboBox(self, sport_list, self._initDetailFrame, self.choose_train)
         self.train_cb.grid(row = 3, column = 1, sticky = "W", pady = self.entry_pady)
         self.train_cb.configure(width = self.entry_width)
+        # čas tréninku
+        time_label = Label(self, "Čas:")
+        time_label.grid(row = 4, column = 0, sticky = "E", padx = label_px)
+        self.var_time = StringVar()
+        self.time_entry = Entry(self, self.var_time)
+        self.time_entry.grid(row = 4, column = 1, sticky = "W", pady = self.entry_pady)
+        self.time_entry.configure(width = self.entry_width)
         # frame pro nastavení detailů
         self.detail_frame = SetDetailsFrame(self)
-        self.detail_frame.grid(row = 4, column = 0, columnspan = 2, rowspan = 6, padx = (60, 5), pady = 15, sticky = "NSWE")
+        self.detail_frame.grid(row = 5, column = 0, columnspan = 2, rowspan = 6, padx = (60, 5), pady = 15, sticky = "NSWE")
         self.detail_frame.configure(width = 200, height = 200, fg_color = "transparent")
 
     def _initIterationColumns (self) -> None:
@@ -167,11 +174,12 @@ class SinglePlanFrame (Frame):
         """Funkce pro vyhodnocení správnosti všech vstupů."""
         date = self._checkMainDate()
         sport = self._checkSport()
+        time = self._checkTime()
         details = self._checkDetailsFrameEntry(sport)
         repeat = self._checkRepeatEntries()
         other_terms = self._checkOtherTermsEntry()
         logical = self._checkLogicalEntry()
-        if date and sport and details and repeat and other_terms and logical:
+        if date and sport and time and details and repeat and other_terms and logical:
             return True
         return False
 
@@ -197,6 +205,16 @@ class SinglePlanFrame (Frame):
             return True
         General.setRedBorder(self.train_cb)
         return False
+    
+    def _checkTime (self) -> bool:
+        """Zkontroluje platnost nastaveného času tréninku."""
+        time = self.var_time.get()
+        if General.checkFloatEntry(time) or time == "":
+            General.setDefaultBorder(self.time_entry)
+            return True
+        else:
+            General.setRedBorder(self.time_entry)
+            return False
 
     def _checkDetailsFrameEntry (self, sport_checked : bool) -> bool:
         """Zkontroluje vstupy detailů nastavení tréninku daného sportu (pokud je co kontrolovat)."""
@@ -271,7 +289,7 @@ class SinglePlanFrame (Frame):
 
     def _getTrainingData (self) -> list:
         """Získá data o tréninku. Vrátí list dat, který bude tvořit 1 řádek v souboru s tréninkovými plány."""
-        sport_line = [self.choose_train.get()]
+        sport_line = [self.choose_train.get(), self.var_time.get()]
         sport_line.extend(self.detail_frame.getData())
         return sport_line
 

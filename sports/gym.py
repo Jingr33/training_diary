@@ -121,8 +121,8 @@ class Gym (Sport):
             master.biceps = int(data_list[6 + index_adjustment])
             master.triceps = int(data_list[7 + index_adjustment])
             master.forearm = int(data_list[8 + index_adjustment])
-            isset = (master.leg + master.core + master.breast + master.shoulders + master.back + 
-                    master.biceps + master.triceps + master.forearm)
+            # isset = (master.leg + master.core + master.breast + master.shoulders + master.back + 
+            #         master.biceps + master.triceps + master.forearm)
 
             # vytvoření vlastnosti practicedParts
             master.practicedParts = Gym.practicedPartsString(master)
