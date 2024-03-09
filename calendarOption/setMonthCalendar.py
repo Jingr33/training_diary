@@ -23,7 +23,7 @@ class SetMonth (Frame):
         self.var_text = self._formatMonth(self.setted_date)
 
         # button pro překliknutí na dřívější měsíc
-        self.prev_b = Button(self, "prev", self._prevMonth)
+        self.prev_b = Button(self, "Předchozí", self._prevMonth)
         self.prev_b.pack(side=LEFT, anchor = ctk.E, pady = 15)
         self.prev_b.configure(width=40)
 
@@ -33,7 +33,7 @@ class SetMonth (Frame):
         self.now_l.configure(width = 120)
 
         # button pro překliknutí na následující měsíc
-        self.next_b = Button(self, "next", self._nextMonth)
+        self.next_b = Button(self, "Následující", self._nextMonth)
         self.next_b.pack(side=LEFT, anchor = ctk.W, pady = 15)
         self.next_b.configure(width=40)
 
