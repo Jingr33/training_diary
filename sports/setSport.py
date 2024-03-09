@@ -3,6 +3,7 @@ from sports.sport import Sport
 from sports.gym import Gym
 from sports.run import Run
 from configuration import sport_list, free_day, gym_chart_strings, run_chart_strings
+from icecream import ic
 
 class SetSport():
     """Třída pro nastavení základních vlastností pro jednotlivé sporty."""

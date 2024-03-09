@@ -75,8 +75,8 @@ class Run (Sport):
     def runData(master : object,  data_list : list, index_adjustment = 2) -> None:
         """Rozklíčuje data z tréninkové databáze pokud se jedná 
         o běžeckéhý trénink."""
-        master.time = General.checkKnownInt(data_list[0 + index_adjustment])
-        master.distance = General.checkKnownInt(data_list[1 + index_adjustment])
+        master.time = General.checkKnownFloat(data_list[0 + index_adjustment])
+        master.distance = General.checkKnownFloat(data_list[1 + index_adjustment])
 
     @staticmethod
     def plan_getRunData (master : object, data : tuple) -> None:

@@ -146,6 +146,9 @@ class OneTraining ():
         self.ghost = True # aby se poznalo, že je to ghost trénink
         data_list = General.separateData(data_line) # vytvoření listu dat
         del data_list[-1]
-        self.date = General.stringToDate(data_list[0])
-        self.sport = data_line[1]
-        SetSport.findData(self, data_line)
+        ic(data_list)
+        self.date = data_list[0]
+        self.real_date = General.stringToDate(self.date)
+        self.sport = data_list[1]
+        ic(self.sport)
+        SetSport.findData(self, data_list)

@@ -14,6 +14,9 @@ class OneSingleTraining ():
         self.dates = self._getTrainTerms(plan_data[0])
         # self._getTrainingInfo(plan_data[1]) # nastaví jako vlastnosti
         self.all_trainings = self._createTrainings(plan_data[1])
+        # získání seřazených dat, prvního a posledního data, kdy se uskuteční nějaký trénink z plánu
+        self.sorted_dates = self._sortTerms()
+        self.start_date, self.end_date = General.getBorderTerms(self.sorted_dates)
 
     # def _dataLineToList (self, plan_data : list) -> list:
     #     """Převede informace z listu stringů řádků převzatých z databáze do list listů s oddělenými informacemi."""
@@ -41,9 +44,9 @@ class OneSingleTraining ():
             all_trains[i] = new_training
         return all_trains
     
-######################################################################################
-# celé blbě, ty funkce pro vytváření vlastností se stejně udělají ve OneTRainingu znovu, tak tam jenom nasypej ty řádky spojené pro každý jeden trénink a už nechej one_training si to nastavit, páč stejně pak ty vlastnosti usí mít OneTraining ne tohle.
-#######################################################################################
-
-        
-
+    def _sortTerms (self) -> list:
+        """Seřadí data tréninků od nejstaršího po nejnovější, vrátí list dat ve formátu date."""
+        for i in range(len(self.dates)):
+            self.dates[i] = General.stringToDate(self.dates[i]) # na formát date
+        self.dates.sort()
+        return self.dates

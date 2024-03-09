@@ -8,6 +8,7 @@ from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,) # pro přenes
 from tkinter import * 
 import customtkinter as ctk
 from numpy import transpose
+from icecream import ic
 #import souborů
 from configuration import unknown_text, colors
 from ctkWidgets import Label, Button
@@ -50,6 +51,13 @@ class General():
         except:
             checked = False
         return checked
+    
+    @staticmethod
+    def dateBetween (date : date, start_border : date, end_border : date) -> bool:
+        """Porovná data, pokud je zadané datum mezi hranicemi, vrátí True, jinak False. (porovnání <=)"""
+        if start_border <= date <= end_border:
+            return True
+        return False
 
     def findSeparator(new_date : str) -> str:
         """Najde oddělovač zadaného data. Pokud se nejedná o žádný z oddělovačů, vrátí None."""
@@ -72,7 +80,7 @@ class General():
         return new_date
 
     @staticmethod
-    def changeDateForamt (dt_date : date) -> str:
+    def changeDateFormat (dt_date : date) -> str:
         """Změní formát data z formátu date na psaný formát data."""
         return str(dt_date.day) + ". " + str(dt_date.month) + ". " + str(dt_date.year)
     
@@ -111,11 +119,13 @@ class General():
             return None
         
     @staticmethod 
-    def checkKnownInt (integer_check : str) -> float:
-        """Zkontroluje, zda údaj ve tvaru integeru byl, pokud ne, uloží do proměnné None."""
-        if integer_check == unknown_text:
+    def checkKnownFloat (float_check : str) -> float:
+        """Zkontroluje, zda údaj ve tvaru integeru byl vyplněn, pokud ne, uloží do proměnné None."""
+        ic(float_check)
+        if float_check == unknown_text:
+            ic("zde")
             return None
-        return float(integer_check)
+        return float(float_check)
     
     @staticmethod
     def deleteFrameWidgets (widget_parent : object) -> None:
@@ -152,7 +162,7 @@ class General():
         widget.grid(column = grid[0], row = grid[1], columnspan=columnspan, padx = 12, pady = 5)
 
     @staticmethod
-    def _invertList (data : list) -> list:
+    def invertList (data : list) -> list:
         """Vrátí 2d list transponovaně."""
         return transpose(data)
     
@@ -194,3 +204,18 @@ class General():
     def setDefaultBorder (widget : object) -> None:
         """V případě opravení vstupu nastaví okraj widgety na původní barvu."""
         widget.configure(border_color = colors["entry-border"])
+
+    @staticmethod
+    def getBorderTerms (date_list : date) -> date:
+        """Z listu seřazených dat formátu date, vrátí 2 data: nejstarší a nejmladší datum."""
+        first_date = date_list[0]
+        last_date = date_list[-1]
+        return first_date, last_date
+    
+    @staticmethod
+    def emptyToUknowText (data_list : list) -> list:
+        """V listu pro zapsání dat do databáze vymění prázné hodnoty (uživatelem nezadané) za hodnoty nezadano."""
+        for i in range(len(data_list)):
+            if data_list[i] == "":
+                data_list[i] = unknown_text
+        return data_list

@@ -167,6 +167,7 @@ class SinglePlanFrame (Frame):
         checked = self._checkAllEntries()
         if checked:
             data_list = self._getEntryData()
+            self._setUnknowValues(data_list)
             self._saveInDatabase(data_list)
             self._destroySelf()
 
@@ -356,8 +357,14 @@ class SinglePlanFrame (Frame):
     
     def _changeToDatabaseDate (self, date_list : list) -> None:
         for i in range(len(date_list)):
-            date_list[i] = General.changeDateForamt(date_list[i])
+            date_list[i] = General.changeDateFormat(date_list[i])
         return date_list
+    
+    def _setUnknowValues (self, data_list : list) -> list:
+        """Nastaví nezadaným hodnotám v listu informaci nezadano."""
+        for i in range(len(data_list)):
+            data_list[i] = General.emptyToUknowText(data_list[i])
+        return data_list
     
     def _saveInDatabase (self, data_list : list) -> None:
         """Uloží data do databáze jednoduchých tréninkových plánu."""

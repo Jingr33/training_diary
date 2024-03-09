@@ -56,7 +56,7 @@ class TabelContentFiller ():
         """Zobrazí v kalendáři naplánované tréninky pocházející z cyklických tréninkových plánů."""
         for plan in self.cycle_plans:
             # pokud nesedí plán do data, celý tréninkový plán se přeskočí
-            if self._planInPast(): continue
+            if self._cyclePlanInPast(): continue
             if not self._intersectDates(plan): continue
             # vypočet data začátku nového cyklu tréninkového plánu nejblíže před začátkem zobrazovaného období a po konci zobrazovaného období
             first_cycle = self._nearestDateToStart(plan)
@@ -71,7 +71,7 @@ class TabelContentFiller ():
         """Zobrazí v kalendáři naplánované volné dny pocházející z cyklických tréninkových plánů."""
         for plan in self.cycle_plans:
             # pokud nesedí plán do data, celý tréninkový plán se přeskočí
-            if self._planInPast(): continue
+            if self._cyclePlanInPast(): continue
             if not self._intersectDates(plan): continue
             # vypočet data začátku nového cyklu tréninkového plánu nejblíže před začátkem zobrazovaného období a po konci zobrazovaného období
             first_cycle = self._nearestDateToStart(plan)
@@ -84,6 +84,11 @@ class TabelContentFiller ():
 
     def _dispSinglePlans (self, frame_list : tuple) -> None:
         """Zobrazí v kalendáři tréninky pocházející z jednoduchých tréninkových plánů."""
+        for plan in self.single_plans:
+            if self._singlePlanInPast(plan): continue
+            if not self._intersectDates(plan): continue
+            trainings = self._cutOffForeignTrains(plan.all_trainings)
+            self._renderActivities(frame_list, trainings)
 
     def _renderActivities (self, frame_list : tuple, strips_to_render : list) -> None:
         """Vykreslí stripy tréninků do jednotlivých framů v kalendáři."""
@@ -98,12 +103,26 @@ class TabelContentFiller ():
             if not frame_list[index_of_frame].strips:
                 frame_list[index_of_frame].createFreeDay()
 
-    def _planInPast (self) -> bool:
+    def _cyclePlanInPast (self) -> bool:
         """Zkontroluje, zda je trénink zobrazené období v minulosti, pokud ano, tréninkové plány se
         nezobrazují, pokud ne nebo část ne, plán se zobrazí."""
         if date.today() > self.last_date:
             return True
         return False
+    
+    def _singlePlanInPast (self, plan : object) -> bool:
+        """Zkontroluje, zda ještě nějaký trénink z plánu aktuální, pokud se jedná o minulost, přeskočí se."""
+        if date.today() > plan.end_date:
+            return True
+        return False
+    
+    def _cutOffForeignTrains (self, trainings : list) -> list:
+        """Vystřihne z pole tréninků tréninky, které neodpovídají zobrazenému období. Vrátí list tréninků ve zobrazeném období."""
+        right_trains = []
+        for training in trainings:
+            if General.dateBetween(training.real_date, self.first_date, self.last_date):
+                right_trains.append(training)
+        return right_trains
 
     def _intersectDates (self, train_plan : object) -> bool:
         """Rozhodne, zda se tréninkový plán a zobrazené období v kalendáři časově protínají.
