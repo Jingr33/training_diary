@@ -51,7 +51,7 @@ class PieChart (Frame):
         self.var_from = StringVar()
         from_e = Entry(self, self.var_from)
         from_e.grid(row = 3, column = 0, padx = self.entry_padx, pady = self.pady)
-        self.var_from.set(General.changeDateForamt(self.start_date))
+        self.var_from.set(General.changeDateFormat(self.start_date))
         from_e.bind('<Return>', self._setStartDate)
         from_e.bind('<FocusOut>', self._setStartDate)
 
@@ -70,7 +70,7 @@ class PieChart (Frame):
         self.var_to = StringVar()
         self.to_e = Entry(self, self.var_to)
         self.to_e.grid(row = 3, column = 3, padx = self.entry_padx, pady = self.pady)
-        self.var_to.set(General.changeDateForamt(self.end_date))
+        self.var_to.set(General.changeDateFormat(self.end_date))
         self.to_e.bind('<Return>', self._setEndDate)
         self.to_e.bind('<FocusOut>', self._setEndDate)
 
@@ -93,11 +93,11 @@ class PieChart (Frame):
             if separator:
                 date_list = entry_date.split(separator)
                 self.start_date = date(int(date_list[2]), int(date_list[1]), int(date_list[0]))
-                self.var_from.set(General.changeDateForamt(self.start_date))
+                self.var_from.set(General.changeDateFormat(self.start_date))
             else:
-                self.var_from.set(General.changeDateForamt(self.start_date))
+                self.var_from.set(General.changeDateFormat(self.start_date))
         except:
-            self.var_from.set(General.changeDateForamt(self.start_date))
+            self.var_from.set(General.changeDateFormat(self.start_date))
         self._updateChart(self.getTrainings, self.makeChart)
 
     def _setEndDate (self, value) -> None:
@@ -108,39 +108,39 @@ class PieChart (Frame):
             if separator:
                 date_list = entry_date.split(separator)
                 self.end_date = date(int(date_list[2]), int(date_list[1]), int(date_list[0]))
-                self.var_to.set(General.changeDateForamt(self.end_date))
+                self.var_to.set(General.changeDateFormat(self.end_date))
             else:
-                self.var_to.set(General.changeDateForamt(self.end_date))
+                self.var_to.set(General.changeDateFormat(self.end_date))
         except:
-            self.var_to.set(General.changeDateForamt(self.end_date))
+            self.var_to.set(General.changeDateFormat(self.end_date))
         self._updateChart(self.getTrainings, self.makeChart)
 
     def _setWeekPeriod (self) -> None:
         """Nastaví týdenní obdodí od počátečního dne při kliknutí na tlačítko týden."""
-        self.var_from.set(General.changeDateForamt(self.start_date))
+        self.var_from.set(General.changeDateFormat(self.start_date))
         self.end_date = self._addPeriod(self.start_date, (0, 0, 7))
-        self.var_to.set(General.changeDateForamt(self.end_date))
+        self.var_to.set(General.changeDateFormat(self.end_date))
         self._updateChart(self.getTrainings, self.makeChart)
 
     def _setMonthPeriod (self) -> None:
         """Nastaví měsíční obdodí od počátečního dne při kliknutí na tlačítko měsíc."""
-        self.var_from.set(General.changeDateForamt(self.start_date))
+        self.var_from.set(General.changeDateFormat(self.start_date))
         self.end_date = self._addPeriod(self.start_date, (0, 1, 0))
-        self.var_to.set(General.changeDateForamt(self.end_date))
+        self.var_to.set(General.changeDateFormat(self.end_date))
         self._updateChart(self.getTrainings, self.makeChart)
 
     def _setThreeMonthPeriod (self) -> None:
         """Nastaví tříměsíční obdodí od počátečního dne při kliknutí na tlačítko 3 měsíce."""
-        self.var_from.set(General.changeDateForamt(self.start_date))
+        self.var_from.set(General.changeDateFormat(self.start_date))
         self.end_date = self._addPeriod(self.start_date, (0, 3, 0))
-        self.var_to.set(General.changeDateForamt(self.end_date))
+        self.var_to.set(General.changeDateFormat(self.end_date))
         self._updateChart(self.getTrainings, self.makeChart)
 
     def _setYearPeriod (self) -> None:
         """Nastaví roční obdodí od počátečního dne při kliknutí na tlačítko rok."""
-        self.var_from.set(General.changeDateForamt(self.start_date))
+        self.var_from.set(General.changeDateFormat(self.start_date))
         self.end_date = self._addPeriod(self.start_date, (1, 0, 0))
-        self.var_to.set(General.changeDateForamt(self.end_date))
+        self.var_to.set(General.changeDateFormat(self.end_date))
         self._updateChart(self.getTrainings, self.makeChart)
 
     def _addPeriod (self, original_date : date, delta_time : tuple) -> date:

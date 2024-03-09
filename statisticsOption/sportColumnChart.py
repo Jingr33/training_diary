@@ -61,7 +61,7 @@ class SportColumnChart (BarChart):
         # vykreslení grafu
         num_of_columns = 7
         ind = arange(num_of_columns)
-        transp_data = General._invertList(data)
+        transp_data = General.invertList(data)
         width = 0.6
         for i in range(len(data[0])):
             if i == 0:

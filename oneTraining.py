@@ -1,5 +1,6 @@
 #importy knohven
 from datetime import date
+from icecream import ic
 #importy souborů
 from sports.setSport import SetSport
 from configuration import free_day, trainings_path, unknown_text
@@ -18,6 +19,8 @@ class OneTraining ():
             self._getTrainingToFile(data_list)
         elif operation == "load_plan":
             self._setCyclePlanTraining(file_line)
+        elif operation == "load_single_plan":
+            self._setSinglePlanTraining(file_line)
         elif operation == "update":
             self._updateTraining(data_list)
 
@@ -66,7 +69,7 @@ class OneTraining ():
         self.sport = free_day
 
     def _setCyclePlanTraining (self, data_line : str) -> None:
-        """Nastaví hodnoty tréninku z vloženého řádku tréninkových údajů."""
+        """Nastaví hodnoty tréninku z vloženého řádku tréninkových údajů pro trénink ze cycle_plan_database."""
         self.ghost = True # aby se poznalo, že je to ghost trénink
         data_list = General.separateData(data_line) # vytvoření listu dat
         self.day = int(data_list[0]) # den v pořadí tréninkového plánu
@@ -136,3 +139,13 @@ class OneTraining ():
         data_list = self._isSetted(data_list)# při nezadání vstupu přidá neuvedeno
         prepared_string = General.prepareString(data_list)
         self._writeToFile(prepared_string)
+
+    def _setSinglePlanTraining(self, data_line : str) -> None:
+        """Nastaví hodnoty tréninku z vloženého řádku tréninkových údajů pro trénink z sigle_plan_database."""
+        self.ghost = True # aby se poznalo, že je to ghost trénink
+        data_list = General.separateData(data_line) # vytvoření listu dat
+        del data_list[-1]
+        self.date = data_list[0]
+        self.real_date = General.stringToDate(self.date)
+        self.sport = data_list[1]
+        SetSport.findData(self, data_list)

@@ -8,9 +8,10 @@ from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,) # pro přenes
 from tkinter import * 
 import customtkinter as ctk
 from numpy import transpose
+from icecream import ic
 #import souborů
-from configuration import unknown_text
-from ctkWidgets import Label
+from configuration import unknown_text, colors
+from ctkWidgets import Label, Button
 
 class General():
     """Třídá základních statických funkcí používaných na hodně místech."""
@@ -24,22 +25,40 @@ class General():
             checked = False
         return checked
     
+    def checkFloatEntry (entry : str) -> bool:
+        """Ověří, zda je vstupní hodnota float."""
+        try:
+            float(entry)
+            return True
+        except:
+            return False
+    
     @staticmethod
     def checkDateEntry(entry : str, separator = "/") -> bool:
         """Ověří, zda je vstupní hodnota platné datum.
         vstup : dd/mm/yyyy"""
         try:
-            date_list = entry.split("/") # rozdělí vstup
+            date_list = entry.split(separator) # rozdělí vstup
             str_day, str_month, str_year = date_list # uloží list do proměnných
-            day = int(str_day) # převede na int
-            month = int(str_month)
-            year = int(str_year)
-            entry_date = date(year, month, day) # vytvoří datum
+            first = int(str_day) # převede na int
+            second = int(str_month)
+            third = int(str_year)
+            try:
+                entry_date = date(third, second, first) # vytvoří datum
+            except:
+                entry_date = date(first, second, third)
             checked = True
         except:
             checked = False
         return checked
-        
+    
+    @staticmethod
+    def dateBetween (date : date, start_border : date, end_border : date) -> bool:
+        """Porovná data, pokud je zadané datum mezi hranicemi, vrátí True, jinak False. (porovnání <=)"""
+        if start_border <= date <= end_border:
+            return True
+        return False
+
     def findSeparator(new_date : str) -> str:
         """Najde oddělovač zadaného data. Pokud se nejedná o žádný z oddělovačů, vrátí None."""
         separators = ["-", "/", ". "]
@@ -50,7 +69,18 @@ class General():
         return None
     
     @staticmethod
-    def changeDateForamt (dt_date : date) -> str:
+    def stringToDate (date_str : str) -> date:
+        """Ze stringu typu pro datum vytvoří datum."""
+        sep = General.findSeparator(date_str)
+        date_list = date_str.split(sep)
+        if len(date_list[0]) > 2:
+            new_date = date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
+        else:
+            new_date = date(int(date_list[2]), int(date_list[1]), int(date_list[0]))
+        return new_date
+
+    @staticmethod
+    def changeDateFormat (dt_date : date) -> str:
         """Změní formát data z formátu date na psaný formát data."""
         return str(dt_date.day) + ". " + str(dt_date.month) + ". " + str(dt_date.year)
     
@@ -89,11 +119,11 @@ class General():
             return None
         
     @staticmethod 
-    def checkKnownInt (integer_check : str) -> float:
-        """Zkontroluje, zda údaj ve tvaru integeru byl, pokud ne, uloží do proměnné None."""
-        if integer_check == unknown_text:
+    def checkKnownFloat (float_check : str) -> float:
+        """Zkontroluje, zda údaj ve tvaru integeru byl vyplněn, pokud ne, uloží do proměnné None."""
+        if float_check == unknown_text:
             return None
-        return float(integer_check)
+        return float(float_check)
     
     @staticmethod
     def deleteFrameWidgets (widget_parent : object) -> None:
@@ -130,7 +160,7 @@ class General():
         widget.grid(column = grid[0], row = grid[1], columnspan=columnspan, padx = 12, pady = 5)
 
     @staticmethod
-    def _invertList (data : list) -> list:
+    def invertList (data : list) -> list:
         """Vrátí 2d list transponovaně."""
         return transpose(data)
     
@@ -145,7 +175,7 @@ class General():
     @staticmethod    
     def surroundingFirstDate (central_date : date, 
                                year : int, month : int, day : int) -> date:
-        """Vrátí první den období zobrazovaného daným sloupcem v grafu."""
+        """Vrátí datum posunuté od půdního o zadané množství času."""
         start_date = central_date + relativedelta(years = year, months = month, days = day)
         return start_date
     
@@ -155,3 +185,35 @@ class General():
         """Vrátí poslední den období zobrazovaného daným sloupcem v grafu."""
         end_date = start_date + relativedelta(years = year, months = month, days = day - 1)
         return end_date
+    
+    @staticmethod
+    def initBackButton (master : object) -> None:
+        """Talčítko zpět v nastavování tréninkového plánu."""
+        back_button = Button(master, "Zpět", master.master.backToChoiceWindow)
+        back_button.grid(row=0, column=0, sticky="NW")
+        back_button.configure(width=40)
+
+    @staticmethod
+    def setRedBorder (widget : object) -> None:
+        """V případě neplatnosti vstupu nastaví okraj widgety na červenou barvu."""
+        widget.configure(border_color = colors["dark-red"])
+
+    @staticmethod
+    def setDefaultBorder (widget : object) -> None:
+        """V případě opravení vstupu nastaví okraj widgety na původní barvu."""
+        widget.configure(border_color = colors["entry-border"])
+
+    @staticmethod
+    def getBorderTerms (date_list : date) -> date:
+        """Z listu seřazených dat formátu date, vrátí 2 data: nejstarší a nejmladší datum."""
+        first_date = date_list[0]
+        last_date = date_list[-1]
+        return first_date, last_date
+    
+    @staticmethod
+    def emptyToUknowText (data_list : list) -> list:
+        """V listu pro zapsání dat do databáze vymění prázné hodnoty (uživatelem nezadané) za hodnoty nezadano."""
+        for i in range(len(data_list)):
+            if data_list[i] == "":
+                data_list[i] = unknown_text
+        return data_list

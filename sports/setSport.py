@@ -3,6 +3,7 @@ from sports.sport import Sport
 from sports.gym import Gym
 from sports.run import Run
 from configuration import sport_list, free_day, gym_chart_strings, run_chart_strings
+from icecream import ic
 
 class SetSport():
     """Třída pro nastavení základních vlastností pro jednotlivé sporty."""
@@ -193,3 +194,19 @@ class SetSport():
             chart_type = "bar"
             chart_strings = run_chart_strings
         return chart_type, chart_strings
+    
+    @staticmethod
+    def singlePlanDetails (master : object, sport : str) -> None:
+        """Metoda vytvoří obsah framu s nastavením podrobností tréninku podle sportu v jednodichém nastavení tréninkového plánu."""
+        if sport == sport_list[0]: # posilovna
+            Gym.singlePlanGym(master)
+        elif sport == sport_list[1]: #běh
+            Run.singlePlanRun(master)
+
+    @staticmethod
+    def singlePlanEntry (master : object, sport : str) -> list:
+        """Ověření uživatelského vstupu do detailního framu v singlePlan. Zároveň nastaví do vlastnosti frame_data rodičovského objektu zadaná data (pokud jsou správné)."""
+        if sport == sport_list[0]: # posilovna
+            return Gym.singlePlanEntry(master)
+        elif sport == sport_list[1]: # běh
+            return Run.singlePlanEntry(master)

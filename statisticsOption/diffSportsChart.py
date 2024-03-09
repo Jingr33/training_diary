@@ -121,9 +121,9 @@ class DiffSportsChart (PieChart):
         xlabels = [None] * 7
         i = 0
         for period in periods:
-            start = General.changeDateForamt(period[0])
+            start = General.changeDateFormat(period[0])
             start = start.replace(". ", "/")
-            end = General.changeDateForamt(period[1])
+            end = General.changeDateFormat(period[1])
             end = end.replace(". ", "/")
             label = start + "\n" + end
             xlabels[i] = label

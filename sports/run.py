@@ -3,7 +3,7 @@ import customtkinter as ctk
 from tkinter import *
 #importy souborů
 from sports.sport import Sport
-from configuration import sport_list, sport_color
+from configuration import sport_list, sport_color, colors
 from ctkWidgets import Label, Entry
 from general import General
 
@@ -75,8 +75,8 @@ class Run (Sport):
     def runData(master : object,  data_list : list, index_adjustment = 2) -> None:
         """Rozklíčuje data z tréninkové databáze pokud se jedná 
         o běžeckéhý trénink."""
-        master.time = General.checkKnownInt(data_list[0 + index_adjustment])
-        master.distance = General.checkKnownInt(data_list[1 + index_adjustment])
+        master.time = General.checkKnownFloat(data_list[0 + index_adjustment])
+        master.distance = General.checkKnownFloat(data_list[1 + index_adjustment])
 
     @staticmethod
     def plan_getRunData (master : object, data : tuple) -> None:
@@ -196,3 +196,24 @@ class Run (Sport):
                     continue
             i = i + 1
         return distances
+    
+    def singlePlanRun (master : object) -> None:
+        """Vytvoří widgety pro nastavení tréninku běh v nastavení jednoduchého tréninkového plánu."""
+        distance_label = Label(master, "Očekávaná\nvzdálenost:")
+        distance_label.grid(row = 0, column = 0, sticky = "E", pady = 2)
+        master.var_distance = StringVar()
+        master.distance_entry = Entry(master, master.var_distance)
+        master.distance_entry.grid(row = 0, column = 1, sticky = "W", padx = 5, pady = 2)
+        master.distance_entry.configure(width = master.entry_width)
+
+    @staticmethod
+    def singlePlanEntry (master : object) -> bool:
+        """Ověření uživatelského vstupu do detailního framu v singlePlan. Pokud je vstup správný, nastaví získaná data do vlastnosti rodičovského objektu frame_data"""
+        float_entry = General.checkFloatEntry(master.var_distance.get())
+        unknown_entry = master.var_distance.get() == ""
+        if float_entry or unknown_entry:
+            General.setDefaultBorder(master.distance_entry)
+            master.frame_data = [master.var_distance.get()]
+            return True
+        General.setRedBorder(master.distance_entry)
+        return False

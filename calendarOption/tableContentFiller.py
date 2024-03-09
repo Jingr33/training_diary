@@ -1,11 +1,13 @@
 #import knihoven
 import calendar
 from tkinter import *
-from configuration import trainings_path, cycle_plans_path, colors
+from configuration import trainings_path, cycle_plans_path, single_plans_path, colors
 from datetime import date
+from icecream import ic
 # importy osuborů
 from oneTraining import OneTraining
 from calendarOption.oneCycleTraining import OneCycleTraining
+from calendarOption.oneSingleTraining import OneSingleTraining
 from calendarOption.ghostTraining import GhostTraining
 from general import General
 
@@ -21,6 +23,7 @@ class TabelContentFiller ():
         # listy tréninků
         self.trainings = self._loadTrainingns()
         self.cycle_plans = self._loadCyclePlan()
+        self.single_plans = self._loadSinglePlan()
 
     def datesToLabelsConfig(self, frame_list : list, date_list : list) -> None:
         """Metoda pro přidání textu s datem do každého labelu -> framu kalendáře."""
@@ -44,6 +47,7 @@ class TabelContentFiller ():
     def _displayPlans (self, frame_list : tuple) -> None:
         """Zobrazí naplánované tréninky z tréninkových plánů."""
         self._dispCyclePlans(frame_list)
+        self._dispSinglePlans(frame_list)
         #TODO ostatní typy plánů
         self._dispCycleFreeDays(frame_list)
         #TODO ostatní typy volných dní
@@ -52,7 +56,7 @@ class TabelContentFiller ():
         """Zobrazí v kalendáři naplánované tréninky pocházející z cyklických tréninkových plánů."""
         for plan in self.cycle_plans:
             # pokud nesedí plán do data, celý tréninkový plán se přeskočí
-            if self._planInPast(): continue
+            if self._cyclePlanInPast(): continue
             if not self._intersectDates(plan): continue
             # vypočet data začátku nového cyklu tréninkového plánu nejblíže před začátkem zobrazovaného období a po konci zobrazovaného období
             first_cycle = self._nearestDateToStart(plan)
@@ -63,11 +67,11 @@ class TabelContentFiller ():
             self._renderActivities(frame_list, ghost_trainings)
             # self._renderFreeDay(frame_list, ghost_free_days)
 
-    def _dispCycleFreeDays ( self, frame_list : tuple) -> None:
-        """Zobrazá v kalendáři naplánované colné dny pocházející z cyklických tréninkových plánů."""
+    def _dispCycleFreeDays (self, frame_list : tuple) -> None:
+        """Zobrazí v kalendáři naplánované volné dny pocházející z cyklických tréninkových plánů."""
         for plan in self.cycle_plans:
             # pokud nesedí plán do data, celý tréninkový plán se přeskočí
-            if self._planInPast(): continue
+            if self._cyclePlanInPast(): continue
             if not self._intersectDates(plan): continue
             # vypočet data začátku nového cyklu tréninkového plánu nejblíže před začátkem zobrazovaného období a po konci zobrazovaného období
             first_cycle = self._nearestDateToStart(plan)
@@ -76,7 +80,15 @@ class TabelContentFiller ():
             ghost_free_days = self._GhostTrainings(plan, first_cycle, last_cycle, "fd")
             # vykreslení tréninků
             # self._renderActivities(frame_list, ghost_trainings)
-            self._renderFreeDay(frame_list, ghost_free_days)       
+            self._renderFreeDay(frame_list, ghost_free_days)
+
+    def _dispSinglePlans (self, frame_list : tuple) -> None:
+        """Zobrazí v kalendáři tréninky pocházející z jednoduchých tréninkových plánů."""
+        for plan in self.single_plans:
+            if self._singlePlanInPast(plan): continue
+            if not self._intersectDates(plan): continue
+            trainings = self._cutOffForeignTrains(plan.all_trainings)
+            self._renderActivities(frame_list, trainings)
 
     def _renderActivities (self, frame_list : tuple, strips_to_render : list) -> None:
         """Vykreslí stripy tréninků do jednotlivých framů v kalendáři."""
@@ -91,12 +103,26 @@ class TabelContentFiller ():
             if not frame_list[index_of_frame].strips:
                 frame_list[index_of_frame].createFreeDay()
 
-    def _planInPast (self) -> bool:
+    def _cyclePlanInPast (self) -> bool:
         """Zkontroluje, zda je trénink zobrazené období v minulosti, pokud ano, tréninkové plány se
         nezobrazují, pokud ne nebo část ne, plán se zobrazí."""
         if date.today() > self.last_date:
             return True
         return False
+    
+    def _singlePlanInPast (self, plan : object) -> bool:
+        """Zkontroluje, zda ještě nějaký trénink z plánu aktuální, pokud se jedná o minulost, přeskočí se."""
+        if date.today() > plan.end_date:
+            return True
+        return False
+    
+    def _cutOffForeignTrains (self, trainings : list) -> list:
+        """Vystřihne z pole tréninků tréninky, které neodpovídají zobrazenému období. Vrátí list tréninků ve zobrazeném období."""
+        right_trains = []
+        for training in trainings:
+            if General.dateBetween(training.real_date, self.first_date, self.last_date):
+                right_trains.append(training)
+        return right_trains
 
     def _intersectDates (self, train_plan : object) -> bool:
         """Rozhodne, zda se tréninkový plán a zobrazené období v kalendáři časově protínají.
@@ -242,7 +268,7 @@ class TabelContentFiller ():
     
     def _loadCyclePlan (self) -> list:
         """Metoda načte cyklický tréninkový plán pomocí OneCycleTraining z databáze cyklického plánu.
-        Vrátí načtená data tréninkového cyklu jak list."""
+        Vrátí načtená data tréninkového cyklu jako list."""
         # pokud není v databázi žádný plán -> ukončí se
         if General.isFileEmpty(cycle_plans_path):
             return []
@@ -254,11 +280,24 @@ class TabelContentFiller ():
         cycle_plans = self._makeCyclePlans(plans_data)
         return cycle_plans
     
+    def _loadSinglePlan (self) -> list:
+        """Metoda načte cyklický tréninkový plán pomocí OneSingleTraining z databáze jednocuchého tréninkového plánu.
+        Vrátí načtená data tréninkového culku jako list."""
+        # pokud v databázi nic není -> přeskočí se
+        if General.isFileEmpty(single_plans_path):
+            return []
+        lines = General.loadLinesFromFile(single_plans_path)
+        # vytvoření listů s daty pro jeden tréninkový plán
+        plans_data = self._compileCyclePlanData(lines)
+        # list s objekty jednotlivých plánů
+        single_plans = self._makeSinglePlans(plans_data)
+        return single_plans
+    
     def _compileCyclePlanData (self, file_lines : list) -> list:
         """Vrátí jeden list zpracovaných dat vytvořených z načtených řádků z databáze 
         cyklického tréninkového plánu."""
         cycle_plans = [[]] # list plánů
-        i = 0 # proměnný indexů listu
+        i = 0 # proměnná indexů listu
         for one_line in file_lines: # cyklus přes řádky ze souboru
             one_line = one_line.replace("\n", "") # vymazání odřádkovacích znaků
             if one_line == ";": # pokud je to dělící řádek
@@ -277,6 +316,14 @@ class TabelContentFiller ():
             one_plan = OneCycleTraining(plan_data)
             cycle_plans.append(one_plan)
         return cycle_plans
+    
+    def _makeSinglePlans (self, plans_data : list) -> list:
+        """Ze zpracovaných dat z databáze jednoduchého tréninkového plánu vytvoří list objektů jednotlivých tréninkových plánu. Vrátí list jednoduchých tréninkových plánů."""
+        single_plans = []
+        for plan_data in plans_data:
+            one_plan = OneSingleTraining(plan_data)
+            single_plans.append(one_plan)
+        return single_plans
             
     def _frameIndexOfDay (self, date_of_training : date) -> int:
         """Metoda vrátí index framu se dnem, do kterého se má widgeta zobrazit."""

@@ -1,6 +1,11 @@
 """TRAINING PLAN"""
 # CycleTraining -> nejde měnění nstavení columnconfiguration při zvětšování a zmenšování počtu dní
 # přidat potvrzovací frame, že tréninkový plán se uložil
+# pokud zadaš start-datum a opakování v týdnu dáš na ten den, tak v první den budou dva tréninky -> to oprav
 
 """NAČÍTÁNÍ TRÉNINKŮ"""
 # upravit slovo nazadano pro nacitani treninku
+
+"""CALENDAR"""
+# změnit v kalendáři tlačítka prev a next
+

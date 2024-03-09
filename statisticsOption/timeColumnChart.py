@@ -66,7 +66,7 @@ class TimeColumnChart (BarChart):
         # vykreslení grafu
         num_of_columns = 7
         ind = arange(num_of_columns)
-        transp_data = General._invertList(data)
+        transp_data = General.invertList(data)
         width = 0.6
         bar_plot = self.chart.bar(ind, transp_data, width, color = colors["light-blue"])
         self._barLabel(bar_plot)

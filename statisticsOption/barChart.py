@@ -56,7 +56,7 @@ class BarChart (Frame):
         central_date = Entry(self, self.var_central_date)
         central_date.grid(column = 2, row = 2, padx = 6, pady = 5)
         central_date.configure(width = 85)
-        self.var_central_date.set(General.changeDateForamt(self.today))
+        self.var_central_date.set(General.changeDateFormat(self.today))
         # event pro přegenerování grafu při přepsání data v entry
         central_date.bind("<FocusOut>", self._newDateInEntry)
         central_date.bind("<Return>", self._newDateInEntry)
@@ -85,7 +85,7 @@ class BarChart (Frame):
         """Nastaví období zobrazované jedním sloupcem v grafu. Vrátí list hraničních dat 
         pro každý sloupec grafu."""
         self.range = value
-        self.var_central_date.set(General.changeDateForamt(self.actual_date))
+        self.var_central_date.set(General.changeDateFormat(self.actual_date))
         border_dates = self._setDateBorders(value)
         return border_dates
         
@@ -188,14 +188,14 @@ class BarChart (Frame):
         """Po stusknutí tlačítka "<" se nastaví datum středového sloupce na o jeden dřívější 
         cyklus a celý graf se posune o cyklus do minulosti."""
         self.actual_date = self.border_dates[2][0]
-        self.var_central_date.set(General.changeDateForamt(self.actual_date))
+        self.var_central_date.set(General.changeDateFormat(self.actual_date))
         self._updateBarChart(self.range, self.getTrainings, self.makeChart)
 
     def _nextPeriod (self) -> None:
         """Po stusknutí tlačítka ">" se nastaví datum středového sloupce na o jeden pozdější
         cyklus a celý graf se posune o cyklus do budoucnosti."""
         self.actual_date = self.border_dates[4][0]
-        self.var_central_date.set(General.changeDateForamt(self.actual_date))
+        self.var_central_date.set(General.changeDateFormat(self.actual_date))
         self._updateBarChart(self.range, self.getTrainings, self.makeChart)
 
     def _newDateInEntry(self, value) -> None:
@@ -204,7 +204,7 @@ class BarChart (Frame):
         new_date = self.var_central_date.get()
         date_check = self.checkNewDate(new_date) # kontrola data
         if date_check:
-            self.var_central_date.set(General.changeDateForamt(self.actual_date))
+            self.var_central_date.set(General.changeDateFormat(self.actual_date))
         self._updateBarChart(self.range, self.getTrainings, self.makeChart)
 
     def checkNewDate (self, new_date : str) -> bool:

@@ -110,7 +110,7 @@ class Gym (Sport):
         """Rozklíčuje data z získané z tréninkové databáze pokud se
         jedná o trénink posilovna.
         Index_adjustment je úprava indexu, pokud tam chci poslat pole kde ty atributy neberu od 0."""
-        master.time = General.checkKnownInt(data_list[0 + index_adjustment])
+        master.time = General.checkKnownFloat(data_list[0 + index_adjustment])
         # zklouška, zda bylo něco zadáno
         if data_list[1 + index_adjustment] != unknown_text:
             master.leg = int(data_list[1 + index_adjustment])
@@ -121,8 +121,8 @@ class Gym (Sport):
             master.biceps = int(data_list[6 + index_adjustment])
             master.triceps = int(data_list[7 + index_adjustment])
             master.forearm = int(data_list[8 + index_adjustment])
-            isset = (master.leg + master.core + master.breast + master.shoulders + master.back + 
-                    master.biceps + master.triceps + master.forearm)
+            # isset = (master.leg + master.core + master.breast + master.shoulders + master.back + 
+            #         master.biceps + master.triceps + master.forearm)
 
             # vytvoření vlastnosti practicedParts
             master.practicedParts = Gym.practicedPartsString(master)
@@ -344,3 +344,30 @@ class Gym (Sport):
         legend_list = parts_dict.keys()
         count_list = parts_dict.values()
         return [legend_list, count_list, colors]
+    
+    def singlePlanGym (master : object) -> None:
+        """Vytvoří widgety pro nastavení tréninku posilovna v nastavení jednoduchého tréninkového plánu."""
+        master.gym_checkboxes = []
+        master.gym_vars = []
+        row = 0
+        column = 0
+        for i in range(len(gym_body_parts)):
+            var = IntVar(value = 0)
+            checkbox = CheckBox(master, gym_body_parts[i], var)
+            if not i % 2:
+                column = 0
+                row = row + 1
+            else: 
+                column = 1
+            checkbox.grid(row = row, column = column, padx = 1, pady = 1)
+            master.gym_checkboxes.append(checkbox)
+            master.gym_vars.append(var)
+
+    @staticmethod
+    def singlePlanEntry (master : object) -> bool:
+        """Ověření uživatelského vstupu do detailního framu v singlePlan. Pokud je vstup správný, nastaví data do listu frame_data (valstnost rodičovské třídy)."""
+        for i in range(len(master.gym_vars)):
+            master.frame_data.append(master.gym_vars[i].get())
+        if not 1 in master.frame_data:
+            master.frame_data = [""]
+        return True # nic se tu teď neověřuje

@@ -3,6 +3,7 @@ from tkinter import *
 import customtkinter as ctk
 from CTkToolTip import *
 from pywinstyles import set_opacity
+from icecream import ic
 # importy souborů
 from ctkWidgets import Label
 from sports.setSport import SetSport
