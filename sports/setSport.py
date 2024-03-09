@@ -2,7 +2,8 @@
 from sports.sport import Sport
 from sports.gym import Gym
 from sports.run import Run
-from configuration import sport_list, free_day, gym_chart_strings, run_chart_strings
+from general import General
+from configuration import sport_list, free_day, gym_chart_strings, run_chart_strings, unknown_text
 from icecream import ic
 
 class SetSport():
@@ -11,16 +12,17 @@ class SetSport():
         """Metoda určí, o který sport se jedná a pomocí dalších objektů vytvoří tooltip message."""
         if training.sport == sport_list[0]: # posilovna
             sport = Gym()
-            attributes = sport.createAttributes(training)
-            values = sport.createValues(training)
+            sport.createAttributes(training)
+            sport.createValues(training)
             message = sport.tooltipMessage()
         elif training.sport == sport_list[1]: # běh
             sport = Run()
-            values = sport.createValues(training)
-            attributes = sport.createAttributes(training)
+            sport.createValues(training)
+            sport.createAttributes(training)
             message = sport.tooltipMessage()
         else:
             ... #TODO další sporty
+        message = General.setStringForUndefined(message, ["None", unknown_text])
         return message
     
     @staticmethod

@@ -10,7 +10,7 @@ import customtkinter as ctk
 from numpy import transpose
 from icecream import ic
 #import souborů
-from configuration import unknown_text, colors
+from configuration import unknown_text, unknown_text_label, colors
 from ctkWidgets import Label, Button
 
 class General():
@@ -93,12 +93,27 @@ class General():
                 line = line + " / " + str(list[i])
         return line
     
+    @staticmethod
+    def emptyToUknowText (data_list : list) -> list:
+        """V listu pro zapsání dat do databáze vymění prázné hodnoty (uživatelem nezadané) za hodnoty nezadano."""
+        for i in range(len(data_list)):
+            if data_list[i] == "":
+                data_list[i] = unknown_text
+        return data_list
+    
     @ staticmethod
     def loadLinesFromFile (file_path : str) -> list:
         """Vrátí list řádků načtených ze zadaného souboru."""
         with open(file_path, 'r') as f:
             lines = f.readlines()
-        return lines      
+        return lines
+    
+    @staticmethod
+    def setStringForUndefined (message : str, undefined_signs : list) -> list:
+        """V tooltip zprávě, vymění hodnoty undefined_signs (list, všech hodnot, které se mají vyměnit), za hodnoty určené k označení nezadaného údaje."""
+        for sign in undefined_signs:
+            message = message.replace(sign, unknown_text_label)
+        return message  
 
     @staticmethod
     def isFileEmpty (file_path) -> bool:
@@ -209,11 +224,3 @@ class General():
         first_date = date_list[0]
         last_date = date_list[-1]
         return first_date, last_date
-    
-    @staticmethod
-    def emptyToUknowText (data_list : list) -> list:
-        """V listu pro zapsání dat do databáze vymění prázné hodnoty (uživatelem nezadané) za hodnoty nezadano."""
-        for i in range(len(data_list)):
-            if data_list[i] == "":
-                data_list[i] = unknown_text
-        return data_list

@@ -21,7 +21,7 @@ class TabelContentFiller ():
         # list s kalendářními daty pro jednotlivé framy
         self.dates_list = self._datesDayList()
         # listy tréninků
-        self.trainings = self._loadTrainingns()
+        self.trainings = self._loadTrainings()
         self.cycle_plans = self._loadCyclePlan()
         self.single_plans = self._loadSinglePlan()
 
@@ -251,7 +251,7 @@ class TabelContentFiller ():
         date = (year, month)
         return date
         
-    def _loadTrainingns(self) -> list:
+    def _loadTrainings(self) -> list:
         """Metoda pro načtení tréninků pomocí OneTraining z databáze.
         Vrátí list tréninků"""
         # načtení všech dat do pole po jednotlivých řádcích
@@ -275,7 +275,7 @@ class TabelContentFiller ():
         # načtení souboru po jednotlivých řádcích
         lines = General.loadLinesFromFile(cycle_plans_path)
         # vytvoření listů s daty pro jeden tréninkový plán
-        plans_data = self._compileCyclePlanData(lines)
+        plans_data = self._compilePlanData(lines)
         # list s objekty jednotlivých plánů
         cycle_plans = self._makeCyclePlans(plans_data)
         return cycle_plans
@@ -288,12 +288,12 @@ class TabelContentFiller ():
             return []
         lines = General.loadLinesFromFile(single_plans_path)
         # vytvoření listů s daty pro jeden tréninkový plán
-        plans_data = self._compileCyclePlanData(lines)
+        plans_data = self._compilePlanData(lines)
         # list s objekty jednotlivých plánů
         single_plans = self._makeSinglePlans(plans_data)
         return single_plans
     
-    def _compileCyclePlanData (self, file_lines : list) -> list:
+    def _compilePlanData (self, file_lines : list) -> list:
         """Vrátí jeden list zpracovaných dat vytvořených z načtených řádků z databáze 
         cyklického tréninkového plánu."""
         cycle_plans = [[]] # list plánů
@@ -307,6 +307,12 @@ class TabelContentFiller ():
                 cycle_plans[i].append(one_line)
         del cycle_plans [-1] # odstranění podleníhoo indexu, který se vždy udělá navíc
         return cycle_plans
+    
+    def _setUndefinedItems (self, plan_data : list) -> list:
+        """Místo nazadaných hodnot vloží string, který je nastavený na vypsání nazadané hodnoty pro uživatele."""
+        for i in range(len(plan_data)):
+            plan_data[i] = General.setStringForUndefined(plan_data)
+        return plan_data
     
     def _makeCyclePlans (self, plans_data : list) -> list:
         """Ze zpracovaných dat z databáze cyklického tréninkového plánu vytvoří list objektů
