@@ -40,6 +40,10 @@ class Frame (ctk.CTkFrame):
             self._oldWidgetsDestroy()
             self.content_frame.StatisticsOption()
 
+        elif option == menu_list[3]:
+            self._oldWidgetsDestroy()
+            self.content_frame.SettingOption()
+
     def _oldWidgetsDestroy(self):
         """Metoda vymaže obsah contentFramu, při přepnutí na jinou záložku."""
         # smazání předchozího obsahu

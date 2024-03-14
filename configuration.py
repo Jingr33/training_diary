@@ -14,7 +14,7 @@ sport_color = {
 # }
 
 # list výběrových tlačítek v menuFramu
-menu_list = ["Přehled", "Kalendář", "Statistiky"]
+menu_list = ["Přehled", "Kalendář", "Statistiky", "Možnosti"]
 
 # nezadaný vstup
 unknown_text = "nezadano"

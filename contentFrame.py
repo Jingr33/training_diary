@@ -5,6 +5,7 @@ from tkinter import *
 from overviewOption.overviewOption import Overview
 from calendarOption.calendarOption import Calendar
 from statisticsOption.StatisticsOption import Statistics
+from settingOption.settingOption import Setting
 
 
 class Frame (ctk.CTkFrame):
@@ -27,3 +28,8 @@ class Frame (ctk.CTkFrame):
         """Metoda pro zavolání záložky Statistiky."""
         statistics = Statistics(self)
         statistics.pack(fill = ctk.BOTH, expand = True)
+
+    def SettingOption (self) -> None:
+        """Metoda pro zavolání záložky Možnosti."""
+        setting = Setting(self)
+        setting.pack(fill = ctk.BOTH, expand = True)
