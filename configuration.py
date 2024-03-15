@@ -57,6 +57,7 @@ colors = {
     "gray" : "#333333",
     "dark-gray" : "#2c2c2c",
     "dark-gray-2" : "#262626",
+    "dark-gray-3" : "#282828",
     "light-gray" : "#444444",
     "dark-red" : "#850101",
     "dark-red-hover" : "#823e3e",
@@ -65,6 +66,7 @@ colors = {
     "free-day-gray" : "#2f2f2f",
     "black" : "#000000",
     "entry-border" : "#5a5a5a",
+    "light" : "#c7c7c7"
 }
 
 # barevná paletta pro koláčový graf 
