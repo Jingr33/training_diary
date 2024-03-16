@@ -7,6 +7,7 @@ def loadSettingDatabase () -> dict:
     setting = {}
     for line in lines:
         key, value = line.split(":")
+        value.strip("\n")
         setting[key] = value
     return setting
 

@@ -25,6 +25,13 @@ class General():
             checked = False
         return checked
     
+    @staticmethod
+    def checkGreater0(number : float) -> bool:
+        """Zjistí, zda je číslo větší než 0. Vrátí bool."""
+        if number > 0:
+            return True
+        return False
+    
     def checkFloatEntry (entry : str) -> bool:
         """Ověří, zda je vstupní hodnota float."""
         try:

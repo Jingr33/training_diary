@@ -86,8 +86,9 @@ class SettingFrame (Frame):
 
     def _setRowsInOverview (self, value) -> None:
         """Zkontroluje vstup a uloží nastavení počtu řádků zobrazovaných v přehledu tréninků na jednu stránku."""
-        if General.checkIntEntry(self.var_rows.get()): # kontrola vstupu
-            GV.setting["overview-rows"] = self.var_rows.get()
+        entry = self.var_rows.get()
+        if General.checkIntEntry(entry) and General.checkGreater0(float(entry)): # kontrola vstupu
+            GV.setting["overview-rows"] = entry
             GV.overwriteSettingFile()
             General.setDefaultBorder(self.rows_entry)
         else:
