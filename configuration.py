@@ -97,9 +97,6 @@ sorting_text_color = {
     4 : "#000000",
 }
 
-# Overview - počet viditelných řádků na jedno zobrazení
-displayed_rows = 20
-
 # možnosti v nastavení období, pro které graf vyobrazuje hodnoty 
 chart_range_option = ["den", "týden", "měsíc", "rok"]
 

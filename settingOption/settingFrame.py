@@ -5,6 +5,7 @@ from icecream import ic
 # import souborů
 from settingOption.sportSelectionFrame import SportSelectionFrame
 from ctkWidgets import Frame, Label, Entry, Switch, Button
+from general import General
 from configuration import colors
 import globalVariables as GV
 
@@ -70,13 +71,24 @@ class SettingFrame (Frame):
         option_name = Label(self, "Položek na stránce", self.name_font)
         option_name.grid(row = 7, column = 0, sticky = ctk.W, padx = self.side_pad)
         self.var_rows = StringVar()
-        rows_entry = Entry(self, self.var_rows)
-        rows_entry.grid(row = 7, column = 1, padx = (0, self.side_pad))
-        rows_entry.configure(width = 130)
-        description = Label(self, "Počet řádků zobrazovaných na straánce přehledu tréninků.")
+        self.var_rows.set(GV.setting["overview-rows"])
+        self.rows_entry = Entry(self, self.var_rows)
+        self.rows_entry.grid(row = 7, column = 1, padx = (0, self.side_pad))
+        self.rows_entry.configure(width = 130)
+        self.rows_entry.bind("<KeyRelease>", self._setRowsInOverview)
+        description = Label(self, "Počet řádků zobrazovaných na stránce přehledu tréninků.")
         description.grid(row = 8, column = 0, columnspan = 2, sticky = ctk.W, padx = self.side_pad, pady = self.bottom_pad)
 
     def _setAutoFullscreen (self) -> None:
         """Uloží nově nastavenou hodnotu nastavení velikosti okna při zapnutí aplikace."""
         GV.setting["auto-fullscreen"] = self.switch_value.get()
         GV.overwriteSettingFile()
+
+    def _setRowsInOverview (self, value) -> None:
+        """Zkontroluje vstup a uloží nastavení počtu řádků zobrazovaných v přehledu tréninků na jednu stránku."""
+        if General.checkIntEntry(self.var_rows.get()): # kontrola vstupu
+            GV.setting["overview-rows"] = self.var_rows.get()
+            GV.overwriteSettingFile()
+            General.setDefaultBorder(self.rows_entry)
+        else:
+            General.setRedBorder(self.rows_entry)

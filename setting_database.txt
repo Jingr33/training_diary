@@ -1,1 +1,3 @@
 auto-fullscreen:0
+
+overview-rows:20

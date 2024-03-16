@@ -15,7 +15,7 @@ def overwriteSettingFile () -> None:
     file_lines = [None] * len(setting)
     i = 0
     for item in setting:
-        one_line = item + ":" + str(setting[item])
+        one_line = item + ":" + str(setting[item]) + "\n"
         file_lines[i] = one_line
         i = i + 1
     with open ("setting_database.txt", "w") as f:
