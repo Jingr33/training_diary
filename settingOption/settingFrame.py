@@ -4,6 +4,7 @@ import customtkinter as ctk
 from icecream import ic
 # import souborů
 from settingOption.sportSelectionFrame import SportSelectionFrame
+from settingOption.plansOverview.plansOverviewWindow import PlansOverviewWindow
 from ctkWidgets import Frame, Label, Entry, Switch, Button
 from general import General
 from configuration import colors
@@ -85,6 +86,7 @@ class SettingFrame (Frame):
 
     def _openPlansOverview (self) -> None:
         """Otevře přehled tréninkových plánu v nastavení aplikace."""
+        PlansOverviewWindow(self)
 
     def _setRowsInOverview (self, value) -> None:
         """Zkontroluje vstup a uloží nastavení počtu řádků zobrazovaných v přehledu tréninků na jednu stránku."""

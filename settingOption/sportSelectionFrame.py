@@ -62,7 +62,6 @@ class SportSelectionFrame (Frame):
     def _setSelectedSports(self, index : int) -> None:
         """Nastaví změny ve vybraných sportech, uloží nastavení do databáze."""
         changed_value = int(self.sport_widgets["var"][index].get())
-        ic(changed_value)
         GV.selected_sports[index] = changed_value
         self._changeStateOfButton(changed_value, index)
         GV.overwriteSettingFile()

@@ -66,7 +66,9 @@ colors = {
     "free-day-gray" : "#2f2f2f",
     "black" : "#000000",
     "entry-border" : "#5a5a5a",
-    "light" : "#c7c7c7"
+    "light" : "#c7c7c7",
+    "dodger-blue-3" : "#1874CD",
+    "dodger-blue-2" : "#1E90FF",
 }
 
 # barevná paletta pro koláčový graf 

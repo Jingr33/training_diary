@@ -226,6 +226,12 @@ class General():
         widget.configure(border_color = colors["entry-border"])
 
     @staticmethod
+    def setWidgetForeColor (widget : object, hex_color : str, hex_hover_color : str) -> None:
+        """Nastaví barvu pozadí zadané widgetě (hlavně frame / button)."""
+        widget.configure(fg_color = hex_color)
+        widget.configure(hover_color = hex_hover_color)
+
+    @staticmethod
     def getBorderTerms (date_list : date) -> date:
         """Z listu seřazených dat formátu date, vrátí 2 data: nejstarší a nejmladší datum."""
         first_date = date_list[0]
