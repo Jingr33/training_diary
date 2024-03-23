@@ -5,8 +5,7 @@
 ;
 03/03/2024 /  / 8 / 3
 1 / posilovna / 45 / 0 / 0 / 0 / 0 / 0 / 0 / 1 / 1
-2 / bìh / 75 / 8
-3 / volno
+2 / bìh / 75 / 83 / volno
 ;
 03/03/2024 /  / 5 / 8
 1 / bìh / nezadano / nezadano
@@ -17,9 +16,4 @@
 6 / volno
 7 / volno
 8 / posilovna / 5 / 0 / 0 / 1 / 0 / 1 / 0 / 1 / 0
-;
-26/02/2024 / 26/02/2024 /  / 7
-1 / posilovna / nezadano / 0 / 0 / 1 / 1 / 1 / 1 / 1 / 1
-1 / posilovna / nezadano / 1 / 1 / 1 / 1 / 1 / 1 / 1 / 1
-1 / bìh / 1 / 0.1
 ;

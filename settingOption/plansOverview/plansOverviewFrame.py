@@ -21,6 +21,12 @@ class PlansOverviewFrame (ctk.CTkScrollableFrame):
         self._initLegend()
         self._initContent()
 
+    def getPlanStates (self) -> list:
+        """Vrátí 2 listy s hodnotami ke každému plánu o tom, zda má být vymazán nebo ponechán v databázi."""
+        cycle = [self.all_rows[i].button_state for i in range(len(self.all_rows)) if self.all_rows[i].plan_type == "Cyklický"]
+        single = [self.all_rows[i].button_state for i in range(len(self.all_rows)) if self.all_rows[i].plan_type == "Jednoduchý"]
+        return cycle, single
+
     def _initLegend (self) -> None:
         """Vytvoření widget ve framu."""
         width = 70
@@ -42,8 +48,9 @@ class PlansOverviewFrame (ctk.CTkScrollableFrame):
     def _initContent(self) -> None:
         """Vytvoří jednotlivé framy (řádky) s térninkovými plány."""
         row_number = self.plan_loader.getNumberOfPlans()
+        self.all_rows = [None] * row_number
         for i in range(row_number):
-            # vytvoř řádek s daty o tréninku (vstup plan_loader, radek vyber až tam a index)
             one_row = PlanOneRowFrame(self, self.plan_loader, i, self.row_index)
             one_row.grid(row = self.row_index, column = 0, columnspan = 4, sticky = "NSEW")
             self.row_index = self.row_index + 1
+            self.all_rows[i] = one_row
