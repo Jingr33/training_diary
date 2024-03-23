@@ -20,6 +20,8 @@ class Frame (ctk.CTkFrame):
 
         self.content_frame = ContentFrame(self)
         self.content_frame.pack(ipadx = 5, ipady = 5, expand = True, fill = ctk.BOTH)
+        # vytvoření landing page
+        self.content_frame.landingPage()
 
 
     def optionSelected (self, option):
@@ -31,18 +33,16 @@ class Frame (ctk.CTkFrame):
             self.content_frame.overviewOption()
 
         elif option == menu_list[1]:
-            # smazaní předchozího obsahu
             self._oldWidgetsDestroy()
-            # vytvoření obsahu framu
             self.content_frame.calendarOption()
 
         elif option == menu_list[2]:
             self._oldWidgetsDestroy()
-            self.content_frame.StatisticsOption()
+            self.content_frame.statisticsOption()
 
         elif option == menu_list[3]:
             self._oldWidgetsDestroy()
-            self.content_frame.SettingOption()
+            self.content_frame.settingOption()
 
     def _oldWidgetsDestroy(self):
         """Metoda vymaže obsah contentFramu, při přepnutí na jinou záložku."""
