@@ -58,8 +58,6 @@ class Frame (ctk.CTkScrollableFrame):
             self._getTrainingToFile()
             General.deleteFrameWidgets(self)
             self._conmfirmationAlert(self.choice) # zobrazení potvrzovacího alertu
-        else:
-            ... #TODO špatné vstupy
 
     def _getTrainingToFile (self) -> None:
         """Uloží data do souboru ve správném formátu."""

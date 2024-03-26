@@ -2,3 +2,7 @@
 # CycleTraining -> nejde měnění nstavení columnconfiguration při zvětšování a zmenšování počtu dní
 # přidat potvrzovací frame, že tréninkový plán se uložil
 # pokud zadaš start-datum a opakování v týdnu dáš na ten den, tak v první den budou dva tréninky -> to oprav
+
+"""SetSport"""
+# první funkce s těma zprávama se dá zjednodušit -> udělej to
+# plavání přidat zadávání plaveckého stylu

@@ -118,7 +118,7 @@ class OneDay(Frame):
     def _sportElected (self, option) -> None:
         """Po vybrání sportu v comboBoxu se zavolájí potřebné funkce a vyvolají reakci.
         (strip v kalendáři)"""
-        ... #TODO tohl eještě dodělat
+        ... #TODO tohle ještě dodělat
 
     def _setSportDetails(self, option) -> None:
         """Vytvoří frame s nastavením detailů vybraného sportu."""
