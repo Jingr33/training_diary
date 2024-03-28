@@ -7,7 +7,7 @@ free_day = "volno"
 sport_color = {
     sport_list[0] : "#3498DB", # posilovna
     sport_list[1] : "#C0392B", # běh
-    sport_list[2] : "#ffcc00", # plavání
+    sport_list[2] : "#fad12d", # plavání
 }
 
 # list výběrových tlačítek v menuFramu

@@ -15,13 +15,14 @@ class Swim (Sport):
         self.color = sport_color[self.name]
 
     def createAttributes(self, training : object) -> list:
-        self.message_attributes = ["datum", "sport", "čas", "cviky"]
+        self.message_attributes = ["datum", "sport", "čas", "vzdálenost"]
         return self.message_attributes
 
     def createValues(self, training : object) -> list:
         """Metoda vytvoří list  atributů pro vepsání do tooltip message."""
-        str_time  = str(training.time) + " min"
-        self.message_values = [training.date, training.sport, str_time, training.practicedParts]
+        str_time  = "{0} min".format(training.time)
+        str_distance = "{0} km".format(training.distance)
+        self.message_values = [training.date, training.sport, str_time, str_distance]
         return self.message_values
 
     @staticmethod

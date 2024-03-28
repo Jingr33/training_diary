@@ -12,22 +12,19 @@ class SetSport():
     
     def createTooltipMessage(self, training : object) -> str:
         """Metoda určí, o který sport se jedná a pomocí dalších objektů vytvoří tooltip message."""
-        if training.sport == sport_list[0]: # posilovna
-            sport = Gym()
-            sport.createAttributes(training)
-            sport.createValues(training)
-            message = sport.tooltipMessage()
-        elif training.sport == sport_list[1]: # běh
-            sport = Run()
-            sport.createValues(training)
-            sport.createAttributes(training)
-            message = sport.tooltipMessage()
-        elif training.sport == sport_list[2]:
-            sport = Swim()
-            sport.createValues(training)
-            sport.createAttributes(training)
-            message = sport.tooltipMessage()
+        sport_objects = {"posilovna" : Gym, 
+                         "běh" : Run, 
+                         "plavání" : Swim}
+        message = self._oneSportMessage(sport_objects, training)
         message = General.setStringForUndefined(message, ["None", unknown_text])
+        return message
+    
+    def _oneSportMessage (self, sport_object : dict, training : object) -> str:
+        """Vytvoří zprávu pro tooltip sportu v kalendáři podle zadaného typu tréninku."""
+        sport = sport_object[training.sport]()
+        sport.createAttributes(training)
+        sport.createValues(training)
+        message = sport.tooltipMessage()
         return message
     
     @staticmethod

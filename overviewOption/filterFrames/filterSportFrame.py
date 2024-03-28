@@ -1,6 +1,7 @@
 #import knihoven
 import customtkinter as ctk
 from tkinter import *
+from icecream import ic
 #import souborů
 from ctkWidgets import Frame, CheckBox
 from configuration import sport_list
@@ -28,6 +29,4 @@ class FilterSport (Frame):
     def filtered (self):
         """Vrátí hodnoty zakliknuté ve filtru sportu."""
         values = [var.get() for var in self.chb_vars]
-        ###################################################
-        # values = [self.var_gym.get(), self.var_run.get()]
         return values

@@ -36,6 +36,7 @@ class FilterDetails (Frame):
         gym_values = self._filteredGym()
         run_values = self._filteredRun()
         swim_values = self._filteredSwim()
+        self.details_widgets = [self.gym_details_widgets, self.run_details_widgets, self.swim_details_widgets]
         filtered = [gym_values, run_values, swim_values]
         return filtered
 

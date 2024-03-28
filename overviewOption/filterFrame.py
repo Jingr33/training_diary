@@ -82,43 +82,15 @@ class FilterFrame (ctk.CTkScrollableFrame):
 
     def _bindEvents (self) -> None:
         """Přidá eventy k podrobnostím filtrů, aby se skryly v případě, že sport není vybrán."""
-        for i in range(len(self.filter_sport.chb_vars)):
-            self.filter_sport.checkboxes[i].bind('<Button-1>', lambda value: self._filterSelected(i))
-###########################################################
-    # def _bindEvents (self, detail_filter_function : list) -> None:
-    #     """Přidá eventy k podrobnostím filtrů, aby se skryly v případě, že sport není vybrán."""
-    #     for i in range(len(self.filter_sport.chb_vars)):
-    #         self.filter_sport.checkboxes[i].bind('<Button-1>', lambda value: detail_filter_function[i](i))
+        for i in range(len(self.filter_sport.checkboxes)):
+            self.filter_sport.checkboxes[i].bind('<Button-1>', lambda value: self.sportWasSelected())
     
-    def _filterSelected (self, index : int) -> None:
-        """Přidá nebo odebere podrobné nastavení filtrace tréninků typu, který byl právě změněn do opačného stavu (zapnut, vypnut)"""
-        if int(self.filter_sport.chb_vars[index].get()) == 0:
-            General.deleteListWidgets(self.filter_details.gym_details_widgets)
-        else: # zavolání funkce pro přerenderivání grafického rozhraní
-            self.sportWasSelected()
-#################################################################
-    # def gymFilterSelected (self, index : int) -> None:
-    #     """Metoda pro přidání podrobného nastavení pro tréninky v posilovně."""
-    #     ic(int(self.filter_sport.chb_vars[index].get()) == 0)
+    # def _filterSelected (self, index : int) -> None:
+    #     """Přidá nebo odebere podrobné nastavení filtrace tréninků typu, který byl právě změněn do opačného stavu (zapnut, vypnut)"""
     #     if int(self.filter_sport.chb_vars[index].get()) == 0:
-    #         General.deleteListWidgets(self.filter_details.gym_details_widgets)
-    #     elif int(self.filter_sport.var_gym.get()) == 1:
-    #         # zavolání funkce pro přerenderivání grafického rozhraní
+    #         General.deleteListWidgets(self.filter_details.details_widgets[index])
+    #     else: # zavolání funkce pro přerenderování grafického rozhraní
     #         self.sportWasSelected()
-
-    # def runFilterSelected (self, index : int) -> None:
-    #     """Metoda pro přidání podrobného nastavení pro běžecké tréninky."""
-    #     print("zde")
-    #     ic(int(self.filter_sport.chb_vars[index].get()) == 0)
-    #     if int(self.filter_sport.chb_vars[index].get()) == 0:
-    #         General.deleteListWidgets(self.filter_details.run_details_widgets)
-    #     elif int(self.filter_sport.var_run.get()) == 1:
-    #         # zavolání funkce pro přerenderování grafického rozhraní
-    #         self.sportWasSelected()
-
-    # def swimFilterSelected (self, index : int) -> None:
-    #     """Metoda pro přidání podrobného nastavení pro plavecké tréninky."""
-    #     ...
 
     def sportWasSelected(self) -> None:
         """Metoda pro vyvolání pře-renderování detailního nastavení při vybrání 
@@ -126,13 +98,5 @@ class FilterFrame (ctk.CTkScrollableFrame):
         General.deleteFrameWidgets(self.filter_details)
         # proměnná s listem se sporty, které byly vyselectovány
         selected = self.filter_sport.filtered()
-        ic(selected)
         # znovu-vyrenderování vybraných nastavovacích oken
         self.filter_details.createAllGUI(selected)
-
-#################################################
-        #TODO - poklikej filtry a uvidíš v těch výpisech, že ti nejede plavání tak jak má, to je první co máš opravit
-#################################################
-
-
-
