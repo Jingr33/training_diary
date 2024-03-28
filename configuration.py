@@ -54,6 +54,7 @@ colors = {
     "gray" : "#333333",
     "dark-gray" : "#2c2c2c",
     "dark-gray-2" : "#262626",
+    "dark-gray-3" : "#282828",
     "light-gray" : "#444444",
     "dark-red" : "#850101",
     "dark-red-hover" : "#823e3e",
@@ -63,6 +64,9 @@ colors = {
     "black" : "#000000",
     "entry-border" : "#5a5a5a",
     "dodger-blue-4" : "#104e8b",
+    "light" : "#c7c7c7",
+    "dodger-blue-3" : "#1874CD",
+    "dodger-blue-2" : "#1E90FF",
 }
 
 # barevná paletta pro koláčový graf 
@@ -92,9 +96,6 @@ sorting_text_color = {
     3 : "#000000",
     4 : "#000000",
 }
-
-# Overview - počet viditelných řádků na jedno zobrazení
-displayed_rows = 20
 
 # možnosti v nastavení období, pro které graf vyobrazuje hodnoty 
 chart_range_option = ["den", "týden", "měsíc", "rok"]

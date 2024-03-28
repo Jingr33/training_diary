@@ -5,7 +5,8 @@ import customtkinter as ctk
 from overviewOption.oneRow import OneRow
 from ctkWidgets import Button
 from general import General
-from configuration import colors, displayed_rows
+from configuration import colors
+import globalVariables as GV
 
 class Table (ctk.CTkScrollableFrame):
     """Třída pro vytvoření tabulky přehledu tréninků."""
@@ -15,6 +16,7 @@ class Table (ctk.CTkScrollableFrame):
         self.data = fileData # cesta souboru který načítám do tabulky
         self.init_load_more = True # zda se má vytvořit i tlačítko pro zobrazení více tréninků
         self.section = 1 # kolikátá skupina tréninků se má zobrazit
+        self.displayed_rows = int(GV.setting["overview-rows"])
         # inicializace grafického rozhraní
         self.initGUI(self.data)
 
@@ -35,7 +37,7 @@ class Table (ctk.CTkScrollableFrame):
             if i % 2 == 0:
                 one_row.configure(fg_color = colors["gray"])
             i = i + 1
-            if i >= self.section * displayed_rows: # kontrola zda se nevypisuje psóslední řádek sekce
+            if i >= self.section * self.displayed_rows: # kontrola zda se nevypisuje psóslední řádek sekce
                 break
 
     def _initLoadMoreButton (self) -> None:
@@ -46,7 +48,7 @@ class Table (ctk.CTkScrollableFrame):
 
     def _addRows (self) -> None:
         """Přidá další řadky s informacemi o trénincích po kliknutí na tlačítko pro přidání řádků."""
-        if self.section * displayed_rows < len(self.data):
+        if self.section * self.displayed_rows < len(self.data):
             self.section = self.section + 1
             General.deleteListWidgets([self.load_more]) # smazání tlačítka
             self._initContent(self.data)
@@ -56,8 +58,8 @@ class Table (ctk.CTkScrollableFrame):
     def _rowsLimits (self) -> tuple:
         """Vypočítá rozpětí indexů tréniků, které se mají vypsat. Vrátí tuple krajních hodnot.
         Pokud je rozsah tréninků u konce, nastaví se hodnota, která zamezí vytvoření tlačítka pro více tréninků."""
-        lower_limit = (self.section - 1) * displayed_rows
-        upper_limit = self.section * displayed_rows
+        lower_limit = (self.section - 1) * self.displayed_rows
+        upper_limit = self.section * self.displayed_rows
         if upper_limit > len(self.data): # aby nebyla přesažena velikost listu tréninků
             upper_limit = len(self.data)
             self.init_load_more = False # aby se nevytvářelo tlačítko pro více tréninků
