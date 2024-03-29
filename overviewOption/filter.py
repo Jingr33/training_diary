@@ -1,3 +1,4 @@
+from icecream import ic
 # importy souborů
 from configuration import sport_list, gym_body_parts
 from sports.setSport import SetSport
@@ -6,19 +7,15 @@ class Filter():
     """Filtruje tréninky podle vybraných parametrů."""
     def __init__(self, trainings, date_filter, sport_filter, time_filter, detail_filter):
         self.trainings = trainings
-
         # vyfiltrování podle filtrovaných sportů
         self.filtered_data = self._sportFiltrator(sport_filter)
-
         # vyfiltrování podle filtrovaného data
         self.filtered_data = self._dateFiltrator(date_filter)
-
         # vyfiltrování data podle času
         self.filtered_data = self._timeFiltrator(time_filter)
-
         # vyfiltrování podle detailů sportů
         self.filtered_data = self._detailsFiltrator(detail_filter)
-
+        ic(self.filtered_data)
     
     def getFilteredData(self):
         return self.filtered_data
@@ -32,7 +29,6 @@ class Filter():
             if int(sport) == 1:
                 desired_sports.append(sport_list[i])
             i = i + 1
-
         # pokud se sport rovná sportu ve filtru, trénink se vybere
         filtered = []
         for training in self.trainings:

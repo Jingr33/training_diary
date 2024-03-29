@@ -11,7 +11,6 @@ from overviewOption.filterFrames.filterSportFrame import FilterSport
 from overviewOption.filterFrames.filterTimeFrame import FilterTime
 from overviewOption.filterFrames.filterDetailsFrame import FilterDetails
 from general import General
-from configuration import sport_list, gym_body_parts
 
 
 class FilterFrame (ctk.CTkScrollableFrame):
@@ -23,18 +22,10 @@ class FilterFrame (ctk.CTkScrollableFrame):
         # nastavení scrollbaru, aby nebyl moc velký
         self.configure(height = 120)
         self._scrollbar.configure(height = 0)
-
         # vytvoření grafického rozhraní
         self._createGUI()
-
         # eventy pro přidávání a oddělávání podrobného nastavení
         self._bindEvents()
-        ####################################
-        # detail_filter_funcs = [self.gymFilterSelected, self.runFilterSelected, self.swimFilterSelected]
-        # self._bindEvents(detail_filter_funcs)
-        ###########################################
-        # self.filter_sport.gym_chb.bind('<Button-1>', self.gymFilterSelected)
-        # self.filter_sport.run_chb.bind('<Button-1>', self.runFilterSelected)
 
     def _createGUI(self) -> None:
         """Vytvoření grafického rozraní."""
@@ -73,6 +64,8 @@ class FilterFrame (ctk.CTkScrollableFrame):
         self.filter = Filter(self.trainings, date_filter, sport_filter, time_filter, detail_filter)
         self.filtered_data = self.filter.getFilteredData()
 
+        ic(self.trainings, date_filter, sport_filter, time_filter, detail_filter)
+
         # přegenerování tabulky s vyfiltrovanýchmi tréninky
         self.master.Filtering()
 
@@ -85,13 +78,6 @@ class FilterFrame (ctk.CTkScrollableFrame):
         for i in range(len(self.filter_sport.checkboxes)):
             self.filter_sport.checkboxes[i].bind('<Button-1>', lambda value: self.sportWasSelected())
     
-    # def _filterSelected (self, index : int) -> None:
-    #     """Přidá nebo odebere podrobné nastavení filtrace tréninků typu, který byl právě změněn do opačného stavu (zapnut, vypnut)"""
-    #     if int(self.filter_sport.chb_vars[index].get()) == 0:
-    #         General.deleteListWidgets(self.filter_details.details_widgets[index])
-    #     else: # zavolání funkce pro přerenderování grafického rozhraní
-    #         self.sportWasSelected()
-
     def sportWasSelected(self) -> None:
         """Metoda pro vyvolání pře-renderování detailního nastavení při vybrání 
         kteréhokoliv sportu."""

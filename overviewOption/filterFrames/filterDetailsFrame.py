@@ -82,7 +82,7 @@ class FilterDetails (Frame):
     def _createRun(self) -> None:
         """Metoda pro vytvoření grafiky pro filtraci distance běhu."""
         self.run_rows = 1
-        self._distanceSportsFilterWidgets("Běh délka")
+        self.run_var_from, self.run_var_to = self._distanceSportsFilterWidgets("Běh délka")
         # zvýšení řádku pro následné generování dalšího nastavení
         self.details_rows = self.details_rows + self.run_rows
         # pole všech grafických objektů funkce
@@ -91,13 +91,13 @@ class FilterDetails (Frame):
     def _createSwim(self) -> None:
         """Vytvoří widgety pro filrtraci  podrobností plaveckého tréninku."""
         self.swim_rows = 1
-        self._distanceSportsFilterWidgets("Uplaváno")
+        self.swim_var_from, self.swim_var_to = self._distanceSportsFilterWidgets("Uplaváno")
         # zvýšení řádku pro následné generování dalšího nastavení
         self.details_rows = self.details_rows + self.swim_rows
         # pole všech grafických objektů funkce
         self.swim_details_widgets = [self.run_l, self.from_l, self.from_e, self.to_l, self.to_e]
 
-    def _distanceSportsFilterWidgets (self, title : str) -> None:
+    def _distanceSportsFilterWidgets (self, title : str) -> IntVar:
         """Vytvoří widgety pro sporty, které v nastavení sportů mají možnost filtrovat vzdálenost."""
         self.var_from = StringVar()
         self.var_to = StringVar()
@@ -116,6 +116,7 @@ class FilterDetails (Frame):
         self.to_e = Entry(self, self.var_to)
         self.to_e.grid(row=self.details_rows, column = 4)
         self.to_e.configure(height = 20, width=35)
+        return self.var_from, self.var_to
 
     def _filteredGym(self) -> list:
         """Pokud bylo použito filtrování cviků v posilovně, funkce vrátí filtrované hodnoty."""
@@ -124,11 +125,11 @@ class FilterDetails (Frame):
     def _filteredRun(self) -> list:
         """Vrátí filtrované hodnoty běhu."""
         if self.run_details_widgets:
-            distances = [self.var_from.get(), self.var_to.get()]
+            distances = [self.run_var_from.get(), self.run_var_to.get()]
         return distances
     
     def _filteredSwim (self) -> list:
         """Vrátí filtrované hodnoty plavání."""
         if self.swim_details_widgets:
-            distances = [self.var_from.get(), self.var_to.get()]
+            distances = [self.swim_var_from.get(), self.swim_var_to.get()]
         return distances

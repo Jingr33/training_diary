@@ -29,7 +29,7 @@ class Swim (Sport):
     
     @staticmethod
     def getSwimStyle (master : object) -> str:
-        """Vytvoří string plaveckých stylů v daném tréninku ( pro zobrazení např. v tooltipu)."""
+        """Vytvoří string plaveckých stylů v daném tréninku (pro zobrazení např. v tooltipu)."""
         string = ""
         for i in range(len(swim_style)):
             if int(master.style[i]) == 1:
@@ -94,9 +94,7 @@ class Swim (Sport):
         master.time = General.checkKnownFloat(data_list[0 + index_adjustment])
         master.distance = General.checkKnownFloat(data_list[1 + index_adjustment])
         master.style = [data_list[i + 2 + index_adjustment] for i in range(len(swim_style))]
-        ic(master.style)
         master.style_str = Swim.getSwimStyle(master)
-        ic(master.style_str)
 
     @staticmethod
     def plan_getSwimData (master : object, data : tuple) -> None:
@@ -160,7 +158,7 @@ class Swim (Sport):
         return verify_distance
     
     @staticmethod
-    def swimDistanceFiltrator(master : object, distance_swim_filter :list) -> list:
+    def swimDistanceFiltrator(master : object, distance_swim_filter : list) -> list:
         """Vyfiltruje plavání podle uplavané vzdálenosti."""
         # pokud není filtr nastavený -> trénink projde filtrem vždy
         bottom_condition = False # podmínka při nezadaném spodním filtru
@@ -187,6 +185,11 @@ class Swim (Sport):
                 else:
                     filtered.append(training)
         return filtered
+    
+    @staticmethod
+    def swimStyleFiltrator (master : object, trainings_for_filter : list) -> list:
+        """Vyfiltruje plavání podle zvolených stylů a vyfiltrovaný list tréninků."""
+        return master.filtered_data
 
     def updateSwimGUI (master : object, training : object) -> None:
         """Vytvoří widgety v okně pro úpravu tréninků v Overview, pokud se vybere trénink plavání."""

@@ -35,6 +35,7 @@ class OneTraining ():
         """Funkce rozklíčuje data ze souboru a přiřadí je objektu."""
         # rozdělení řádku ze souboru na jednolivé údaje
         data_list = General.separateData(file_line)
+        ic(data_list)
         # nastavení od tréninku
         self._setTrainingID(training_id)
         # uložení data tréninku

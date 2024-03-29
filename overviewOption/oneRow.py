@@ -1,6 +1,7 @@
 # inport knihoven
 from tkinter import *
 import customtkinter as ctk
+from icecream import ic
 # import souborů
 from overviewOption.updateTraining.updateWindow import UpdateWindow
 from sports.setSport import SetSport
