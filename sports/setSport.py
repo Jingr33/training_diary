@@ -158,7 +158,6 @@ class SetSport():
     @staticmethod
     def detailsFiltrator (master : object, detail_filter : list) -> list:
         """Vyfiltruje data podle detalních možností sportů."""
-        ic(detail_filter)
         # detaily posilovny
         if detail_filter[0]:
             master.filtered_data = Gym.gymPartsFiltrator(master, detail_filter[0])

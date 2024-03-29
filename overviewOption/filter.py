@@ -15,7 +15,6 @@ class Filter():
         self.filtered_data = self._timeFiltrator(time_filter)
         # vyfiltrování podle detailů sportů
         self.filtered_data = self._detailsFiltrator(detail_filter)
-        ic(self.filtered_data)
     
     def getFilteredData(self):
         return self.filtered_data

@@ -40,10 +40,17 @@ class Swim (Sport):
         return string
 
     @staticmethod
-    def sortSwimTrainingList (master : object, training_list : list) -> list:
+    def sortSwimTrainingList (master : object, trainings : list) -> list:
         """Roztřídí skupinu tréninků posilovna."""
-        # TODO - třídění
-        return training_list
+        # list indexů pro slovníky
+        index_list = master._indexList(len(trainings))
+        # slovník tréninků
+        trainings_dict = master._trainingDict(trainings, index_list)
+        # slovník časů pro třídění
+        sort_elems = master._sortDistanceDict(trainings, index_list)
+        # roztříděný list tréninků
+        to_sort = master._sortIt(sort_elems, trainings_dict)
+        return to_sort
     
     @staticmethod
     def plan_initSwimDetails (master : object) -> None:

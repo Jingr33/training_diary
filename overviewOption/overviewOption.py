@@ -22,10 +22,8 @@ class Overview (ctk.CTkFrame):
 
         # načtení dat po trénincích
         lines = self.laodFileLines(trainings_path)
-        ic(lines)
         #pole jednotlivých instancí tréninků
         self.trainings = self.makeTrainings(lines)
-        ic(self.trainings)
         #vytvoření filtrovacího rozhraní
         self._initFilters()
         # vytvoření legendy tabulky
@@ -85,7 +83,6 @@ class Overview (ctk.CTkFrame):
             training_id = i
             i = i + 1
             one_training = OneTraining(self, "load", one_line, training_id=training_id)
-            ic(one_training)
             trainings.append(one_training)
         return trainings
     

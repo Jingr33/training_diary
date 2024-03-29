@@ -29,7 +29,6 @@ class Table (ctk.CTkScrollableFrame):
     def _initContent (self, data : list) -> None:
         """Vytvoří grafické rozhraní tabulky a jejího nastavení části přehled."""
         # vytvoření řádků tabulky pomocí objektu OneRow
-        ic(data)
         limit = self._rowsLimits()
         for i in range(limit[0], limit[1]):
             one_row = OneRow(self, data[i])

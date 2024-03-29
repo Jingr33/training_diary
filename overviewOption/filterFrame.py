@@ -63,9 +63,7 @@ class FilterFrame (ctk.CTkScrollableFrame):
         # zavolání vyfiltrování
         self.filter = Filter(self.trainings, date_filter, sport_filter, time_filter, detail_filter)
         self.filtered_data = self.filter.getFilteredData()
-
-        ic(self.trainings, date_filter, sport_filter, time_filter, detail_filter)
-
+        
         # přegenerování tabulky s vyfiltrovanýchmi tréninky
         self.master.Filtering()
 
