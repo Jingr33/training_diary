@@ -34,6 +34,7 @@ class SportSelectionFrame (Frame):
             cb_var.set(GV.selected_sports[i])
             select_cb = CheckBox(self, "", cb_var)
             select_cb.grid(row = i, column = 1, padx = padx_cb, pady = pady)
+            ic(i)
             select_cb.configure(width = 27, fg_color = GV.sport_colors[sport_list[i]], command = lambda: self._setSelectedSports(i))
             checkboxes[i] = select_cb
             vars[i] = cb_var
@@ -51,6 +52,7 @@ class SportSelectionFrame (Frame):
 
     def _initColorPicker (self, index : int) -> None:
         """Iniciuje okno s vyběrem barvy k odpovídajícímu tlačítku pro nastavení barvy."""
+        ic(index)
         pick_color = AskColor(title="Nastavení barvy", text="Vybrat")
         color = pick_color.get()
         if color:
@@ -61,6 +63,7 @@ class SportSelectionFrame (Frame):
 
     def _setSelectedSports(self, index : int) -> None:
         """Nastaví změny ve vybraných sportech, uloží nastavení do databáze."""
+        ic(index)
         changed_value = int(self.sport_widgets["var"][index].get())
         GV.selected_sports[index] = changed_value
         self._changeStateOfButton(changed_value, index)
