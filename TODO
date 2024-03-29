@@ -8,6 +8,7 @@
 
 """SETTING"""
 # zkus nejak v GV předělat to nacitani slov s diakritikou, ať to je udělané nějak normálně
+# přidej hover barvy na vybíraní použivaných sportů
 
 """PLAVání - styl"""
 # filter plavání - přidej filter na styly

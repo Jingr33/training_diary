@@ -35,11 +35,11 @@ class SportSelectionFrame (Frame):
             select_cb = CheckBox(self, "", cb_var)
             select_cb.grid(row = i, column = 1, padx = padx_cb, pady = pady)
             ic(i)
-            select_cb.configure(width = 27, fg_color = GV.sport_colors[sport_list[i]], command = lambda: self._setSelectedSports(i))
+            select_cb.configure(width = 27, fg_color = GV.sport_colors[sport_list[i]], command = lambda index = i: self._setSelectedSports(index))
             checkboxes[i] = select_cb
             vars[i] = cb_var
             # button
-            choose_color = Button(self, "Změnit barvu", lambda: self._initColorPicker(i))
+            choose_color = Button(self, "Změnit barvu", lambda index = i: self._initColorPicker(index))
             choose_color.grid(row = i, column = 2, pady = pady)
             choose_color.configure(width = 100, height = 27, fg_color = GV.sport_colors[sport_list[i]])
             buttons[i] = choose_color
