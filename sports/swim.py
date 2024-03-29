@@ -1,9 +1,10 @@
 #importy knihovan
 import customtkinter as ctk
 from tkinter import *
+from icecream import ic
 #importy souborů
 from sports.sport import Sport
-from configuration import sport_list, sport_color, unknown_text, pie_chart_palette
+from configuration import sport_list, sport_color, swim_style, unknown_text_label
 from ctkWidgets import Label, Entry, CheckBox
 from general import General
 
@@ -15,15 +16,28 @@ class Swim (Sport):
         self.color = sport_color[self.name]
 
     def createAttributes(self, training : object) -> list:
-        self.message_attributes = ["datum", "sport", "čas", "vzdálenost"]
+        self.message_attributes = ["datum", "sport", "čas", "vzdálenost", "styl"]
         return self.message_attributes
 
     def createValues(self, training : object) -> list:
         """Metoda vytvoří list  atributů pro vepsání do tooltip message."""
         str_time  = "{0} min".format(training.time)
         str_distance = "{0} km".format(training.distance)
-        self.message_values = [training.date, training.sport, str_time, str_distance]
+        training.style_str = Swim.getSwimStyle(training)
+        self.message_values = [training.date, training.sport, str_time, str_distance, training.style_str]
         return self.message_values
+    
+    @staticmethod
+    def getSwimStyle (master : object) -> str:
+        """Vytvoří string plaveckých stylů v daném tréninku ( pro zobrazení např. v tooltipu)."""
+        string = ""
+        for i in range(len(swim_style)):
+            if int(master.style[i]) == 1:
+                string = "{0}{1}, ".format(string, swim_style[i])
+        string = string[:-2]
+        if not string: # pokud je string prázdný
+            string = unknown_text_label
+        return string
 
     @staticmethod
     def sortSwimTrainingList (master : object, training_list : list) -> list:
@@ -35,8 +49,9 @@ class Swim (Sport):
     def plan_initSwimDetails (master : object) -> None:
         """Vytvoří widgety v framíku v detailech nastavování sportu (posilovna) ve vytváření
         cyklického tréninkového plánu."""
+        font = ("Arial", 11)
         # očekávaný čas
-        time_l = Label(master, "Očekávaný čas:", ("Arial", 11))
+        time_l = Label(master, "Očekávaný čas:", font)
         time_l.pack(side=TOP)
         time_l.configure(anchor = "w", width = 95)
         master.estimated_time = StringVar()
@@ -44,13 +59,23 @@ class Swim (Sport):
         time_e.pack(side=TOP)
         time_e.configure(width = 95)
         # upavaná vzdálenost
-        dist_l = Label(master, "Očekávaná\ndistance:", ("Arial", 11))
+        dist_l = Label(master, "Očekávaná\ndistance:", font)
         dist_l.pack(side=TOP, pady = 5)
         dist_l.configure(anchor = "w", width = 95)
         master.estimated_dist = StringVar()
         dist_e = Entry(master, master.estimated_dist)
         dist_e.pack(side=TOP)
         dist_e.configure(width = 95)
+        # plvacký styl
+        style_l = Label(master, "Plavecký styl: ", font)
+        style_l.pack(side = TOP, pady = 5, anchor = "w")
+        style_l.configure(width = 95)
+        master.estimated_style = [0] * len(swim_style)
+        for i in range(len(swim_style)):
+            chb_var = IntVar()
+            checkbox = CheckBox(master, swim_style[i], chb_var)
+            checkbox.pack(side = TOP)
+            master.estimated_style[i] = chb_var
 
     @staticmethod
     def plan_getSwimDetails (master : object) -> tuple:
@@ -58,35 +83,41 @@ class Swim (Sport):
         -> nastavení detailů sportu"""
         time = Sport.floatEntryChecker(master.estimated_time.get())
         dist = Sport.floatEntryChecker(master.estimated_dist.get())
-        return (time, dist)
+        style = [intvar.get() for intvar in master.estimated_style]
+        return (time, dist, style)
 
     @staticmethod
     def swimData(master : object, data_list : list, index_adjustment = 2) -> None:
         """Rozklíčuje data z získané z tréninkové databáze pokud se
-        jedná o trénink posilovna.
+        jedná o trénink plavání.
         Index_adjustment je úprava indexu, pokud tam chci poslat pole kde ty atributy neberu od 0."""
         master.time = General.checkKnownFloat(data_list[0 + index_adjustment])
         master.distance = General.checkKnownFloat(data_list[1 + index_adjustment])
+        master.style = [data_list[i + 2 + index_adjustment] for i in range(len(swim_style))]
+        ic(master.style)
+        master.style_str = Swim.getSwimStyle(master)
+        ic(master.style_str)
 
     @staticmethod
     def plan_getSwimData (master : object, data : tuple) -> None:
-        """Přiřadí zadané data tréninku typu posilovna."""
+        """Přiřadí zadané data tréninku typu plavání."""
         master.distance = data[1]
+        master.style = data[2]
     
     @staticmethod
     def plan_swimDataToList(training : object) -> list:
         """Zapíše vlastnosti tréninku plavání do listu informací o tréninku."""
-        data_list = [training.date, training.sport, training.time, training.distance]
+        data_list = [training.date, training.sport, training.time, training.distance] + training.style
         return data_list
 
     @staticmethod
     def swimDetailsInOverview (master : object):
         """Metoda pro vytvoření specifických údajů o tréninku plavání do tabulky přehledu tréninků."""
-        distance_text = str(master.training.distance) + " km"
-        distance_l = Label(master, distance_text)
-        distance_l.pack(side = LEFT, fill = ctk.Y)
-        distance_l.configure(width = 250, height = 40, anchor = ctk.W)
-        master.content_wigets.append(distance_l)
+        details_text = "{0} km - Styl: {1}".format(master.training.distance, master.training.style_str)
+        details_l = Label(master, details_text)
+        details_l.pack(side = LEFT, fill = ctk.Y)
+        details_l.configure(width = 250, height = 40, anchor = ctk.W)
+        master.content_wigets.append(details_l)
 
     @staticmethod
     def setFrameSwimWidgets (master : object):
@@ -96,12 +127,22 @@ class Swim (Sport):
         Entry(master, master.var_distance).pack(anchor=ctk.W)
         master.distance_error_l = Label(master, "", ("Arial", 10))
         master.distance_error_l.pack(anchor=ctk.W, side=TOP)
+        # zadání plaveckého stylu
+        Label(master, 'Plavecký styl').pack(anchor = ctk.W)
+        master.checkboxes = [None] * len(swim_style)
+        for i in range(len(swim_style)):
+            var = IntVar()
+            chb = CheckBox(master, swim_style[i], var)
+            chb.pack(anchor = ctk.W, padx = 10)
+            master.checkboxes[i] = var
 
     @staticmethod
     def swimListForFile(master : object, training_list : list) -> None:
         """Přidá k listu dat specifické informace o tréninku typu plavání pro zapsání dat do 
         tréninkové databáze."""
+        style_list = [intvar.get() for intvar in master.checkboxes]
         training_list.extend([master.var_time.get(), master.var_distance.get()])
+        training_list.extend(style_list)
         return training_list
     
     @staticmethod
@@ -195,6 +236,15 @@ class Swim (Sport):
         master.distance_entry = Entry(master, master.var_distance)
         master.distance_entry.grid(row = 0, column = 1, sticky = "W", padx = 5, pady = 2)
         master.distance_entry.configure(width = master.entry_width)
+        # plavecký styl
+        style_label = Label(master, "Plavecký \nstyl: ")
+        style_label.grid(row = 1, column = 0, sticky = "E", pady = 2)
+        master.checkboxes = [None] * len(swim_style)
+        for i in range(len(swim_style)):
+            var = IntVar()
+            chb = CheckBox(master, swim_style[i], var)
+            chb.grid(row = (1+i), column = 1, sticky = "W", padx = 5, pady = 2)
+            master.checkboxes[i] = var
 
     @staticmethod
     def singlePlanEntry (master : object) -> bool:
@@ -204,6 +254,7 @@ class Swim (Sport):
         if float_entry or unknown_entry:
             General.setDefaultBorder(master.distance_entry)
             master.frame_data = [master.var_distance.get()]
+            master.frame_data.extend(intvar.get() for intvar in master.checkboxes)
             return True
         General.setRedBorder(master.distance_entry)
         return False

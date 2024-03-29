@@ -2,6 +2,7 @@
 
 # list možných sportů pro zadání tréninku
 sport_list = ["posilovna", "běh", "plavání"]
+swim_style = ["prsa", "kraul", "znak", "motýlek"]
 free_day = "volno"
 
 sport_color = {

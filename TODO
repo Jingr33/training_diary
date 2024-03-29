@@ -2,3 +2,13 @@
 # CycleTraining -> nejde měnění nstavení columnconfiguration při zvětšování a zmenšování počtu dní
 # přidat potvrzovací frame, že tréninkový plán se uložil
 # pokud zadaš start-datum a opakování v týdnu dáš na ten den, tak v první den budou dva tréninky -> to oprav
+
+"""SETTING"""
+# zkus nejak v GV předělat to nacitani slov s diakritikou, ať to je udělané nějak normálně
+
+"""PLAVání - styl"""
+# filter plavání
+# třízení plavání
+
+"""Overview"""
+# zobrazovenán none km
