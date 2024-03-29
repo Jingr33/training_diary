@@ -8,7 +8,9 @@
 
 """PLAVání - styl"""
 # filter plavání - přidej filter na styly
-# třízení plavání
 
 """Overview"""
 # zobrazování none km
+
+"""OVERVIEW - třídění"""
+# přidat třídění asc a desc
