@@ -42,6 +42,8 @@ def getSportColors () -> dict:
         sport_colors[key] = value
     sport_colors["běh"] = sport_colors["beh"]
     del sport_colors["beh"]
+    sport_colors["plavání"] = sport_colors["plavani"]
+    del sport_colors["plavani"]
     return sport_colors
 
 def getSelectedSports () -> list:
@@ -58,6 +60,7 @@ def prepareSportColorsToFile () -> str:
     for key in sport_colors:
         string = "{0}{1}={2};".format(string, key, sport_colors[key])
     string = string.replace("běh", "beh")
+    string = string.replace("plavání", "plavani")
     return string
 
 def prepareSelectedSportsToFile () -> str:

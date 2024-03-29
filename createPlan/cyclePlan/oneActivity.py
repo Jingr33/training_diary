@@ -38,8 +38,6 @@ class OneActivity (Label):
         # eventy pro mazání aktivit
         self.bind("<Button-1>", self._destroyOption)
 
-        #TODO nakonec se při uložení sem musí uložit taky pořadí dne, v tréninkovém plánu
-
     def bindWithDay(self, day_number : int) -> None:
         """Metoda přidá do listu s daty o tréniku pořadí dne, ve kterém je."""
         self.data[0] = day_number

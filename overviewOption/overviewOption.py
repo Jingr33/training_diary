@@ -1,6 +1,7 @@
 # import knihoven
 from tkinter import *
 import customtkinter as ctk
+from icecream import ic
 # import souborů
 from overviewOption.confirmAlert import ConfirmAlert
 from overviewOption.legend import Legend

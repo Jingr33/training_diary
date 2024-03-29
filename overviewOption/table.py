@@ -1,6 +1,7 @@
 # import knihovem
 from tkinter import *
 import customtkinter as ctk
+from icecream import ic
 # import souborů
 from overviewOption.oneRow import OneRow
 from ctkWidgets import Button

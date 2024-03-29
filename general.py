@@ -43,7 +43,7 @@ class General():
     @staticmethod
     def checkDateEntry(entry : str, separator = "/") -> bool:
         """Ověří, zda je vstupní hodnota platné datum.
-        vstup : dd/mm/yyyy"""
+        vstup : dd/mm/yyyy resp. zadaný oddělovač"""
         try:
             date_list = entry.split(separator) # rozdělí vstup
             str_day, str_month, str_year = date_list # uloží list do proměnných
@@ -51,9 +51,9 @@ class General():
             second = int(str_month)
             third = int(str_year)
             try:
-                entry_date = date(third, second, first) # vytvoří datum
+                date(third, second, first) # vytvoří datum
             except:
-                entry_date = date(first, second, third)
+                date(first, second, third)
             checked = True
         except:
             checked = False

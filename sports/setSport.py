@@ -2,27 +2,29 @@
 from sports.sport import Sport
 from sports.gym import Gym
 from sports.run import Run
+from sports.swim import Swim
 from general import General
 from configuration import sport_list, free_day, gym_chart_strings, run_chart_strings, unknown_text
 from icecream import ic
 
 class SetSport():
     """Třída pro nastavení základních vlastností pro jednotlivé sporty."""
+    
     def createTooltipMessage(self, training : object) -> str:
         """Metoda určí, o který sport se jedná a pomocí dalších objektů vytvoří tooltip message."""
-        if training.sport == sport_list[0]: # posilovna
-            sport = Gym()
-            sport.createAttributes(training)
-            sport.createValues(training)
-            message = sport.tooltipMessage()
-        elif training.sport == sport_list[1]: # běh
-            sport = Run()
-            sport.createValues(training)
-            sport.createAttributes(training)
-            message = sport.tooltipMessage()
-        else:
-            ... #TODO další sporty
+        sport_objects = {"posilovna" : Gym, 
+                         "běh" : Run, 
+                         "plavání" : Swim}
+        message = self._oneSportMessage(sport_objects, training)
         message = General.setStringForUndefined(message, ["None", unknown_text])
+        return message
+    
+    def _oneSportMessage (self, sport_object : dict, training : object) -> str:
+        """Vytvoří zprávu pro tooltip sportu v kalendáři podle zadaného typu tréninku."""
+        sport = sport_object[training.sport]()
+        sport.createAttributes(training)
+        sport.createValues(training)
+        message = sport.tooltipMessage()
         return message
     
     @staticmethod
@@ -33,6 +35,8 @@ class SetSport():
             Gym.plan_initGymDetails(master)
         elif option == sport_list[1]: # běh
             Run.plan_initRunDetails(master)
+        elif option == sport_list[2]: # plavání
+            Swim.plan_initSwimDetails(master)
 
     @staticmethod
     def sortEachTrainingDict (master : object, training_dict : dict, key : str) -> list:
@@ -45,8 +49,8 @@ class SetSport():
             training_dict[key] = Gym.sortGymTrainingList(master, training_dict[key])
         elif key == sport_list[1]: # běh
             training_dict[key] = Run.sortRunTrainingList(master, training_dict[key])
-        else:
-            ... #TODO
+        elif key == sport_list[2]:
+            training_dict[key] = Swim.sortSwimTrainingList(master, training_dict[key])
         return training_dict[key]
         
     @staticmethod
@@ -56,6 +60,8 @@ class SetSport():
             values = Gym.plan_getGymDetails(master)
         elif option == sport_list[1]: # běh
             values = Run.plan_getRunDetails(master)
+        elif option == sport_list[2]:
+            values = Swim.plan_getSwimDetails(master)
         return values
     
     @staticmethod
@@ -66,8 +72,8 @@ class SetSport():
             sport = sport_list[0]
         elif sport_name == sport_list[1]:
             sport = sport_list[1]
-        else:
-            ... #TODO
+        elif sport_name == sport_list[2]:
+            sport = sport_list[2]
         return sport
     
     @staticmethod
@@ -79,8 +85,8 @@ class SetSport():
             Gym.gymData(master, data_list, index_adjustment)
         elif master.sport == sport_list[1]:
             Run.runData(master, data_list, index_adjustment)
-        else:
-            ... #TODO
+        elif master.sport == sport_list[2]:
+            Swim.swimData(master, data_list, index_adjustment)
 
     @staticmethod
     def plan_getSportData (master : object, data: tuple) -> None:
@@ -89,8 +95,8 @@ class SetSport():
             Gym.plan_getGymData(master, data)
         elif master.sport == sport_list[1]: # běh
             Run.plan_getRunData(master, data)
-        else:
-            ... #TODO
+        elif master.sport == sport_list[2]: # plavání
+            Swim.plan_getSwimData(master, data)
 
     @staticmethod
     def plan_trainingToList(training : object) -> list:
@@ -99,6 +105,8 @@ class SetSport():
             data_list = Gym.plan_gymDataToList(training)
         elif training.sport == sport_list[1]: # běh
             data_list = Run.plan_runDataToList(training)
+        elif training.sport == sport_list[2]: # plavání
+            data_list = Swim.plan_swimDataToList(training)
         # další sporty ...
         elif training.sport == free_day: # volný den
             data_list = Sport.plan_FreeDayDataToList(training)
@@ -111,6 +119,8 @@ class SetSport():
             Gym.gymDetailsInOverview(master)
         elif master.training.sport == sport_list[1]: # běh
             Run.runDetailsInOverview(master)
+        elif master.training.sport == sport_list[2]: # plavání
+            Swim.swimDetailsInOverview(master)
 
     @staticmethod
     def setFrameWidgets (master : object, choice : str) -> None:
@@ -119,19 +129,19 @@ class SetSport():
             Gym.setFrameGymWidgets(master)
         elif choice == sport_list[1]:
             Run.setFrameRunWidgets(master)
-        else:
-            ... #TODO
+        elif choice == sport_list[2]:
+            Swim.setFrameSwimWidgets(master)
 
     @staticmethod
     def fillListForFile (master : object, training_list : list) -> list:
         """Rozhodne, o který sport se jedná a přidá k listu dat o tréninku specifické informace 
         o sportu, který obsahuje do tréninkové databáze. Vrátí list s tréninkovými daty."""
         if training_list[1] == sport_list[0]:
-            training_list = Gym.GymListForFile(master, training_list)
+            training_list = Gym.gymListForFile(master, training_list)
         elif training_list[1] == sport_list[1]:
-            training_list = Run.RunListForFile(master, training_list)
-        else:
-            ... #TODO
+            training_list = Run.runListForFile(master, training_list)
+        elif training_list[1] == sport_list[2]:
+            training_list = Swim.swimListForFile(master, training_list)
         return training_list
     
     @staticmethod
@@ -141,6 +151,8 @@ class SetSport():
             verified = Gym.verifyGym(master)
         elif master.choice == sport_list[1]: #běh
             verified = Run.verifyRun(master)
+        elif master.choice == sport_list[2]: # plavání
+            verified = Swim.verifySwim(master)
         return verified
     
     @staticmethod
@@ -150,7 +162,10 @@ class SetSport():
         if detail_filter[0]:
             master.filtered_data = Gym.gymPartsFiltrator(master, detail_filter[0])
         # detaily běhu
-        master.filtered_data = Run.rundistanceFiltrator(master, detail_filter[1])
+        master.filtered_data = Run.runDistanceFiltrator(master, detail_filter[1])
+        # vyfiltrování detailů plavání
+        master.filtered_data = Swim.swimDistanceFiltrator(master, detail_filter[2])
+        master.filtered_data = Swim.swimStyleFiltrator(master, detail_filter[2])
 
     @staticmethod
     def updateTrainingGUI (master : object, training : object, value : str) -> None:
@@ -159,6 +174,8 @@ class SetSport():
             Gym.updateGymGUI(master, training)
         elif value == sport_list[1]: # běh
             Run.updateRunGUI(master, training)
+        elif value == sport_list[2]: # plavání
+            Swim.updateSwimGUI(master, training)
 
     @staticmethod
     def updateTrainingData (master : object) -> None:
@@ -167,6 +184,8 @@ class SetSport():
             Gym.updateGymData(master)
         elif master.main_values[1] == sport_list[1]: # běh
             Run.updateRunData(master)
+        elif master.main_values[1] == sport_list[2]: # plavání
+            Swim.updateSwimData(master)
 
     @staticmethod
     def getOneSportTrainings(master : object, sport : str) -> list:
@@ -175,6 +194,8 @@ class SetSport():
             trainings  = Gym.getGymTrainings(master)
         elif sport == sport_list[1]: # běh
             trainings = Run.getRunTrainings(master)
+        elif sport == sport_list[1]: # plavání
+            trainings = Swim.getSwimTrainings(master)
         return trainings
     
     @staticmethod
@@ -184,6 +205,8 @@ class SetSport():
             chart_content = Gym.makeGymContent(trainings)
         elif sport == sport_list[1]: # běh
             chart_content = Run.makeRunContent(trainings)
+        elif sport == sport_list[2]: # plavání
+            chart_content = Swim.makeSwimContent(trainings)
         return chart_content
     
     @staticmethod
@@ -192,7 +215,7 @@ class SetSport():
         if sport == sport_list[0]: # posilovna
             chart_type = "pie"
             chart_strings = gym_chart_strings
-        elif sport == sport_list[1]: # běh
+        elif sport == sport_list[1] or sport_list[2]: # běh
             chart_type = "bar"
             chart_strings = run_chart_strings
         return chart_type, chart_strings
@@ -204,6 +227,8 @@ class SetSport():
             Gym.singlePlanGym(master)
         elif sport == sport_list[1]: #běh
             Run.singlePlanRun(master)
+        elif sport == sport_list[2]: # plavání
+            Swim.singlePlanSwim(master)
 
     @staticmethod
     def singlePlanEntry (master : object, sport : str) -> list:
@@ -212,3 +237,5 @@ class SetSport():
             return Gym.singlePlanEntry(master)
         elif sport == sport_list[1]: # běh
             return Run.singlePlanEntry(master)
+        elif sport == sport_list[2]: # plavání
+            return Swim.singlePlanEntry(master)

@@ -94,7 +94,7 @@ class Gym (Sport):
 
     @staticmethod
     def plan_getGymDetails (master : object) -> tuple:
-        """Vrátí data vložené do framíku sportu (běh) v nastavování cyklického tréninkového plánu 
+        """Vrátí data vložené do framíku sportu (posilovna) v nastavování cyklického tréninkového plánu 
         -> nastavení detailů sportu"""
         time = Sport.floatEntryChecker(master.estimated_time.get()) # kontrola vstupu času
         
@@ -121,9 +121,6 @@ class Gym (Sport):
             master.biceps = int(data_list[6 + index_adjustment])
             master.triceps = int(data_list[7 + index_adjustment])
             master.forearm = int(data_list[8 + index_adjustment])
-            # isset = (master.leg + master.core + master.breast + master.shoulders + master.back + 
-            #         master.biceps + master.triceps + master.forearm)
-
             # vytvoření vlastnosti practicedParts
             master.practicedParts = Gym.practicedPartsString(master)
         else:
@@ -233,7 +230,7 @@ class Gym (Sport):
         forearm_chb.pack(anchor=ctk.W)
 
     @staticmethod
-    def GymListForFile(master : object, training_list : list) -> None:
+    def gymListForFile(master : object, training_list : list) -> None:
         """Přidá k listu dat specifické informace o tréninku typu posilovna pro zapsání dat do 
         tréninkové databáze."""
         training_list.extend([master.var_time.get(), master.var_legs.get(), master.var_core.get(),

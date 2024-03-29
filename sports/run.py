@@ -47,17 +47,14 @@ class Run (Sport):
         time_l = Label(master, "Očekávaný čas:", ("Arial", 11))
         time_l.pack(side=TOP)
         time_l.configure(anchor = "w", width = 95)
-
         master.estimated_time = StringVar()
         time_e = Entry(master, master.estimated_time)
         time_e.pack(side=TOP)
         time_e.configure(width = 95)
-
         # widgety očekávané uběhnuté vzálenosti
         dist_l = Label(master, "Očekávaná\ndistance:", ("Arial", 11))
         dist_l.pack(side=TOP, pady = 5)
         dist_l.configure(anchor = "w", width = 95)
-
         master.estimated_dist = StringVar()
         dist_e = Entry(master, master.estimated_dist)
         dist_e.pack(side=TOP)
@@ -108,7 +105,7 @@ class Run (Sport):
         master.distance_error_l.pack(anchor=ctk.W, side=TOP)
 
     @staticmethod
-    def RunListForFile(master : object, training_list : list) -> None:
+    def runListForFile(master : object, training_list : list) -> None:
         """Přidá k listu dat specifické informace o tréninku typu běh pro zapsání dat do 
         tréninkové databáze."""
         training_list.extend([master.var_time.get(), master.var_distance.get()])
@@ -129,7 +126,7 @@ class Run (Sport):
         return verify_distance
 
     @staticmethod
-    def rundistanceFiltrator(master : object, distance_run_filter :list) -> list:
+    def runDistanceFiltrator(master : object, distance_run_filter :list) -> list:
         """Vyfiltruje běh podle vzdálenosti."""
         # pokud není filtr nastavený -> trénink projde filtrem vždy
         bottom_condition = False # podmínka při nezadaném spodním filtru

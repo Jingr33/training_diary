@@ -1,17 +1,15 @@
 """Soubor pro ukládání konfiguračních konstant."""
 
 # list možných sportů pro zadání tréninku
-sport_list = ["posilovna", "běh"]
+sport_list = ["posilovna", "běh", "plavání"]
+swim_style = ["prsa", "kraul", "znak", "motýlek"]
 free_day = "volno"
-# barvy jednotlivých sportů #TODO nastavovatelnost
+
 sport_color = {
     sport_list[0] : "#3498DB", # posilovna
     sport_list[1] : "#C0392B", # běh
+    sport_list[2] : "#fad12d", # plavání
 }
-# ghost_color = {
-#     sport_list[0]: "#3498DB",
-#     sport_list[1]: "#C0392B",
-# }
 
 # list výběrových tlačítek v menuFramu
 menu_list = ["Přehled", "Kalendář", "Statistiky", "Možnosti"]
@@ -66,6 +64,7 @@ colors = {
     "free-day-gray" : "#2f2f2f",
     "black" : "#000000",
     "entry-border" : "#5a5a5a",
+    "dodger-blue-4" : "#104e8b",
     "light" : "#c7c7c7",
     "dodger-blue-3" : "#1874CD",
     "dodger-blue-2" : "#1E90FF",

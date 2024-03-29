@@ -1,14 +1,16 @@
 # import knihoven
 from tkinter import *
 import customtkinter as ctk
-from ctkWidgets import Frame, Button
+from icecream import ic
+# import souborů
+from ctkWidgets import Button
 from ctkWidgets import Button
 from overviewOption.filter import Filter
 from overviewOption.filterFrames.filterDateFrame import FilterDate
 from overviewOption.filterFrames.filterSportFrame import FilterSport
 from overviewOption.filterFrames.filterTimeFrame import FilterTime
 from overviewOption.filterFrames.filterDetailsFrame import FilterDetails
-from configuration import sport_list, gym_body_parts
+from general import General
 
 
 class FilterFrame (ctk.CTkScrollableFrame):
@@ -20,13 +22,10 @@ class FilterFrame (ctk.CTkScrollableFrame):
         # nastavení scrollbaru, aby nebyl moc velký
         self.configure(height = 120)
         self._scrollbar.configure(height = 0)
-
         # vytvoření grafického rozhraní
         self._createGUI()
-
         # eventy pro přidávání a oddělávání podrobného nastavení
-        self.filter_sport.gym_chb.bind('<Button-1>', self.gymFilterSelected)
-        self.filter_sport.run_chb.bind('<Button-1>', self.runFilterSelected)
+        self._bindEvents()
 
     def _createGUI(self) -> None:
         """Vytvoření grafického rozraní."""
@@ -50,7 +49,6 @@ class FilterFrame (ctk.CTkScrollableFrame):
         self.filter_button.pack(side=RIGHT, ipadx=7, ipady=7, anchor=ctk.N, padx=10, pady=10)
         self.filter_button.configure(width=70)
 
-
     def _filter(self) -> None:
         """Spuštění filtrování při kliknutí na tlačítko filtrovat."""
         #stažení hodnot o filtrování datumu
@@ -65,45 +63,24 @@ class FilterFrame (ctk.CTkScrollableFrame):
         # zavolání vyfiltrování
         self.filter = Filter(self.trainings, date_filter, sport_filter, time_filter, detail_filter)
         self.filtered_data = self.filter.getFilteredData()
-
+        
         # přegenerování tabulky s vyfiltrovanýchmi tréninky
         self.master.Filtering()
 
     def getData (self) -> list:
         """Metoda vrátí vyfiltrovaná data."""
         return self.filtered_data
+
+    def _bindEvents (self) -> None:
+        """Přidá eventy k podrobnostím filtrů, aby se skryly v případě, že sport není vybrán."""
+        for i in range(len(self.filter_sport.checkboxes)):
+            self.filter_sport.checkboxes[i].bind('<Button-1>', lambda value: self.sportWasSelected())
     
-    def gymFilterSelected (self, value):
-        """Metoda pro přidání podrobného nastavení pro tréninky v posilovně."""
-        if int(self.filter_sport.var_gym.get()) == 0:
-            # destroyne widgety posilovny
-            for widget in self.filter_details.gym_details_widgets:
-                widget.destroy()
-        elif int(self.filter_sport.var_gym.get()) == 1:
-            # zavolání funkce pro přerenderivání grafického rozhraní
-            self.sportWasSelected()
-
-    def runFilterSelected (self, value):
-        """Metoda pro přidání podrobného nastavení pro běžecké tréninky."""
-        if int(self.filter_sport.var_run.get()) == 0:
-            # destroyne widgety běhu
-            for widget in self.filter_details.run_details_widgets:
-                widget.destroy()
-        elif int(self.filter_sport.var_run.get()) == 1:
-            # zavolání funkce pro přerenderivání grafického rozhraní
-            self.sportWasSelected()
-
-    def sportWasSelected(self):
+    def sportWasSelected(self) -> None:
         """Metoda pro vyvolání pře-renderování detailního nastavení při vybrání 
         kteréhokoliv sportu."""
-        # smazaní předchozího obsahu
-        for widget in self.filter_details.winfo_children():
-            widget.destroy()
-
+        General.deleteFrameWidgets(self.filter_details)
         # proměnná s listem se sporty, které byly vyselectovány
         selected = self.filter_sport.filtered()
         # znovu-vyrenderování vybraných nastavovacích oken
         self.filter_details.createAllGUI(selected)
-
-
-

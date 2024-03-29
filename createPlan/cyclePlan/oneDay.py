@@ -1,6 +1,7 @@
 #import knihoven
 from tkinter import *
 import customtkinter as ctk
+from icecream import ic
 #import souborů
 from createPlan.cyclePlan.oneDayFrame import OneDayFrame
 from createPlan.cyclePlan.sportDetailsFrame import SportDetailsFrame
@@ -30,7 +31,6 @@ class OneDay(Frame):
         """Uloží nastavená data a přidá trénink do náhledového kalendáře."""
         # získání dat zadaných v nastavení
         data_tuple = self.details_frame.getData()
-        # vymazání framu nastavení podrobností
         # ověření, že všechny vložená data jsou platná
         if self._detailsFrameVerifier(data_tuple):
             self.details_frame.destroy()
@@ -118,13 +118,13 @@ class OneDay(Frame):
     def _sportElected (self, option) -> None:
         """Po vybrání sportu v comboBoxu se zavolájí potřebné funkce a vyvolají reakci.
         (strip v kalendáři)"""
-        ... #TODO tohl eještě dodělat
+        ... #TODO tohle ještě dodělat
 
     def _setSportDetails(self, option) -> None:
         """Vytvoří frame s nastavením detailů vybraného sportu."""
         # vymazání předchozího
         if self.details_frame:
-            self.details_frame.destroy()
+            self.details_frame.destroy() #TODO - přepsat na fci
         # vytvoření framu pro obsah
         self.details_frame = SportDetailsFrame(self, str(option))
         self.details_frame.pack(side=TOP, padx=2, pady=2, ipadx=10, ipady=20)

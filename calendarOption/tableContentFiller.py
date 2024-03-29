@@ -48,9 +48,9 @@ class TabelContentFiller ():
         """Zobrazí naplánované tréninky z tréninkových plánů."""
         self._dispCyclePlans(frame_list)
         self._dispSinglePlans(frame_list)
-        #TODO ostatní typy plánů
+        # ... ostatní typy plánů
         self._dispCycleFreeDays(frame_list)
-        #TODO ostatní typy volných dní
+        # ... ostatní typy volných dní
 
     def _dispCyclePlans (self, frame_list : tuple) -> None:
         """Zobrazí v kalendáři naplánované tréninky pocházející z cyklických tréninkových plánů."""
@@ -150,7 +150,7 @@ class TabelContentFiller ():
         zobrazovaného období v kalendáří a vrátí jeho index."""
         for end_date in train_plan.next_cycle:
             if train_plan.next_cycle[end_date] > self.last_date:
-                return end_date - 1 #TODO, tady vyřešit - 1
+                return end_date - 1
         # pokud by cyklus končil dřív než zobrazovaná doba, vrátí se poslední index
         return len(train_plan.next_cycle)
     

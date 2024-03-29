@@ -2,6 +2,7 @@
 from tkinter import *
 import customtkinter as ctk
 from datetime import date
+from icecream import ic
 #importy souborů
 from ctkWidgets import Frame, Button, Label, Entry
 from createPlan.cyclePlan.planCalendar import PlanCalendar
@@ -51,37 +52,30 @@ class CyclePlanFrame (Frame):
         # widgety
         start_l = Label(self, "Začátek (dd/mm/yyyy): ")
         start_l.grid(row=2, column=0, pady=pady, sticky="E")
-
         self.start_e = Entry(self, self.var_start)
         self.start_e.grid(row=2, column=1, pady=pady)
-
         self.start_error_l = Label(self, "", ("Arial", 11))
         self.start_error_l.grid(row=3, column = 1, pady=pady)
         self.start_error_l.configure(text_color = "red", height = 10)
-
+        #koncové datum
         end_l = Label(self, "Konec (dd/mm/yyyy): ")
         end_l.grid(row=2, column=2, pady=pady, sticky="E")
-
         self.end_e = Entry(self, self.var_end)
         self.end_e.grid(row=2, column=3, pady=pady)
-
         self.end_error_l = Label(self, "", ("Arial", 11))
         self.end_error_l.grid(row=3, column = 3, pady=pady)
         self.end_error_l.configure(text_color = "red", height = 10)
-
+        # počet cyklů
         cycles_l = Label(self, "Počet cyklů: ")
         cycles_l.grid(row = 4, column = 0, pady=pady, sticky="E")
-
         self.cycles_e = Entry(self, self.var_cycles)
         self.cycles_e.grid(row=4, column=1, pady=pady)
-
         self.cycle_error_l = Label(self, "*V případě nezadání konce", ("Arial", 11))
         self.cycle_error_l.grid(row=5, column = 1, pady=pady)
         self.cycle_error_l.configure(text_color = "gray")
 
-
     def _initDetailsFrame (self) -> None:
-        """Vygenerování framu s naastavením detailních údajů."""
+        """Vygenerování framu s nastavením detailních údajů."""
         #paddingy
         padx_frame = 3
         pady_frame = 3

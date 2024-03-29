@@ -5,3 +5,15 @@
 
 """Možnosti"""
 # Oprav nastavování sportů
+
+"""SETTING"""
+# zkus nejak v GV předělat to nacitani slov s diakritikou, ať to je udělané nějak normálně
+
+"""PLAVání - styl"""
+# filter plavání - přidej filter na styly
+
+"""Overview"""
+# zobrazování none km
+
+"""OVERVIEW - třídění"""
+# přidat třídění asc a desc

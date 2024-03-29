@@ -1,6 +1,7 @@
 #importy knihoven
 from tkinter import *
 import customtkinter as ctk
+from icecream import ic
 #importy souborů
 from ctkWidgets import Frame, Label
 from createPlan.cyclePlan.oneActivity import OneActivity
@@ -37,14 +38,12 @@ class OneDayFrame (Frame):
         one_activity.pack(side=TOP, fill = ctk.X, padx = 2, pady=2)
         self.activity_list.append(one_activity)
 
-
     def _createGUI(self) -> None:
         """Grafický obsah."""
         # pomocný label, aby nastavil minimální výšku framu
         assist_label = Label(self, "")
         assist_label.pack(side=LEFT, pady = 3)
         assist_label.configure(height=100)
-
         # label s číslem dne
         self.day_number = Label(self, str(self.number_of_day))
         self.day_number.pack(side=TOP, padx=5, pady=5)

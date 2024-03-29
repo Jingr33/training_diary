@@ -17,3 +17,11 @@
 7 / volno
 8 / posilovna / 5 / 0 / 0 / 1 / 0 / 1 / 0 / 1 / 0
 ;
+12/12/1212 / 12/12/1212 /  / 3
+1 / volno
+2 / posilovna / nezadano / 1 / 0 / 0 / 0 / 0 / 0 / 0 / 0
+3 / bìh / 50 / nezadano
+;
+20/12/2020 /  / 8 / 2
+1 / plavání / nezadano / nezadano / 0 / 1 / 1 / 0
+;
