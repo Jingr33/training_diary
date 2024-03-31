@@ -7,6 +7,7 @@ from ctkWidgets import Label
 from ctkWidgets import ComboBox
 from setFrame import Frame as SetFrame
 from configuration import *
+import globalVariables as GV
 from createPlan.createPlan import CreatePlan
 
 
@@ -16,7 +17,7 @@ class Frame (ctk.CTkFrame):
         super().__init__(master)
 
         # pole s možnými sporty na výběr
-        self.options = sport_list
+        self.options = all_sports
 
         # inicializace proměnné pro setFrame a nastavení na 0
         self.setFrame = 0
@@ -37,7 +38,7 @@ class Frame (ctk.CTkFrame):
         # widgety s vyběrem aktivity
         activity_l = Label(self, 'Aktivita')
         activity_l.pack(side=TOP, anchor=ctk.W, padx=10)
-        activity_cb = ComboBox(self, self.options, self._showFrame, "posilovna")
+        activity_cb = ComboBox(self, GV.sport_list, self._showFrame, "posilovna")
         activity_cb.pack(side=TOP, anchor=ctk.W, padx=10)
         activity_cb.set("nevybráno")
 

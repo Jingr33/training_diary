@@ -7,7 +7,8 @@ from icecream import ic
 from createPlan.singlePlan.setDetailsFrame import SetDetailsFrame
 from ctkWidgets import Frame, Label, Entry, ComboBox, CheckBox, Button
 from general import General
-from configuration import sport_list, days_in_week, single_plans_path
+from configuration import days_in_week, single_plans_path
+import globalVariables as GV
 
 class SinglePlanFrame (Frame):
     """Frame s nastavení single tréninkového plánu."""
@@ -47,7 +48,7 @@ class SinglePlanFrame (Frame):
         train_label = Label(self, "Trénink: ")
         train_label.grid(row = 3, column = 0, sticky = "E", padx = label_px)
         self.choose_train = StringVar(value = "nevybráno")
-        self.train_cb = ComboBox(self, sport_list, self._initDetailFrame, self.choose_train)
+        self.train_cb = ComboBox(self, GV.sport_list, self._initDetailFrame, self.choose_train)
         self.train_cb.grid(row = 3, column = 1, sticky = "W", pady = self.entry_pady)
         self.train_cb.configure(width = self.entry_width)
         # čas tréninku
@@ -201,7 +202,7 @@ class SinglePlanFrame (Frame):
         
     def _checkSport (self) -> bool:
         """Zkontroluje platnost nastaveného sportu."""
-        if self.choose_train.get() in sport_list:
+        if self.choose_train.get() in GV.sport_list:
             General.setDefaultBorder(self.train_cb)
             return True
         General.setRedBorder(self.train_cb)

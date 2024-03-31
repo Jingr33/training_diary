@@ -7,7 +7,6 @@ import datetime
 from oneTraining import OneTraining
 from sports.setSport import SetSport
 from ctkWidgets import Button, Label, Entry
-from configuration import trainings_path, unknown_text
 from general import General
 
 

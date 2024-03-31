@@ -1,9 +1,11 @@
 #importy knihovan
 import customtkinter as ctk
 from tkinter import *
+from icecream import ic
 #importy souborů
 from sports.sport import Sport
-from configuration import sport_list, sport_color, gym_body_parts, unknown_text, pie_chart_palette
+from configuration import sport_color, gym_body_parts, unknown_text, pie_chart_palette, all_sports
+import globalVariables as GV
 from ctkWidgets import Label, Entry, CheckBox
 from general import General
 
@@ -11,7 +13,7 @@ class Gym (Sport):
     """Třída pro funkce, které jsou specifické pro trénink typu posilovna."""
     def __init__(self):
         super().__init__()
-        self.name = sport_list[0]
+        self.name = GV.sport_list[0]
         self.color = sport_color[self.name]
 
     def createAttributes(self, training : object) -> list:
@@ -28,6 +30,7 @@ class Gym (Sport):
     def sortGymTrainingList (master : object, training_list : list) -> list:
         """Roztřídí skupinu tréninků posilovna."""
         # akorát, že posilovna se nijak netřídí...zatím
+        training_list = master.elimUnsortable(training_list, "practicedParts")
         return training_list
     
     @staticmethod
@@ -252,18 +255,21 @@ class Gym (Sport):
         for i in range(len(gym_body_parts)):
             if gym_parts_filter[i] == 1:
                 strings_to_find.append(gym_body_parts[i])
+        ic(strings_to_find)
         # cyklus přes tréninky
         filtered = []
         for training in master.filtered_data:
-            if training.sport == sport_list[0]: # výběr posilovacích tréninků
+            if training.sport == all_sports[0]: # výběr posilovacích tréninků
                 # každé slovo ze strings_to_find se zkusí najít v odcvičených sportech tréninku
                 for i in range(len(strings_to_find)):
                     found = training.practicedParts.find(strings_to_find[i])
                     if found >= 0:
                         filtered.append(training)
+                        break
             else:
                 # pokud se nejedná o posilovnu, přidá se vždy
                 filtered.append(training)
+        ic(filtered)
         return filtered
 
     def updateGymGUI (master : object, training : object) -> None:
@@ -319,7 +325,7 @@ class Gym (Sport):
         """Vrátí list tréninků typu posilovna."""
         gym_trainings = []
         for training in master.trainings:
-            if training.sport == sport_list[0]:
+            if training.sport == GV.sport_list[0]:
                 gym_trainings.append(training)
         return gym_trainings
     

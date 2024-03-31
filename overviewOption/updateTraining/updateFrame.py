@@ -5,7 +5,7 @@ import customtkinter as ctk
 from oneTraining import OneTraining
 from sports.setSport import SetSport
 from ctkWidgets import Frame, Label, Entry, ComboBox, Button
-from configuration import sport_list
+from configuration import all_sports
 from general import General
 
 
@@ -44,7 +44,7 @@ class UpdateFrame (Frame):
         sport_l = Label(self, "Sport:")
         sport_l.grid(column = 2, row = self.next_row, sticky = ctk.E, padx=self.label_padx)
 
-        self.sport_cb = ComboBox(self, sport_list, self._regenerateSpecificGUI, self.training.sport)
+        self.sport_cb = ComboBox(self, all_sports, self._regenerateSpecificGUI, self.training.sport)
         self.sport_cb.grid(column = 3, row=self.next_row)
         self.sport_cb.configure(width = self.box_width)
         self.sport_cb.set(self.training.sport)

@@ -14,22 +14,25 @@ class Table (ctk.CTkScrollableFrame):
     def __init__(self, master :ctk.CTkBaseClass, fileData: list):
         super().__init__(master)
         self.master = master
-        self.data = fileData # cesta souboru který načítám do tabulky
-        self.init_load_more = True # zda se má vytvořit i tlačítko pro zobrazení více tréninků
-        self.section = 1 # kolikátá skupina tréninků se má zobrazit
+        self.data = fileData
         self.displayed_rows = int(GV.setting["overview-rows"])
         # inicializace grafického rozhraní
         self.initGUI(self.data)
 
     def initGUI (self, data : list) -> None:
         """Vytvoření grafického rozhraní tabulky."""
+        self.section = 1 # kolikátá skupina tréninků se má zobrazit
+        self.init_load_more = True # zda se má vytvořit i tlačítko pro zobrazení více tréninků
         self._initContent(data)
-        self._initLoadMoreButton()
 
     def _initContent (self, data : list) -> None:
         """Vytvoří grafické rozhraní tabulky a jejího nastavení části přehled."""
+        for one in data:
+            ic(one.sport, one.date)
+
         # vytvoření řádků tabulky pomocí objektu OneRow
-        limit = self._rowsLimits()
+        limit = self._rowsLimits(data)
+        ic(limit, len(data))
         for i in range(limit[0], limit[1]):
             one_row = OneRow(self, data[i])
             one_row.pack(side = TOP, fill = ctk.X, padx = 3)
@@ -40,6 +43,12 @@ class Table (ctk.CTkScrollableFrame):
             i = i + 1
             if i >= self.section * self.displayed_rows: # kontrola zda se nevypisuje psóslední řádek sekce
                 break
+        if self.init_load_more:
+            self._initLoadMoreButton()
+
+#################################################################
+            # tovypisování hází úplné kraviny, zkus nějak pošéfovat ty dělky training listů
+#################################################################
 
     def _initLoadMoreButton (self) -> None:
         """Metoda vytvoří tlačítko pro načtení více tréninkových řádků v dolní části tabulky."""
@@ -56,13 +65,13 @@ class Table (ctk.CTkScrollableFrame):
             if self.init_load_more: # pokud už není co načíst, tlačítko se nevygeneruje
                 self._initLoadMoreButton()
 
-    def _rowsLimits (self) -> tuple:
+    def _rowsLimits (self, training_data : list) -> tuple:
         """Vypočítá rozpětí indexů tréniků, které se mají vypsat. Vrátí tuple krajních hodnot.
         Pokud je rozsah tréninků u konce, nastaví se hodnota, která zamezí vytvoření tlačítka pro více tréninků."""
         lower_limit = (self.section - 1) * self.displayed_rows
         upper_limit = self.section * self.displayed_rows
-        if upper_limit > len(self.data): # aby nebyla přesažena velikost listu tréninků
-            upper_limit = len(self.data)
+        if upper_limit > len(training_data): # aby nebyla přesažena velikost listu tréninků
+            upper_limit = len(training_data)
             self.init_load_more = False # aby se nevytvářelo tlačítko pro více tréninků
         return (lower_limit, upper_limit)
 

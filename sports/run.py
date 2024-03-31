@@ -1,9 +1,11 @@
 #import knihoven
 import customtkinter as ctk
 from tkinter import *
+from icecream import ic
 #importy souborů
 from sports.sport import Sport
-from configuration import sport_list, sport_color, colors
+from configuration import sport_color
+import globalVariables as GV
 from ctkWidgets import Label, Entry
 from general import General
 
@@ -11,7 +13,7 @@ class Run (Sport):
     """Třída pro funkce, které jsou specifické pro trénink typu běh."""
     def __init__(self):
         super().__init__()
-        self.name = sport_list[1]
+        self.name = GV.sport_list[1]
         self.color = sport_color[self.name]
 
     def createAttributes(self, training : object) -> list:
@@ -29,6 +31,8 @@ class Run (Sport):
     @staticmethod
     def sortRunTrainingList (master : object, trainings : list) -> list:
         """Roztřídí skupinu tréninků běh."""
+        # vyřazení netříditelných tréninků
+        trainings = master.elimUnsortable(trainings, "distance")
         # list indexů pro slovníky
         index_list = master._indexList(len(trainings))
         # slovník tréninků
@@ -37,6 +41,7 @@ class Run (Sport):
         sort_elems = master._sortDistanceDict(trainings, index_list)
         # roztříděný list tréninků
         to_sort = master._sortIt(sort_elems, trainings_dict)
+        ic(to_sort)
         return to_sort
     
     @staticmethod
@@ -142,7 +147,7 @@ class Run (Sport):
         # vytřídění dat podle zadaných mezí
         filtered = []
         for training in master.filtered_data:
-                if training.sport == sport_list[1]:
+                if training.sport == GV.sport_list[1]:
                     try:
                         float(training.distance)
                         if (((float(training.distance) >= float(distance_run_filter[0])) or bottom_condition)
@@ -177,7 +182,7 @@ class Run (Sport):
         """Vrátí list tréninků typu běh."""
         run_trainings = []
         for training in master.trainings:
-            if training.sport == sport_list[1]:
+            if training.sport == GV.sport_list[1]:
                 run_trainings.append(training)
         return run_trainings
     

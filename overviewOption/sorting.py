@@ -1,6 +1,7 @@
 #import knihoven
 from datetime import date
 from time import *
+from icecream import ic
 #importy souborů
 from sports.setSport import SetSport
 
@@ -85,7 +86,7 @@ class Sorting ():
         """Setřídí vložené listy v listu (2D listy) podle času a vrátí ho."""
         sorted = []
         # vyřazení tréninků, které není možné setřídit
-        to_sort = self._elimUnsortable(to_sort, "time") 
+        to_sort = self.elimUnsortable(to_sort, "time") 
         # list indexů pro slovníky
         index_list = self._indexList(len(to_sort))
         # slovník tréninků
@@ -98,9 +99,9 @@ class Sorting ():
 
     def _sortByDetails (self, to_sort : list) -> list:
         """Setřídí vložené listy v listu (2D listy) podle detailů a vrátí ho."""
-        # vyřazení tréninků, které není možné setřídit
-        to_sort = self._elimUnsortable(to_sort, "distance") 
-        # list indexů pro slovníky
+        ic(to_sort)
+        ic(len(to_sort))
+        # list velikostí počtu tréninků jednotlivých sportů
         index_list = self._indexList(len(to_sort))
         # slovník tréninků
         trainings = self._trainingDict(to_sort, index_list)
@@ -164,20 +165,21 @@ class Sorting ():
         return sorted_trainings
     
     def _sortIt_details (self, trainings : dict) -> list:
-        """Setřídí prvky ve slovníku podle kterého se třídí, 
-        uspořádá slovník s tréniky a vrátí ho. Ale dělá to jen pro třídění detailů 
-        jednotlivých sportů."""
+        """Vrátí list tréninků podle setříděných podle nastavení podrobností jednotlivých sportů. (Nejdřív tréninky roztřídí do listů podle sportů a pak každý list (sport) setřídí podle vlastnosti podle které se třídí.)"""
         # rozřazení do skupin podle jednotlivých sportů
         sports = {}
         for training in trainings:
             if trainings[training].sport in sports.keys(): # pokud už klíč existuje, trénink se přiřadí do pole
                 sports[trainings[training].sport].append(trainings[training])
-            else: # pokud ještě neexisuje, vytvoří se nový klíč a sním pole s tréninkem
+            else: # pokud klič ještě neexisuje, vytvoří se nový klíč a sním pole s tréninkem
                 sports[trainings[training].sport] = [trainings[training]]
+        ic(sports)
         # setřídí jednotlivě pole sportů
         for key in sports:
-           sports[key] = self._sortEachDict(sports, key)
-        # spojit listy zaye do jednoho
+            ic(sports[key])
+            sports[key] = self._sortEachDict(sports, key)
+            ic(sports[key])
+        # spojit listy zase do jednoho
         sorted_trainings = []
         for key in sports:
             sorted_trainings = sorted_trainings + sports[key] 
@@ -188,7 +190,7 @@ class Sorting ():
         sorted_trainings = SetSport.sortEachTrainingDict(self, training_dict, key)
         return sorted_trainings
     
-    def _elimUnsortable(self, trainings : list, criterion : str) -> list:
+    def elimUnsortable(self, trainings : list, criterion : str) -> list:
         """Vyřadí z tréninkového listu určeného k setřídění tréniky, které nelze
         uspořadát podle požadovaného kritéria. Vyřazené přidá do listu netříditelných tréninků."""
         checked_trainings = []

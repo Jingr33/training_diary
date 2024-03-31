@@ -4,7 +4,8 @@ from tkinter import *
 from icecream import ic
 #import souborů
 from ctkWidgets import Frame, CheckBox
-from configuration import sport_list
+from configuration import all_sports
+import globalVariables as GV
 
 
 class FilterSport (Frame):
@@ -16,13 +17,14 @@ class FilterSport (Frame):
 
     def _initCheckboxes (self) -> None:
         """Vytvoří checkboxy pro zakliknutí sportů, které se mají vyfiltrovat."""
-        self.chb_vars = [None] * len(sport_list)
-        self.checkboxes = [None] * len(sport_list)
-        for i in range(len(sport_list)):
+        self.chb_vars = [None] * len(all_sports)
+        self.checkboxes = [None] * len(all_sports)
+        for i in range(len(all_sports)):
             var = StringVar(value = 1)
-            chb = CheckBox(self, sport_list[i], var)
+            chb = CheckBox(self, all_sports[i], var)
             chb.pack(side = TOP, pady = 1)
-            chb.select()
+            if all_sports[i] in GV.sport_list:
+                chb.select()
             self.chb_vars[i] = var
             self.checkboxes[i] = chb
 

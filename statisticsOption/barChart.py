@@ -6,7 +6,8 @@ from dateutil.relativedelta import *
 # import souborů
 from general import General
 from ctkWidgets import Frame, Label, ComboBox, Button, Entry
-from configuration import chart_range_option, chart_frame_color, sport_list
+from configuration import chart_range_option, chart_frame_color
+import globalVariables as GV
 
 
 class BarChart (Frame):
@@ -176,10 +177,10 @@ class BarChart (Frame):
     def _periodNumbers (self, period : list) -> list:
         """Spočítá, kolik tréninků v zadaném listu náleželo jednotlivým sportům.
         Vrátí list s počty tréninků."""
-        train_numbers = [0] * len(sport_list)
+        train_numbers = [0] * len(GV.sport_list)
         for training in period:
-            for i in range(len(sport_list)):
-               if training.sport == sport_list[i]:
+            for i in range(len(GV.sport_list)):
+               if training.sport == GV.sport_list[i]:
                    train_numbers[i] = train_numbers[i] + 1
                    break
         return train_numbers

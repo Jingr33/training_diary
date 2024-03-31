@@ -3,7 +3,7 @@ from tkinter import *
 import customtkinter as ctk
 from datetime import datetime
 # importy souborů
-from ctkWidgets import Frame, Button, Label, Switch
+from ctkWidgets import Frame, Button, Label
 from configuration import months
 
 class SetMonth (Frame):

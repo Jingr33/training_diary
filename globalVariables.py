@@ -1,4 +1,8 @@
 from icecream import ic
+# import souborů
+from configuration import all_sports
+
+
 """NAČTENÍ NASTAVENÍ Z DATABÁZE UŽIVATELSKÉHO NASTAVENÍ APLIKACE"""
 def loadSettingDatabase () -> dict:
     """Načte databázi nastavení aplikace do slovníku."""
@@ -10,10 +14,12 @@ def loadSettingDatabase () -> dict:
         line = line.strip()
         key, value = line.split(":")
         setting[key] = value
-    global sport_colors
-    sport_colors = getSportColors()
     global selected_sports
     selected_sports = getSelectedSports()
+    global sport_list
+    sport_list = getSportList(selected_sports)
+    global sport_colors
+    sport_colors = getSportColors()
     return setting
 
 def overwriteSettingFile () -> None:
@@ -53,6 +59,14 @@ def getSelectedSports () -> list:
     for i in range(len(selected_list)): # převedení na int
         selected_list[i] = int(selected_list[i])
     return selected_list
+
+def getSportList (selected_sport : list) -> list:
+    """Vrátí list s názvy (string) sportů, které jsou aktivivány k využívaní. Vstup je list 1 / 0 hodnot ke každému sportu."""
+    sport_list = []
+    for i in range(len(all_sports)):
+        if selected_sport[i]:
+            sport_list.append(all_sports[i])
+    return sport_list
     
 def prepareSportColorsToFile () -> str:
     """Vytvoří ze slovníku řádek pro zapsání do souboru. Vrátí string."""

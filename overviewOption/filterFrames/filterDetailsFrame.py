@@ -5,7 +5,7 @@ from math import floor
 from icecream import ic
 #import souborů
 from ctkWidgets import Frame, Label, Button, Entry
-from configuration import gym_body_parts, sport_list, colors
+from configuration import gym_body_parts,  colors, all_sports
 
 
 class FilterDetails (Frame):
@@ -13,7 +13,7 @@ class FilterDetails (Frame):
     def __init__(self, master :ctk.CTkBaseClass):
         super().__init__(master)
         # nastavení pole plného jedniček "selected" o rozsahu všech sportů
-        all_selected = [None] * len(sport_list)
+        all_selected = [None] * len(all_sports)
         for i in range(len(all_selected)):
             all_selected[i] = 1
         # vytvoření grafického rozhraní nastavéní filtrů

@@ -4,7 +4,8 @@ from tkinter import *
 from icecream import ic
 #importy souborů
 from sports.sport import Sport
-from configuration import sport_list, sport_color, swim_style, unknown_text_label
+from configuration import sport_color, swim_style, unknown_text_label
+import globalVariables as GV
 from ctkWidgets import Label, Entry, CheckBox
 from general import General
 
@@ -12,7 +13,7 @@ class Swim (Sport):
     """Třída pro funkce, které jsou specifické pro trénink typu posilovna."""
     def __init__(self):
         super().__init__()
-        self.name = sport_list[0]
+        self.name = GV.sport_list[0]
         self.color = sport_color[self.name]
 
     def createAttributes(self, training : object) -> list:
@@ -42,6 +43,8 @@ class Swim (Sport):
     @staticmethod
     def sortSwimTrainingList (master : object, trainings : list) -> list:
         """Roztřídí skupinu tréninků posilovna."""
+        # vyřazení tréninků, které nejdou setřídit
+        trainings = master.elimUnsortable(trainings, "distance")
         # list indexů pro slovníky
         index_list = master._indexList(len(trainings))
         # slovník tréninků
@@ -181,7 +184,7 @@ class Swim (Sport):
         # vytřídění dat podle zadaných mezí
         filtered = []
         for training in master.filtered_data:
-                if training.sport == sport_list[1]:
+                if training.sport == GV.sport_list[1]:
                     try:
                         float(training.distance)
                         if (((float(training.distance) >= float(distance_swim_filter[0])) or bottom_condition)
@@ -221,7 +224,7 @@ class Swim (Sport):
         """Vrátí list tréninků typu posilovna."""
         swim_trainings = []
         for training in master.trainings:
-            if training.sport == sport_list[1]:
+            if training.sport == GV.sport_list[1]:
                 swim_trainings.append(training)
         return swim_trainings
     

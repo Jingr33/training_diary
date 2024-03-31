@@ -45,11 +45,11 @@ class FilterFrame (ctk.CTkScrollableFrame):
         self.filter_details.pack(side=LEFT, fill = ctk.Y, ipadx=3, padx=10)
         self.filter_details.configure(width = 250, height=100, corner_radius = 0, fg_color='transparent')
 
-        self.filter_button = Button(self, "Filtrovat", self._filter)
+        self.filter_button = Button(self, "Filtrovat", self.filter)
         self.filter_button.pack(side=RIGHT, ipadx=7, ipady=7, anchor=ctk.N, padx=10, pady=10)
         self.filter_button.configure(width=70)
 
-    def _filter(self) -> None:
+    def filter(self) -> None:
         """Spuštění filtrování při kliknutí na tlačítko filtrovat."""
         #stažení hodnot o filtrování datumu
         date_filter = self.filter_date.filtered()
@@ -65,7 +65,7 @@ class FilterFrame (ctk.CTkScrollableFrame):
         self.filtered_data = self.filter.getFilteredData()
         
         # přegenerování tabulky s vyfiltrovanýchmi tréninky
-        self.master.Filtering()
+        self.master.filtering()
 
     def getData (self) -> list:
         """Metoda vrátí vyfiltrovaná data."""

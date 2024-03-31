@@ -8,13 +8,14 @@
 
 """SETTING"""
 # zkus nejak v GV předělat to nacitani slov s diakritikou, ať to je udělané nějak normálně
-# přidej hover barvy na vybíraní použivaných sportů
 
 """PLAVání - styl"""
 # filter plavání - přidej filter na styly
 
 """Overview"""
 # zobrazování none km
+# otestuj filtrování, mám pocit že nejede správně
+# nejak oprav třídění detailův overview
 
 """OVERVIEW - třídění"""
 # přidat třídění asc a desc

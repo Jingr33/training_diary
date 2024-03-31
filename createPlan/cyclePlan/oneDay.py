@@ -6,7 +6,8 @@ from icecream import ic
 from createPlan.cyclePlan.oneDayFrame import OneDayFrame
 from createPlan.cyclePlan.sportDetailsFrame import SportDetailsFrame
 from ctkWidgets import CheckBox, Button, Frame, ComboBox
-from configuration import colors, sport_list
+from configuration import colors
+import globalVariables as GV
 
 class OneDay(Frame):
     """Třída pro soubor widgetů a kalendářového návrhu pro jeden den."""
@@ -109,7 +110,7 @@ class OneDay(Frame):
         # combobox se sporty
         self.text_unknow = "nevybráno"
         self.var_text_cb = StringVar() # zapíše co uživatel vybral
-        self.sports_cb = ComboBox(self, sport_list, self._setSportDetails, self.var_text_cb)
+        self.sports_cb = ComboBox(self, GV.sport_list, self._setSportDetails, self.var_text_cb)
         self.sports_cb.pack(side = TOP, padx=2, pady=2)
         self.sports_cb.configure(width = 115)
         self.sports_cb.set(self.text_unknow)

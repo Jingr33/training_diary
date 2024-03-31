@@ -6,7 +6,8 @@ from dateutil.relativedelta import *
 #import souborů
 from ctkWidgets import Frame, Label, Entry, Button, ComboBox
 from general import General
-from configuration import chart_frame_color, sport_list
+from configuration import chart_frame_color
+import globalVariables as GV
 
 
 class PieChart (Frame):
@@ -80,10 +81,10 @@ class PieChart (Frame):
         sport_l.grid(row = 0, column = 2)
 
         self.var_sport = StringVar()
-        sport_e = ComboBox(self, sport_list, self._setSport,  self.var_sport)
+        sport_e = ComboBox(self, GV.sport_list, self._setSport,  self.var_sport)
         sport_e.grid(row = 0, column = 3)
-        self.var_sport.set(sport_list[0])
-        self.setted_sport = sport_list[0]
+        self.var_sport.set(GV.sport_list[0])
+        self.setted_sport = GV.sport_list[0]
 
     def _setStartDate (self, value) -> None:
         """Nastavení počátečního data."""

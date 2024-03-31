@@ -1,12 +1,12 @@
 from icecream import ic
 # importy souborů
-from configuration import sport_list, gym_body_parts
+from configuration import all_sports, unknown_text
 from sports.setSport import SetSport
 
 class Filter():
     """Filtruje tréninky podle vybraných parametrů."""
     def __init__(self, trainings, date_filter, sport_filter, time_filter, detail_filter):
-        self.trainings = trainings
+        self.filtered_data = trainings
         # vyfiltrování podle filtrovaných sportů
         self.filtered_data = self._sportFiltrator(sport_filter)
         # vyfiltrování podle filtrovaného data
@@ -17,6 +17,7 @@ class Filter():
         self.filtered_data = self._detailsFiltrator(detail_filter)
     
     def getFilteredData(self):
+        ic(len(self.filtered_data))
         return self.filtered_data
     
     def _sportFiltrator(self, sport_filter) -> list:
@@ -26,11 +27,11 @@ class Filter():
         i = 0
         for sport in sport_filter:
             if int(sport) == 1:
-                desired_sports.append(sport_list[i])
+                desired_sports.append(all_sports[i])
             i = i + 1
         # pokud se sport rovná sportu ve filtru, trénink se vybere
         filtered = []
-        for training in self.trainings:
+        for training in self.filtered_data:
             for sport_name in desired_sports:
                 if training.sport == sport_name:
                     filtered.append(training)
@@ -44,7 +45,6 @@ class Filter():
             train_date_list = training.date.split(". ")
             new_date = "20" + train_date_list[2] + "-" + train_date_list[1] + "-" + train_date_list[0]
             train_date.append(new_date)
-
         # pokud není filtr nastavený -> filterm údaj projde vždy
         # spodní hranice data (od)
         if date_filter[0] == "":
@@ -54,7 +54,6 @@ class Filter():
             from_date_list = date_filter[0].split("/")
             from_date = "20" + from_date_list[2] + "-" + from_date_list[1] + "-" + from_date_list[0]
             bottom_condition = False
-
         # horní hranice data (do)
         if date_filter[1] == "":
             top_condition = True
@@ -63,7 +62,6 @@ class Filter():
             to_date_list = date_filter[1].split("/")
             to_date = "20" + to_date_list[2] + "-" + to_date_list[1] + "-" + to_date_list[0]
             top_condition = False
-
         # vytřídění dat podle zadaných mezí
         filtered = []
         j = 0
@@ -80,11 +78,11 @@ class Filter():
         bottom_condition = False # podmínka při nezadaném spodním filtru
         top_condition = False # podmínika při nezadaném horním filtru
         # spodní hranice filtru
-        if time_filter[0] == "":
+        if time_filter[0] == "" or unknown_text:
             bottom_condition = True
             time_filter[0] = "0"
         # horní hranice filtru
-        if time_filter[1] == "":
+        if time_filter[1] == "" or unknown_text:
             top_condition = True
             time_filter[1] = "0"
         # vytřídění dat podle zadaných mezí

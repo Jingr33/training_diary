@@ -8,7 +8,8 @@ from numpy import arange
 from statisticsOption.dataLoader import DataLoader
 from statisticsOption.barChart import BarChart
 from general import General
-from configuration import sport_list, sport_color, colors
+from configuration import sport_color, colors
+import globalVariables as GV
 
 class SportColumnChart (BarChart):
     """Frame s grafem ukazující poměr vykonaných sportů."""
@@ -65,9 +66,9 @@ class SportColumnChart (BarChart):
         width = 0.6
         for i in range(len(data[0])):
             if i == 0:
-                bar_plot = self.chart.bar(ind, transp_data[i], width, color = sport_color[sport_list[i]])
+                bar_plot = self.chart.bar(ind, transp_data[i], width, color = sport_color[GV.sport_list[i]])
             else:
-                bar_plot = self.chart.bar(ind, transp_data[i], width, bottom = transp_data[0], color = sport_color[sport_list[i]])
+                bar_plot = self.chart.bar(ind, transp_data[i], width, bottom = transp_data[0], color = sport_color[GV.sport_list[i]])
             self._barLabel(bar_plot, transp_data[i])
         self._modifyInterface()
         self._chartLabels()
@@ -85,7 +86,7 @@ class SportColumnChart (BarChart):
 
     def _chartLabels (self) -> None:
         """Nastaví popisky grafu."""
-        self.chart.legend(sport_list, facecolor = colors["dark-gray-2"], frameon=False)
+        self.chart.legend(GV.sport_list, facecolor = colors["dark-gray-2"], frameon=False)
         self.chart.set_xlabel("Datum")
         self.chart.set_ylabel("Počet tréninků")
         self.chart.set_title("Počet typů tréninků za období", pad = 10)

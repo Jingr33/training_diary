@@ -30,10 +30,12 @@ class Overview (ctk.CTkFrame):
         self._initLegend()
         # confirmation alert - prázdný
         self._initConfirmAlert()
+        # počáteční filtr
+        # self.filter_frame.filter()
         # funkce pro vytvoření tabulky
         self._initTable(self.trainings)
 
-    def Filtering(self) -> None:
+    def filtering(self) -> None:
         """Spustí se při stisknutí filtrovaní dat ve framu filtrování. 
         Načte vybrané tréninky, vytvoří novou tabulku."""
         # získání dat z filtrování
@@ -41,7 +43,7 @@ class Overview (ctk.CTkFrame):
         # nová iniciace tabulky s vyfiltrovanými daty
         for widget in self.table.winfo_children():
             widget.destroy()
-        self.table._initContent(self.filtered_trainings)
+        self.table.initGUI(self.filtered_trainings)
 
     def _initFilters (self) -> None:
         """Vytvoří scrollable frame s filtrovacím rozhraním."""
