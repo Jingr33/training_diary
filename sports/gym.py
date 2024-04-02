@@ -4,7 +4,7 @@ from tkinter import *
 from icecream import ic
 #importy souborů
 from sports.sport import Sport
-from configuration import sport_color, gym_body_parts, unknown_text, pie_chart_palette, all_sports
+from configuration import gym_body_parts, unknown_text, pie_chart_palette, all_sports
 import globalVariables as GV
 from ctkWidgets import Label, Entry, CheckBox
 from general import General
@@ -14,7 +14,7 @@ class Gym (Sport):
     def __init__(self):
         super().__init__()
         self.name = GV.sport_list[0]
-        self.color = sport_color[self.name]
+        self.color = GV.sport_color[self.name]
 
     def createAttributes(self, training : object) -> list:
         self.message_attributes = ["datum", "sport", "čas", "cviky"]

@@ -83,7 +83,6 @@ class PersonalDataFrame (Frame):
     def _setLastPersValues (self) -> None:
         """Nastaví poslední nastavené hodnoty osobních údajů o užovateli jako aktualní hodnoty."""
         self._setGender(self.personal_data["gender"][0])
-        ic(self.personal_data["gender"][0])
         self.mass = self.personal_data["mass"][-1][0]
         self.height = self.personal_data["height"][-1][0]
         self.age = self.personal_data["age"][-1][0]
@@ -119,14 +118,10 @@ class PersonalDataFrame (Frame):
     def _changeOfGender (self, value) -> None:
         """Zkontroluje zda se zadání pohlaví změnilo, pokud ne, nic se nestane pokud ano, přepíše se v soubrou databáze osobních údajů."""
         index = gender_label.index(value)
-        ic(index)
         if gender[index] != self.personal_data["gender"][0]:
-            ic('zde')
             self.personal_data['gender'] = gender[index]
             file_lines = General.loadLinesFromFile(personal_data_path)
-            ic(file_lines)
             file_lines[0] = "{1}{0}{2}\n".format(':', 'gender', self.personal_data['gender'])
-            ic(file_lines)
             General.overwriteFile(personal_data_path, file_lines)
 
     def _setGender (self, value : str) -> None:
@@ -141,7 +136,6 @@ class PersonalDataFrame (Frame):
         for key in self.personal_data:
             if key == "gender": continue
             for item in self.personal_data[key]:
-                ic(General.stringToDate(item[1]))
                 if General.stringToDate(item[1]) == today:
                     self._disableUpdating()
 

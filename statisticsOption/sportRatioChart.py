@@ -7,7 +7,8 @@ import numpy as np
 # import souborů
 from statisticsOption.pieChart import PieChart
 from statisticsOption.dataLoader import DataLoader
-from configuration import colors, sport_color
+from configuration import colors
+import globalVariables as GV
 
 class SportRatioChart (PieChart):
     """Třída pro vytvoření koláčového grafu s počty tréninků jednotlivých sportů v daném období."""
@@ -52,7 +53,7 @@ class SportRatioChart (PieChart):
         count = sport_dict.values()
         colors = []
         for sport in legend:
-            colors.append(sport_color[sport])
+            colors.append(GV.sport_color[sport])
         return (legend, count, colors)
             
     def _makeChart (self, chart_content : tuple) -> None:

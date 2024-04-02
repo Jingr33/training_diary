@@ -18,8 +18,9 @@ def loadSettingDatabase () -> dict:
     selected_sports = getSelectedSports()
     global sport_list
     sport_list = getSportList(selected_sports)
-    global sport_colors
-    sport_colors = getSportColors()
+    global sport_color
+    sport_color = getSportColors()
+    ic(sport_color)
     return setting
 
 def overwriteSettingFile () -> None:
@@ -71,8 +72,8 @@ def getSportList (selected_sport : list) -> list:
 def prepareSportColorsToFile () -> str:
     """Vytvoří ze slovníku řádek pro zapsání do souboru. Vrátí string."""
     string = ""
-    for key in sport_colors:
-        string = "{0}{1}={2};".format(string, key, sport_colors[key])
+    for key in sport_color:
+        string = "{0}{1}={2};".format(string, key, sport_color[key])
     string = string.replace("běh", "beh")
     string = string.replace("plavání", "plavani")
     return string

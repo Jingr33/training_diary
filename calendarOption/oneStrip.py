@@ -7,7 +7,7 @@ from icecream import ic
 # importy souborů
 from ctkWidgets import Label
 from sports.setSport import SetSport
-from configuration import sport_color
+import globalVariables as GV
 
 class OneStrip (Label):
     """Objekt tvořící strip v kalendáři a na něm se zobrazující tooltip."""
@@ -24,7 +24,7 @@ class OneStrip (Label):
     def _labelColor (self, training : object) -> None:
         """Nastaví barvu pozadí labelu."""
         if hasattr(training, "ghost"):
-            self.configure(fg_color = sport_color[training.sport])
+            self.configure(fg_color = GV.sport_color[training.sport])
             set_opacity(self, value = 0.3) # nastavení opacity pozadí labelu
         else:
-            self.configure(fg_color = sport_color[training.sport])
+            self.configure(fg_color = GV.sport_color[training.sport])

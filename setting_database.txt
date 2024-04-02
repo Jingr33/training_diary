@@ -1,4 +1,4 @@
 auto-fullscreen:0
 overview-rows:17
-sport-colors:posilovna=#3498DB;beh=#C0392B;plavani=#fad12d;
+sport-colors:posilovna=#e858ff;beh=#C0392B;plavani=#fad12d;
 selected-sports:1;1;1;

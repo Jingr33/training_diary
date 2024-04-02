@@ -4,7 +4,6 @@ from tkinter import *
 from icecream import ic
 #importy souborů
 from sports.sport import Sport
-from configuration import sport_color
 import globalVariables as GV
 from ctkWidgets import Label, Entry
 from general import General
@@ -14,7 +13,7 @@ class Run (Sport):
     def __init__(self):
         super().__init__()
         self.name = GV.sport_list[1]
-        self.color = sport_color[self.name]
+        self.color = GV.sport_color[self.name]
 
     def createAttributes(self, training : object) -> list:
         """List názvů atributů tréninku vypisujících se do tooltipů."""

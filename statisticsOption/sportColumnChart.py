@@ -8,7 +8,7 @@ from numpy import arange
 from statisticsOption.dataLoader import DataLoader
 from statisticsOption.barChart import BarChart
 from general import General
-from configuration import sport_color, colors
+from configuration import colors
 import globalVariables as GV
 
 class SportColumnChart (BarChart):
@@ -66,9 +66,9 @@ class SportColumnChart (BarChart):
         width = 0.6
         for i in range(len(data[0])):
             if i == 0:
-                bar_plot = self.chart.bar(ind, transp_data[i], width, color = sport_color[GV.sport_list[i]])
+                bar_plot = self.chart.bar(ind, transp_data[i], width, color = GV.sport_color[GV.sport_list[i]])
             else:
-                bar_plot = self.chart.bar(ind, transp_data[i], width, bottom = transp_data[0], color = sport_color[GV.sport_list[i]])
+                bar_plot = self.chart.bar(ind, transp_data[i], width, bottom = transp_data[0], color = GV.sport_color[GV.sport_list[i]])
             self._barLabel(bar_plot, transp_data[i])
         self._modifyInterface()
         self._chartLabels()

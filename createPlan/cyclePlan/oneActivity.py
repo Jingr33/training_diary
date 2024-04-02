@@ -6,7 +6,7 @@ from CTkToolTip import *
 from oneTraining import OneTraining
 from sports.setSport import SetSport
 from ctkWidgets import Label
-from configuration import sport_color
+import globalVariables as GV
 
 class OneActivity (Label):
     """Uchovává informace o aktivitách v jednotlivých dnech a vytváří pruh v náhledovém
@@ -15,7 +15,7 @@ class OneActivity (Label):
         self.font = ("Arial", 13)
         super().__init__(master, selected_sport, self.font)
         self.sport = selected_sport
-        self.fg_color = sport_color[self.sport]
+        self.fg_color = GV.sport_color[self.sport]
         self.tooltip_alpha = 0.9
 
         #vytvoření objektu tréninku ze zadaných údajů
