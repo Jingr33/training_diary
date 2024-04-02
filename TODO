@@ -3,9 +3,6 @@
 # přidat potvrzovací frame, že tréninkový plán se uložil
 # pokud zadaš start-datum a opakování v týdnu dáš na ten den, tak v první den budou dva tréninky -> to oprav
 
-"""Možnosti"""
-# Oprav nastavování sportů
-
 """SETTING"""
 # zkus nejak v GV předělat to nacitani slov s diakritikou, ať to je udělané nějak normálně
 
@@ -19,3 +16,9 @@
 
 """OVERVIEW - třídění"""
 # přidat třídění asc a desc
+
+"""LANDING PAGE"""
+# všechno
+
+"""STATISTICS"""
+# graf osobních údajů
