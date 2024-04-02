@@ -213,10 +213,7 @@ class SetSport():
     def detailsFiltrator (master : object, detail_filter : list) -> list:
         """Vyfiltruje data podle detalních možností sportů."""
         # detaily posilovny
-        ic(len(master.filtered_data))
         if sum(detail_filter[0]):
-            ic(sum(detail_filter[0]))
-            ic(sum(detail_filter[0])==True)
             master.filtered_data = Gym.gymPartsFiltrator(master, detail_filter[0])
         # detaily běhu
         master.filtered_data = Run.runDistanceFiltrator(master, detail_filter[1])

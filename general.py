@@ -87,9 +87,9 @@ class General():
         return new_date
 
     @staticmethod
-    def changeDateFormat (dt_date : date) -> str:
+    def changeDateFormat (dt_date : date, separator = ". ") -> str:
         """Změní formát data z formátu date na psaný formát data."""
-        return str(dt_date.day) + ". " + str(dt_date.month) + ". " + str(dt_date.year)
+        return "{1}{0}{2}{0}{3}".format(separator, str(dt_date.day), str(dt_date.month), str(dt_date.year))
     
     @staticmethod
     def prepareString(list :list) -> str:
@@ -99,6 +99,12 @@ class General():
             for i in range(1, len(list)):
                 line = line + " / " + str(list[i])
         return line
+    
+    @staticmethod
+    def preparePersonalDBString (name : str, value : str, date : date) -> str:
+        """Připraví řáděk dat pro zapsání informace do databáze osobních údajů uživatele."""
+        str_date = General.changeDateFormat(date, "/")
+        return "{0}:{1}:{2}".format(name, value, str_date)
     
     @staticmethod
     def emptyToUknowText (data_list : list) -> list:
@@ -115,6 +121,21 @@ class General():
             lines = f.readlines()
         return lines
     
+    @staticmethod
+    def appendToFile (path : str, lines : list) -> None:
+        """Připíše řádky na konec souboru."""
+        with open(path, "a") as f:
+            for line in lines:
+                f.write(line + "\n")
+
+    @staticmethod
+    def overwriteFile (path : str, lines : list) -> None:
+        """Vloží zadané řádky do souboru, předchozí obsah vymaže."""
+        with open (path, 'w+') as f:
+            f.seek(0)
+            for line in lines:
+                f.write(line)
+
     @staticmethod
     def setStringForUndefined (message : str, undefined_signs : list) -> list:
         """V tooltip zprávě, vymění hodnoty undefined_signs (list, všech hodnot, které se mají vyměnit), za hodnoty určené k označení nezadaného údaje."""

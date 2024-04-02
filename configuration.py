@@ -10,6 +10,8 @@ sport_color = {
 
 # plavecké styly
 swim_style = ["prsa", "kraul", "znak", "motýlek"]
+gender_label = ["Žena", "Muž"]
+gender = ["F", "M"]
 
 # název volného dne
 free_day = "volno"
@@ -27,6 +29,8 @@ trainings_path = "training_database.txt"
 cycle_plans_path = "cycle_plan_database.txt"
 # cesta k souboru s jednoduchými tréninkovými plány
 single_plans_path = "single_plan_database.txt"
+# cesta k souboru s osobními údaji
+personal_data_path = "personal_database.txt"
 
 # jednotlivé části těla pro treénink v posilovně
 gym_body_parts = ["Nohy", "Střed těla", "Prsa", "Ramena", "Záda", "Biceps", "Triceps", "Předloktí"]

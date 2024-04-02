@@ -17,7 +17,6 @@ class Filter():
         self.filtered_data = self._detailsFiltrator(detail_filter)
     
     def getFilteredData(self):
-        ic(len(self.filtered_data))
         return self.filtered_data
     
     def _sportFiltrator(self, sport_filter) -> list:

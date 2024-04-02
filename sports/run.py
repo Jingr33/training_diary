@@ -41,7 +41,6 @@ class Run (Sport):
         sort_elems = master._sortDistanceDict(trainings, index_list)
         # roztříděný list tréninků
         to_sort = master._sortIt(sort_elems, trainings_dict)
-        ic(to_sort)
         return to_sort
     
     @staticmethod

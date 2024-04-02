@@ -255,7 +255,6 @@ class Gym (Sport):
         for i in range(len(gym_body_parts)):
             if gym_parts_filter[i] == 1:
                 strings_to_find.append(gym_body_parts[i])
-        ic(strings_to_find)
         # cyklus přes tréninky
         filtered = []
         for training in master.filtered_data:
@@ -269,7 +268,6 @@ class Gym (Sport):
             else:
                 # pokud se nejedná o posilovnu, přidá se vždy
                 filtered.append(training)
-        ic(filtered)
         return filtered
 
     def updateGymGUI (master : object, training : object) -> None:

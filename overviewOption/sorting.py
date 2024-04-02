@@ -99,8 +99,6 @@ class Sorting ():
 
     def _sortByDetails (self, to_sort : list) -> list:
         """Setřídí vložené listy v listu (2D listy) podle detailů a vrátí ho."""
-        ic(to_sort)
-        ic(len(to_sort))
         # list velikostí počtu tréninků jednotlivých sportů
         index_list = self._indexList(len(to_sort))
         # slovník tréninků
@@ -173,12 +171,9 @@ class Sorting ():
                 sports[trainings[training].sport].append(trainings[training])
             else: # pokud klič ještě neexisuje, vytvoří se nový klíč a sním pole s tréninkem
                 sports[trainings[training].sport] = [trainings[training]]
-        ic(sports)
         # setřídí jednotlivě pole sportů
         for key in sports:
-            ic(sports[key])
             sports[key] = self._sortEachDict(sports, key)
-            ic(sports[key])
         # spojit listy zase do jednoho
         sorted_trainings = []
         for key in sports:

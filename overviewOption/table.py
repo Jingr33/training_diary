@@ -27,12 +27,8 @@ class Table (ctk.CTkScrollableFrame):
 
     def _initContent (self, data : list) -> None:
         """Vytvoří grafické rozhraní tabulky a jejího nastavení části přehled."""
-        for one in data:
-            ic(one.sport, one.date)
-
         # vytvoření řádků tabulky pomocí objektu OneRow
         limit = self._rowsLimits(data)
-        ic(limit, len(data))
         for i in range(limit[0], limit[1]):
             one_row = OneRow(self, data[i])
             one_row.pack(side = TOP, fill = ctk.X, padx = 3)
