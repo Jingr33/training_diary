@@ -75,6 +75,8 @@ colors = {
     "light" : "#c7c7c7",
     "dodger-blue-3" : "#1874CD",
     "dodger-blue-2" : "#1E90FF",
+    "mass-chart" : "#f76c8b",
+    "height-chart" : "#3982c3",
 }
 
 # barevná paletta pro koláčový graf 
@@ -107,6 +109,7 @@ sorting_text_color = {
 
 # možnosti v nastavení období, pro které graf vyobrazuje hodnoty 
 chart_range_option = ["den", "týden", "měsíc", "rok"]
+personal_chart_option = ["3 měsíce", "rok", "od počátku"]
 
 # pozadí framů s grafem
 chart_frame_color = "#262626"

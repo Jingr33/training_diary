@@ -218,7 +218,7 @@ class General():
     @staticmethod    
     def surroundingFirstDate (central_date : date, 
                                year : int, month : int, day : int) -> date:
-        """Vrátí datum posunuté od půdního o zadané množství času."""
+        """Vrátí datum posunuté od půdního o zadané množství času (dopředu)."""
         start_date = central_date + relativedelta(years = year, months = month, days = day)
         return start_date
     
@@ -258,3 +258,17 @@ class General():
         first_date = date_list[0]
         last_date = date_list[-1]
         return first_date, last_date
+    
+    @staticmethod
+    def loadPersonalData (personal_data_path : str) -> dict:
+        """Načte osobní údaje o uživateli z databáze osobních údajů. Vrátí slovník údajů zadaných v ruzných datech uživatelem."""
+        file_lines = General.loadLinesFromFile(personal_data_path)
+        for i in range(len(file_lines)):
+            file_lines[i] = file_lines[i].split(":")
+        personal_dict = { file_lines[0][0] : file_lines[0][1], }
+        for i in range(1, len(file_lines)):
+            if file_lines[i][0] in personal_dict.keys():
+                personal_dict[file_lines[i][0]].append((file_lines[i][1], file_lines[i][2]))
+            else:
+                personal_dict[file_lines[i][0]] = [(file_lines[i][1], file_lines[i][2])]
+        return personal_dict

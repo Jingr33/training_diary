@@ -20,7 +20,6 @@ def loadSettingDatabase () -> dict:
     sport_list = getSportList(selected_sports)
     global sport_color
     sport_color = getSportColors()
-    ic(sport_color)
     return setting
 
 def overwriteSettingFile () -> None:

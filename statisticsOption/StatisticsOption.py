@@ -7,6 +7,7 @@ from statisticsOption.sportColumnChart import SportColumnChart
 from statisticsOption.timeColumnChart import TimeColumnChart
 from statisticsOption.sportRatioChart import SportRatioChart
 from statisticsOption.diffSportsChart import DiffSportsChart
+from statisticsOption.personalDataChart import PersonalDataChart
 
 
 class Statistics (ctk.CTkScrollableFrame):
@@ -31,6 +32,9 @@ class Statistics (ctk.CTkScrollableFrame):
         time_chart.grid(column = 0, row = 1,ipadx = 5, ipady = 5, padx = 9, pady = 9, sticky = "NWSE")
         sport_chart = DiffSportsChart(self) # graf poměru vykonaných sportů
         sport_chart.grid(column = 1, row = 1,ipadx = 5, ipady = 5, padx = 5, pady = 5, sticky = "NWSE")
+        sport_chart = PersonalDataChart(self) # graf poměru vykonaných sportů
+        sport_chart.grid(column = 0, row = 2,ipadx = 5, ipady = 5, padx = 5, pady = 5, sticky = "NWSE")
+
 
     def _dataLoader (self) -> None:
         """Zavolání objektu načítajícího tréninková data."""
