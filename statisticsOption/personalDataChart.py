@@ -2,6 +2,7 @@
 from tkinter import *
 import customtkinter as ctk
 import matplotlib.pyplot as plt
+from matplotlib.offsetbox import TextArea, AnnotationBbox
 from datetime import date
 import numpy as np
 from datetime import date, datetime
@@ -64,7 +65,6 @@ class PersonalDataChart (Frame):
         """Funkce vytvoří obsah grafu (osy, popisky, body) podle nastaveného období zobrazení."""
         data = self._dataForChart(self.personal_data)
         data = self._selectNeededData(data)
-        ic(data)
         self._makeScatterPlot(data)
         self.figure.canvas.draw()
 
@@ -75,6 +75,7 @@ class PersonalDataChart (Frame):
         for item in (height, mass):
             for i in range(len(item[1])):
                 item[1][i] = General.stringToDate(item[1][i])
+                item[0][i] = float(item[0][i])
         return (height, mass)
     
     def _selectNeededData (self, data : tuple) -> tuple:
@@ -82,12 +83,13 @@ class PersonalDataChart (Frame):
         if (not self.start_date) or (self.start_date == self.end_date): return data
         for j in range(len(data)):
             one_list = data[j]
-            for i in range(len(one_list[1])):
+            i = 0
+            for k in range(len(one_list[1])):
                 if i >= len(one_list[1]): break
                 if not General.dateBetween(one_list[1][i], self.start_date, self.end_date):
                     del one_list[0][i]
                     del one_list[1][i]
-                    i = i - 1
+                else: i = i + 1
         return data
 
     def _makeScatterPlot (self, chart_data : list) -> None:
@@ -95,23 +97,46 @@ class PersonalDataChart (Frame):
         # vytvoření subplotu
         self.figure.clf()
         self.chart = self.figure.add_subplot(111)
-        # vykreslení grafu
-        self.chart.set_ylabel('hmotnost', color = colors["mass-chart"])
-        self.chart.tick_params(axis='y', labelcolor=colors["mass-chart"])
-        self.chart.scatter(chart_data[0][1], chart_data[0][0], color = colors["mass-chart"])
-        # self.chart.plot(chart_data[0][1], chart_data[0][0], color = colors["mass-chart"])
+        # výška
+        self.chart.set_ylabel('výška (cm)')
+        self.scatter1 = self.chart.scatter(chart_data[0][1], chart_data[0][0], color = colors["mass-chart"])
+        # hmotnost
+        self.chart2 = self.chart.twinx() 
+        self.chart2.set_ylabel('hmotnost (kg)')
+        self.scatter2 = self.chart2.scatter(chart_data[1][1], chart_data[1][0], color =colors["height-chart"])
+        # úprava
+        self.chart.plot(chart_data[0][1], chart_data[0][0], color = colors["mass-chart"], alpha = 0.5)
+        self.chart2.plot(chart_data[1][1], chart_data[1][0], color = colors["height-chart"], alpha = 0.5)
+        self.chart.fill_between(chart_data[0][1], chart_data[0][0], 0, color=colors["mass-chart"], alpha=0.2)
+        self.chart2.fill_between(chart_data[1][1], chart_data[1][0], 0, color=colors["height-chart"], alpha=0.2)
 
-        line_two = self.chart.twinx() 
-        line_two.set_ylabel('výška', color=colors["height-chart"])
-        line_two.tick_params(axis='y', labelcolor=colors["height-chart"])
-        line_two.scatter(chart_data[1][1], chart_data[1][0], color =colors["height-chart"])
+        # self._pointTooltips(chart_data)
+        self._modifyChartDesign(chart_data)
 
-        self._modifyChartDesign()
-
-    def _modifyChartDesign (self) -> None:
+    def _modifyChartDesign (self, chart_data : list) -> None:
         """Upraví vzhled grafu."""
+        self.figure.set_facecolor(colors["dark-gray-2"])
         self.chart.set_title("Přehled změn osobních údajů v čase", pad = 20)
         self.chart.set_xlabel('datum')
-        self.figure.set_facecolor(colors["dark-gray-2"])
         self.chart.set_facecolor(colors["dark-gray-2"])
         self.chart.spines['top'].set_visible(False)
+        self.chart.set_ylim(min(chart_data[0][0])-2, max(chart_data[0][0])+2)
+        self.chart2.spines['top'].set_visible(False)
+        self.chart2.set_ylim(min(chart_data[1][0])-2, max(chart_data[1][0])+2)
+
+    # def _pointTooltips (self, chart_data : list) -> None:
+    #     """Vytvoří tooltipy každého bodu v grafu."""
+    #     ic(chart_data)
+    #     for data_group in chart_data:
+    #         for i in range(len(data_group[0])):
+    #             ic(data_group[1][i])             
+    #             # annotation = self.chart2.annotate(text='asdfgh', xy=(data_group[1][i], data_group[0][i]), xytext=(15,15), bbox={'boxstyle':'round', 'fc':'w'})
+    #             # annotation.set_visible(True)
+    #             offsetbox = TextArea('Look over there!')
+    #             offsetbox.set(alpha=0.3)
+
+    #             ab = AnnotationBbox(offsetbox, (data_group[1][i], data_group[0][i]),
+    #                 xybox=(0, 1),
+    #                 xycoords='axes fraction',
+    #                 boxcoords='data',)
+    #             self.chart.add_artist(ab)
