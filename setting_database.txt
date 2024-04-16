@@ -2,4 +2,4 @@ auto-fullscreen:0
 overview-rows:17
 sport-colors:posilovna=#e858ff;beh=#C0392B;plavani=#fad12d;
 selected-sports:1;1;1;
-last-login:2024-04-16 23-11-29
+last-login:2024-04-16 23-12-17
