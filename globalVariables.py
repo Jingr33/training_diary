@@ -20,6 +20,8 @@ def loadSettingDatabase () -> dict:
     sport_list = getSportList(selected_sports)
     global sport_color
     sport_color = getSportColors()
+    global last_login
+    last_login = getLastLogin()
     return setting
 
 def overwriteSettingFile () -> None:
@@ -67,6 +69,10 @@ def getSportList (selected_sport : list) -> list:
         if selected_sport[i]:
             sport_list.append(all_sports[i])
     return sport_list
+
+def getLastLogin () -> str:
+    """Vrátí datum a čas podledního přihlášení ve formátu str."""
+    return setting["last-login"]
     
 def prepareSportColorsToFile () -> str:
     """Vytvoří ze slovníku řádek pro zapsání do souboru. Vrátí string."""
