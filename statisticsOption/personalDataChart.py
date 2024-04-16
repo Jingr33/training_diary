@@ -109,7 +109,6 @@ class PersonalDataChart (Frame):
         self.chart2.plot(chart_data[1][1], chart_data[1][0], color = colors["height-chart"], alpha = 0.5)
         self.chart.fill_between(chart_data[0][1], chart_data[0][0], 0, color=colors["mass-chart"], alpha=0.2)
         self.chart2.fill_between(chart_data[1][1], chart_data[1][0], 0, color=colors["height-chart"], alpha=0.2)
-
         # self._pointTooltips(chart_data)
         self._modifyChartDesign(chart_data)
 
@@ -118,6 +117,8 @@ class PersonalDataChart (Frame):
         self.figure.set_facecolor(colors["dark-gray-2"])
         self.chart.set_title("Přehled změn osobních údajů v čase", pad = 20)
         self.chart.set_xlabel('datum')
+        self.chart.set_xticks(self._ticksForXLabels(self.start_date, self.end_date))
+        # self.chart2.set_xticks([1, 2,3, 4])
         self.chart.set_facecolor(colors["dark-gray-2"])
         self.chart.spines['top'].set_visible(False)
         self.chart.set_ylim(min(chart_data[0][0])-2, max(chart_data[0][0])+2)
@@ -139,4 +140,9 @@ class PersonalDataChart (Frame):
     #                 xybox=(0, 1),
     #                 xycoords='axes fraction',
     #                 boxcoords='data',)
-    #             self.chart.add_artist(ab)
+    #             self.chart.add_artist(ab)´
+
+    def _ticksForXLabels (self, start_date : date, end_date : date) -> list:
+        """Vrátí list stringů s hodnotami x-ové osy grafu, vypočítaných ze zadaných parametrů počátečního a koncového data zobrazeného v grafu."""
+        
+        return [1, 2]
