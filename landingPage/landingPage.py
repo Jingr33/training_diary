@@ -2,7 +2,7 @@
 from tkinter import *
 import customtkinter as ctk
 # import souborů
-from landingPage.progressFrame import ProgressFrame
+from landingPage.infoFrame import InfoFrame
 from ctkWidgets import Frame, Label
 from configuration import colors
 
@@ -12,15 +12,15 @@ class LandingPage (Frame):
         super().__init__(master)
         self.master = master
         self._initTitle()
-        self._progressFrame()
+        self._infoFrame()
         
     def _initTitle (self) -> None:
         """Vytvoří widget s nadpisem stránky."""
-        title = Label(self, "Tréninkový deník", ("Arial", 28))
-        title.pack(side = TOP, fill = ctk.X, anchor = "center", padx = 20, pady = (20, 10))
+        title = Label(self, "Tréninkový deník", ("Arial", 23))
+        title.pack(side = TOP, anchor = "w", padx = 20, pady = (20, 10))
         title.configure(text_color = colors["light"])
 
-    def _progressFrame (self) -> None:
-        """Vytvoří frame s obrázkem a carousel texty."""
-        picture_frame = ProgressFrame(self)
-        picture_frame.pack(side = TOP, fill = ctk.X, padx = 10, pady = 15)
+    def _infoFrame (self) -> None:
+        """Vytvoří frame s doplňkovými informace landing page."""
+        picture_frame = InfoFrame(self)
+        picture_frame.pack(side = TOP, pady = (80, 30))
