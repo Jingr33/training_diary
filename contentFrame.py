@@ -6,6 +6,7 @@ from overviewOption.overviewOption import Overview
 from calendarOption.calendarOption import Calendar
 from statisticsOption.StatisticsOption import Statistics
 from settingOption.settingOption import Setting
+from landingPage.landingPage import LandingPage 
 
 
 class Frame (ctk.CTkFrame):
@@ -24,12 +25,17 @@ class Frame (ctk.CTkFrame):
         calendar = Calendar(self)
         calendar.pack(fill = ctk.BOTH, expand = True)
 
-    def StatisticsOption(self) -> None:
+    def statisticsOption(self) -> None:
         """Metoda pro zavolání záložky Statistiky."""
         statistics = Statistics(self)
         statistics.pack(fill = ctk.BOTH, expand = True)
 
-    def SettingOption (self) -> None:
+    def settingOption (self) -> None:
         """Metoda pro zavolání záložky Možnosti."""
         setting = Setting(self)
         setting.pack(fill = ctk.BOTH, expand = True)
+
+    def landingPage (self) -> None:
+        """?etoda pro vytvoření landing page při spuštění aplikace."""
+        landing_page = LandingPage(self)
+        landing_page.pack(fill = ctk.BOTH, expand = True)
