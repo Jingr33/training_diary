@@ -54,3 +54,7 @@ class DateAndTime ():
         if count == 1:
             return for_onetime[type_of_period]
         return for_severaltimes[type_of_period]
+
+    def getDaysDuration (self, start_date : date, end_date : date) -> int:
+        """Vrátí počet dní (int) meti počátěčním a koncovým datem."""
+        return abs((end_date - start_date).days)

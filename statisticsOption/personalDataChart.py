@@ -2,12 +2,12 @@
 from tkinter import *
 import customtkinter as ctk
 import matplotlib.pyplot as plt
-from matplotlib.offsetbox import TextArea, AnnotationBbox
 from datetime import date
 import numpy as np
-from datetime import date, datetime
+from datetime import date
 from icecream import ic
 # import souborů
+from dateAndTime import DateAndTime
 from ctkWidgets import Frame, Label, ComboBox
 from general import General
 from configuration import personal_chart_option, chart_frame_color, personal_data_path, colors
@@ -64,7 +64,7 @@ class PersonalDataChart (Frame):
     def _createChartContent (self) -> None:
         """Funkce vytvoří obsah grafu (osy, popisky, body) podle nastaveného období zobrazení."""
         data = self._dataForChart(self.personal_data)
-        data = self._selectNeededData(data)
+        # data = self._selectNeededData(data)
         self._makeScatterPlot(data)
         self.figure.canvas.draw()
 
@@ -78,19 +78,19 @@ class PersonalDataChart (Frame):
                 item[0][i] = float(item[0][i])
         return (height, mass)
     
-    def _selectNeededData (self, data : tuple) -> tuple:
-        """Vybere data z období vybraného uživatele pro zobrazení."""
-        if (not self.start_date) or (self.start_date == self.end_date): return data
-        for j in range(len(data)):
-            one_list = data[j]
-            i = 0
-            for k in range(len(one_list[1])):
-                if i >= len(one_list[1]): break
-                if not General.dateBetween(one_list[1][i], self.start_date, self.end_date):
-                    del one_list[0][i]
-                    del one_list[1][i]
-                else: i = i + 1
-        return data
+    # def _selectNeededData (self, data : tuple) -> tuple:
+    #     """Vybere data z období vybraného uživatele pro zobrazení."""
+    #     if (not self.start_date) or (self.start_date == self.end_date): return data
+    #     for j in range(len(data)):
+    #         one_list = data[j]
+    #         i = 0
+    #         for k in range(len(one_list[1])):
+    #             if i >= len(one_list[1]): break
+    #             if not General.dateBetween(one_list[1][i], self.start_date, self.end_date):
+    #                 del one_list[0][i]
+    #                 del one_list[1][i]
+    #             else: i = i + 1
+    #     return data
 
     def _makeScatterPlot (self, chart_data : list) -> None:
         """Vytvoření obsahu bodového grafu."""
@@ -117,32 +117,25 @@ class PersonalDataChart (Frame):
         self.figure.set_facecolor(colors["dark-gray-2"])
         self.chart.set_title("Přehled změn osobních údajů v čase", pad = 20)
         self.chart.set_xlabel('datum')
-        self.chart.set_xticks(self._ticksForXLabels(self.start_date, self.end_date))
-        # self.chart2.set_xticks([1, 2,3, 4])
         self.chart.set_facecolor(colors["dark-gray-2"])
         self.chart.spines['top'].set_visible(False)
         self.chart.set_ylim(min(chart_data[0][0])-2, max(chart_data[0][0])+2)
         self.chart2.spines['top'].set_visible(False)
         self.chart2.set_ylim(min(chart_data[1][0])-2, max(chart_data[1][0])+2)
+        # úprava labelů
+        if self.var_option.get() != personal_chart_option[-1]:
+            self.chart.set_xlim(self.start_date, self.end_date)
+            self.chart.set_xticks(self._ticksForXLabels())
 
-    # def _pointTooltips (self, chart_data : list) -> None:
-    #     """Vytvoří tooltipy každého bodu v grafu."""
-    #     ic(chart_data)
-    #     for data_group in chart_data:
-    #         for i in range(len(data_group[0])):
-    #             ic(data_group[1][i])             
-    #             # annotation = self.chart2.annotate(text='asdfgh', xy=(data_group[1][i], data_group[0][i]), xytext=(15,15), bbox={'boxstyle':'round', 'fc':'w'})
-    #             # annotation.set_visible(True)
-    #             offsetbox = TextArea('Look over there!')
-    #             offsetbox.set(alpha=0.3)
-
-    #             ab = AnnotationBbox(offsetbox, (data_group[1][i], data_group[0][i]),
-    #                 xybox=(0, 1),
-    #                 xycoords='axes fraction',
-    #                 boxcoords='data',)
-    #             self.chart.add_artist(ab)´
-
-    def _ticksForXLabels (self, start_date : date, end_date : date) -> list:
+    def _ticksForXLabels (self) -> list:
         """Vrátí list stringů s hodnotami x-ové osy grafu, vypočítaných ze zadaných parametrů počátečního a koncového data zobrazeného v grafu."""
-        
-        return [1, 2]
+        dt = DateAndTime(self)
+        num_of_days = dt.getDaysDuration(self.start_date, self.end_date)
+        num_of_ticks = 4
+        two_ticks_diff = np.floor(num_of_days / num_of_ticks)
+        ticks_dates = [None] * (num_of_ticks + 1)
+        ticks_dates[-1] = self.end_date
+        for i in range(len(ticks_dates) - 2, -1, -1):
+           ticks_dates[i] = General.surroundingFirstDate(ticks_dates[i + 1], 0, 0, -two_ticks_diff)
+        ic(ticks_dates)
+        return ticks_dates
