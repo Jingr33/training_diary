@@ -73,8 +73,7 @@ class Run (Sport):
     
     @staticmethod
     def runData(master : object,  data_list : list, index_adjustment = 2) -> None:
-        """Rozklíčuje data z tréninkové databáze pokud se jedná 
-        o běžeckéhý trénink."""
+        """Rozklíčuje data z tréninkové databáze pokud se jedná o běžeckéhý trénink."""
         master.time = General.checkKnownFloat(data_list[0 + index_adjustment])
         master.distance = General.checkKnownFloat(data_list[1 + index_adjustment])
 
@@ -92,7 +91,7 @@ class Run (Sport):
     @staticmethod
     def runDetailsInOverview (master : object):
         """Metoda pro vytvoření specifických údajů o běhu do tabulky."""
-        distance_text = str(master.training.distance) + " km"
+        distance_text = str(General.setUnknownText(master.training.distance)) + " km"
         distance_l = Label(master, distance_text)
         distance_l.pack(side = LEFT, fill = ctk.Y)
         distance_l.configure(width = 250, height = 40, anchor = ctk.W)

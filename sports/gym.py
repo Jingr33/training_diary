@@ -4,7 +4,7 @@ from tkinter import *
 from icecream import ic
 #importy souborů
 from sports.sport import Sport
-from configuration import gym_body_parts, unknown_text, pie_chart_palette, all_sports
+from configuration import gym_body_parts, unknown_text, unknown_text_label, pie_chart_palette, all_sports
 import globalVariables as GV
 from ctkWidgets import Label, Entry, CheckBox
 from general import General
@@ -52,7 +52,6 @@ class Gym (Sport):
         time_l = Label(master, "Očekávaný čas:")
         time_l.pack(side=TOP)
         time_l.configure(width = 95, anchor = 'w')
-
         time_e = Entry(master, master.estimated_time)
         time_e.pack(side=TOP)
         time_e.configure(width=95)
@@ -61,39 +60,30 @@ class Gym (Sport):
         parts_l = Label(master, "Cviky:")
         parts_l.pack(side=TOP)
         parts_l.configure(width=95, anchor='w')
-
         leg_chb = CheckBox(master, gym_body_parts[0], master.estim_leg)
         leg_chb.pack(side = TOP, pady=1)
         leg_chb.configure(width=95)
-
         core_chb = CheckBox(master, gym_body_parts[1], master.estim_core)
         core_chb.pack(side = TOP, pady=1)
         core_chb.configure(width=95)
-
         breast_chb = CheckBox(master, gym_body_parts[2], master.estim_breast)
         breast_chb.pack(side = TOP, pady=1)
         breast_chb.configure(width=95)
-
         shoulder_chb = CheckBox(master, gym_body_parts[3], master.estim_shoulder)
         shoulder_chb.pack(side = TOP, pady=1)
         shoulder_chb.configure(width=95)
-
         back_chb = CheckBox(master, gym_body_parts[4], master.estim_back)
         back_chb.pack(side = TOP, pady=1)
         back_chb.configure(width=95)
-
         biceps_chb = CheckBox(master, gym_body_parts[5], master.estim_biceps)
         biceps_chb.pack(side = TOP, pady=1)
         biceps_chb.configure(width=95)
-
         triceps_chb = CheckBox(master, gym_body_parts[6], master.estim_triceps)
         triceps_chb.pack(side = TOP, pady=1)
         triceps_chb.configure(width=95)
-
         forearm_chb = CheckBox(master, gym_body_parts[7], master.estim_forearm)
         forearm_chb.pack(side = TOP, pady=1)
         forearm_chb.configure(width=95)
-
 
     @staticmethod
     def plan_getGymDetails (master : object) -> tuple:
@@ -127,7 +117,8 @@ class Gym (Sport):
             # vytvoření vlastnosti practicedParts
             master.practicedParts = Gym.practicedPartsString(master)
         else:
-            master.practicedParts = unknown_text
+            master.practicedParts = unknown_text_label
+            ic("zde")
 
     @staticmethod
     def practicedPartsString (master : object):
@@ -195,7 +186,7 @@ class Gym (Sport):
     @staticmethod
     def gymDetailsInOverview (master : object):
         """Metoda pro vytvoření specifických údajů o posilovně do tabulky."""
-        practiced_l = Label(master, master.training.practicedParts)
+        practiced_l = Label(master, General.setUnknownText(master.training.practicedParts))
         practiced_l.pack(side = LEFT, fill = ctk.Y)
         practiced_l.configure(width = 250, height = 40, anchor = ctk.W)
         master.content_wigets.append(practiced_l)

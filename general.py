@@ -163,10 +163,17 @@ class General():
         
     @staticmethod 
     def checkKnownFloat (float_check : str) -> float:
-        """Zkontroluje, zda údaj ve tvaru integeru byl vyplněn, pokud ne, uloží do proměnné None."""
+        """Zkontroluje, zda údaj ve formatu integeru byl vyplněn, pokud ne, uloží do proměnné None."""
         if float_check == unknown_text:
             return None
         return float(float_check)
+    
+    @staticmethod
+    def setUnknownText (variable) -> str:
+        """Pokud má vstupní proměnná obsah, vrátí se. Pokud ne vrátí se string pro nezadaný text."""
+        if variable:
+            return variable
+        return unknown_text_label
     
     @staticmethod
     def deleteFrameWidgets (widget_parent : object) -> None:

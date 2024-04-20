@@ -121,7 +121,7 @@ class Swim (Sport):
     @staticmethod
     def swimDetailsInOverview (master : object):
         """Metoda pro vytvoření specifických údajů o tréninku plavání do tabulky přehledu tréninků."""
-        details_text = "{0} km - Styl: {1}".format(master.training.distance, master.training.style_str)
+        details_text = "{0} km - Styl: {1}".format(General.setUnknownText(master.training.distance), General.setUnknownText(master.training.style_str))
         details_l = Label(master, details_text)
         details_l.pack(side = LEFT, fill = ctk.Y)
         details_l.configure(width = 250, height = 40, anchor = ctk.W)

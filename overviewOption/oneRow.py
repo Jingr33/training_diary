@@ -4,6 +4,7 @@ import customtkinter as ctk
 from icecream import ic
 # import souborů
 from overviewOption.updateTraining.updateWindow import UpdateWindow
+from general import General
 from sports.setSport import SetSport
 from ctkWidgets import Label, Button
 from image import Image as img
@@ -36,7 +37,7 @@ class OneRow (ctk.CTkFrame):
         sport_l.configure(width = 110, height = 40, anchor = ctk.W)
         self.content_wigets.append(sport_l)
 
-        time_text = str(self.training.time) + " min"
+        time_text = str(General.setUnknownText(self.training.time)) + " min"
         time_l = Label(self, time_text)
         time_l.pack(side = LEFT, fill = ctk.Y)
         time_l.configure(width = 70, height = 40, anchor = ctk.W)
