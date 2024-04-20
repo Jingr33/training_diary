@@ -14,8 +14,5 @@
 # otestuj filtrování, mám pocit že nejede správně
 # nejak oprav třídění detailův overview
 
-"""OVERVIEW - třídění"""
-# přidat třídění asc a desc
-
 """LANDING PAGE"""
 # grafika

@@ -42,10 +42,6 @@ class Table (ctk.CTkScrollableFrame):
         if self.init_load_more:
             self._initLoadMoreButton()
 
-#################################################################
-            # tovypisování hází úplné kraviny, zkus nějak pošéfovat ty dělky training listů
-#################################################################
-
     def _initLoadMoreButton (self) -> None:
         """Metoda vytvoří tlačítko pro načtení více tréninkových řádků v dolní části tabulky."""
         self.load_more = Button(self, "Načíst více", self._addRows)

@@ -137,5 +137,4 @@ class PersonalDataChart (Frame):
         ticks_dates[-1] = self.end_date
         for i in range(len(ticks_dates) - 2, -1, -1):
            ticks_dates[i] = General.surroundingFirstDate(ticks_dates[i + 1], 0, 0, -two_ticks_diff)
-        ic(ticks_dates)
         return ticks_dates
