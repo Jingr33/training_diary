@@ -142,22 +142,10 @@ class SinglePlanFrame (Frame):
         self.terms["entries"].append(term_entry)
         self.terms["vars"].append(var_term)
 
-    def _removeTermsentry (self, index : int) -> None:
-        """Odebere poslední entry a label (s číslem) pro zadání konkrétního dalšího data tréninku."""
-        # self.terms["entries"][-1].unbind("<Key>")
-        # self.terms["entries"][-3].bind("<Key>", lambda value: self._regenerateTermEntry(index - 1))
-        # self.terms["labels"][-1].destroy()
-        # self.terms["entries"][-1].destroy()
-        # del self.terms["labels"][-1]
-        # del self.terms["entries"][-1]
-        # del self.terms["vars"][-1]
-
     def _regenerateTermEntry (self, index : int) -> None:
         """Upraví počet řádků pro zapsání termínu nového tréninku."""
         if index <= 5:
             self._addTermsEntry(index + 1)
-        # if (not self.terms["entries"][index].get()) and (not self.terms["entries"][index - 1].get()) and (index >= 1):
-        #     self._removeTermsentry(index)
             
     def _initDetailFrame (self, value : str) -> None:
         """Vytvoří grafické rozhraní nastavování detailu tréninku podle zvoleného sportu."""
@@ -166,6 +154,7 @@ class SinglePlanFrame (Frame):
     def _savePlan (self) -> None:
         """Při kliknutí na tlačítko uložit zhodnotí správnost vstupů a plán do databáze."""
         checked = self._checkAllEntries()
+        ic(checked, "zkontrolováno")
         if checked:
             data_list = self._getEntryData()
             self._setUnknowValues(data_list)

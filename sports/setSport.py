@@ -312,7 +312,7 @@ class SetSport():
     @staticmethod
     def singlePlanEntry (master : object, sport : str) -> list:
         """Ověření uživatelského vstupu do detailního framu v singlePlan. Zároveň nastaví do vlastnosti frame_data rodičovského objektu zadaná data (pokud jsou správné)."""
-        sport_funcs = [Gym.singlePlanEntry, Run.singlePlanRun, Swim.singlePlanSwim]
+        sport_funcs = [Gym.singlePlanEntry, Run.singlePlanEntry, Swim.singlePlanEntry]
         for i in range(len(all_sports)):
             if sport == all_sports[i]:
                 return sport_funcs[i](master)
