@@ -67,7 +67,7 @@ class General():
 
     def findSeparator(new_date : str) -> str:
         """Najde oddělovač zadaného data. Pokud se nejedná o žádný z oddělovačů, vrátí None."""
-        separators = ["-", "/", ". "]
+        separators = ["-", "/", ". ", "."]
         for one_sep in separators:
             index = new_date.find(one_sep)
             if index >= 0:
