@@ -10,7 +10,6 @@ class FilterTime (Frame):
         super().__init__(master)
         self.var_from = StringVar()
         self.var_to = StringVar()
-
         # vytvoření zadávacích polí pro filtrování času
         from_l = Label(self, "Od:")
         from_l.grid(row = 0, column = 0)
@@ -18,7 +17,6 @@ class FilterTime (Frame):
         from_e = Entry(self, self.var_from)
         from_e.grid(row=0, column=1, ipadx=2, ipady=1)
         from_e.configure(width = 35)
-
         to_l = Label(self, "Do:")
         to_l.grid(row=1, column=0)
         to_l.configure(font= ("Arial", 12))

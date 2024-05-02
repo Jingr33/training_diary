@@ -46,7 +46,7 @@ class PlansOverviewWindow (ctk.CTkToplevel):
                     f.write(line + "\n")
 
     def _cutOutDeletedPlans (self, lines : list, plan_states : list) -> list:
-        """Vyřízne užovatele smazané tréninkové plány a vrátí list řádků pro zpětné zapsání do souboru."""
+        """Odstraní uživatelem smazané tréninkové plány a vrátí list řádků pro zpětné zapsání do souboru."""
         lines = self._trimLines(lines)
         last_line = 0
         for i in range(len(plan_states)): # cyklus přes všechny uložené tréninky

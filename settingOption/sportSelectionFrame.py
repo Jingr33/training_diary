@@ -10,7 +10,7 @@ import globalVariables as GV
 
 
 class SportSelectionFrame (Frame):
-    """Vytvoří frame pro vybraní nebo odebraání sportů v nastavení aplikace."""
+    """Vytvoří frame pro vybraní nebo odebrání sportů v nastavení aplikace."""
     def __init__(self, master : ctk.CTkBaseClass):
         self.master = master
         super().__init__(master)
@@ -50,7 +50,7 @@ class SportSelectionFrame (Frame):
         }
 
     def _initColorPicker (self, index : int) -> None:
-        """Iniciuje okno s vyběrem barvy k odpovídajícímu tlačítku pro nastavení barvy."""
+        """Iniciuje okna s vyběrem barvy k odpovídajícímu tlačítku pro nastavení barvy."""
         pick_color = AskColor(title="Nastavení barvy", text="Vybrat")
         color = pick_color.get()
         if color:

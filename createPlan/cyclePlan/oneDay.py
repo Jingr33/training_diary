@@ -43,7 +43,6 @@ class OneDay(Frame):
         else:
             self.details_frame.errorAnimation()
 
-
     def _createGUI(self) -> None:
         """Vytvoření grafické widgety."""
         # frame dne
@@ -51,13 +50,11 @@ class OneDay(Frame):
         self.frame.pack(side=TOP, padx=2, pady=2, ipadx=3, ipady=3)
         self.frame.configure(fg_color=colors["light-gray"], corner_radius = 10)
         self.all_widgets.append(self.frame)
-
         # odstranění dne
         self.remove_button = Button(self, "Odstranit", self._removeFrame)
         self.remove_button.pack(side = TOP, padx=2, pady=2)
         self.remove_button.configure(height = 13, width=115, font=("Arial", 11))
         self.all_widgets.append(self.remove_button)
-
         # chceckbox - volný den
         self.var_free = StringVar(value = 0)
         free_day = CheckBox(self, "Volný den", self.var_free)
@@ -65,7 +62,6 @@ class OneDay(Frame):
         self.all_widgets.append(free_day)
         # event pro chceckbox
         free_day.bind("<Button-1>", self._setFreeDay)
-
         # nastavení podrobností tréninkové aktivity
         self._setSport()
 
@@ -104,10 +100,8 @@ class OneDay(Frame):
             for strip in self.frame.activity_list: 
                 strip.pack(side=TOP, fill = ctk.X, padx = 2, pady=2)
 
-
     def _setSport (self) -> None:
         """Vytvoří combobox s výběrem sportů."""
-        # combobox se sporty
         self.text_unknow = "nevybráno"
         self.var_text_cb = StringVar() # zapíše co uživatel vybral
         self.sports_cb = ComboBox(self, GV.sport_list, self._setSportDetails, self.var_text_cb)
@@ -117,8 +111,7 @@ class OneDay(Frame):
         self.all_widgets.append(self.sports_cb)
 
     def _sportElected (self, option) -> None:
-        """Po vybrání sportu v comboBoxu se zavolájí potřebné funkce a vyvolají reakci.
-        (strip v kalendáři)"""
+        """Po vybrání sportu v comboBoxu vyvolá reakci... (strip v kalendáři)"""
         ... #TODO tohle ještě dodělat
 
     def _setSportDetails(self, option) -> None:

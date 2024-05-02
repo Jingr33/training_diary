@@ -7,7 +7,7 @@ from oneTraining import OneTraining
 
 
 class OneCycleTraining ():
-    """Třída pro zpracování dat pro jeden cyklický tréninkový plán. Přijmá list údaji o
+    """Třída pro zpracování dat pro jeden cyklický tréninkový plán. Přijmá list údajů o
     tréninkovém plánu."""
     def __init__(self, plan_data : list):
         self._setMainInfo(plan_data[0]) # zpracuje hlavní informace o plánu

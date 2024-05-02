@@ -15,7 +15,6 @@ class OneDayFrame (Frame):
         self.number_of_frame = number_of_day - 1
         # list aktivit v dni
         self.activity_list = []
-
         # vytvoření obsahu
         self._createGUI()
 

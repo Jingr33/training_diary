@@ -58,5 +58,3 @@ class PlanOneRowFrame (Frame):
             self.delete_button.configure(text = self.button_text[self.button_state])
             for i in range(len(self.info_labels)):
                 self.info_labels[i].configure(state = NORMAL)
-
-        # možná bych ještě zkusil, pro oddělení řádků, ať se střídají světlé a tmavé pozadí framů s řádky

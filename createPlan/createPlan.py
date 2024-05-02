@@ -19,10 +19,10 @@ class CreatePlan (ctk.CTkToplevel):
         self._createGui()
 
     def _createGui(self) -> None:
+        """Vytvoří grafický obsah okna."""
         ipadx = 40
         ipady = 20
         pady = 5
-        """Vytvoří grafický obsah okna."""
         # tlačítko pro vytvoření tréninkového cyklu
         cycle = Button(self, "Vytvořit tréninkový cyklus", self._trainingCycle)
         cycle.pack(ipadx = ipadx, ipady = ipady, pady = pady)

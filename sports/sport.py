@@ -6,7 +6,7 @@ from configuration import unknown_text
 
 
 class Sport():
-    """Obecné funkce pro jakékoliv typy tréninků."""
+    """Obecné funkce specifické pro jednotlivé sporty."""
     def __init__(self):
         ...
 

@@ -207,16 +207,12 @@ class Run (Sport):
 
     @staticmethod
     def singlePlanEntry (master : object) -> bool:
-        """Ověření uživatelského vstupu do detailního framu v singlePlan. Pokud je vstup správný, nastaví získaná data do vlastnosti rodičovského objektu frame_data"""
+        """Ověření uživatelského vstupu do detailního framu v singlePlan. Pokud je vstup správný, nastaví získaná data do vlastnosti rodičovského objektu frame_data."""
         float_entry = General.checkFloatEntry(master.var_distance.get())
         unknown_entry = master.var_distance.get() == ""
-        ic(unknown_entry)
-        ic(float_entry)
         if float_entry or unknown_entry:
-            ic("pravda")
             General.setDefaultBorder(master.distance_entry)
             master.frame_data = [master.var_distance.get()]
             return True
-        ic("nepravda")
         General.setRedBorder(master.distance_entry)
         return False

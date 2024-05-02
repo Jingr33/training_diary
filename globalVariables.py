@@ -48,10 +48,12 @@ def getSportColors () -> dict:
     for sport in sports:
         key, value = sport.split("=")
         sport_colors[key] = value
+    ######################################
     sport_colors["běh"] = sport_colors["beh"]
     del sport_colors["beh"]
     sport_colors["plavání"] = sport_colors["plavani"]
     del sport_colors["plavani"]
+    ######################################
     return sport_colors
 
 def getSelectedSports () -> list:

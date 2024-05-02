@@ -17,7 +17,6 @@ class SetPlanWindow (ctk.CTkToplevel):
         self.protocol('WM_DELETE_WINDOW', self._kill)
         self.geometry("750x600")
         self.resizable(False, False)
-
         # slovník s možnostmi různých tréninkových plánů
         self.choice_dict = {
             0 : CyclePlanFrame(self),

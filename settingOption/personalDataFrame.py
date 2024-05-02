@@ -11,7 +11,7 @@ import globalVariables as GV
 
 
 class PersonalDataFrame (Frame):
-    """Načte frame s nastavením osobních údajů."""
+    """Načte frame s nastavením osobních údajů uživatele."""
     def __init__(self, master : ctk.CTkBaseClass):
         super().__init__(master)
         self.master = master
@@ -67,19 +67,6 @@ class PersonalDataFrame (Frame):
         self.update_b.grid(row = 3, column = 0, columnspan = 4, sticky = ctk.E, padx = (10, 30), pady = 6)
         self.update_b.configure(height = 35, width = 110)
 
-    # def loadPersonalData (self) -> dict: #TODO - tohle smaž a vem to z general
-    #     """Načte osobní údaje o uživateli z databáze osobních údajů. Vrátí slovník údajů zadaných v ruzných datech uživatelem."""
-    #     file_lines = General.loadLinesFromFile(personal_data_path)
-    #     for i in range(len(file_lines)):
-    #         file_lines[i] = file_lines[i].split(":")
-    #     personal_dict = { file_lines[0][0] : file_lines[0][1], }
-    #     for i in range(1, len(file_lines)):
-    #         if file_lines[i][0] in personal_dict.keys():
-    #             personal_dict[file_lines[i][0]].append((file_lines[i][1], file_lines[i][2]))
-    #         else:
-    #             personal_dict[file_lines[i][0]] = [(file_lines[i][1], file_lines[i][2])]
-    #     return personal_dict
-    
     def _setLastPersValues (self) -> None:
         """Nastaví poslední nastavené hodnoty osobních údajů o užovateli jako aktualní hodnoty."""
         self._setGender(self.personal_data["gender"][0])
@@ -89,7 +76,7 @@ class PersonalDataFrame (Frame):
 
     def _updatePersonalData (self) -> None:
         """Uloží aktualizované osobní údaje do databáze."""
-            # gender se nastavuje nezavisle na stiknutí tlačítka aktualizovat
+            # pohlaví se nastavuje nezavisle na stiknutí tlačítka aktualizovat
         if self._checkEntries():
             today = date.today()
             lines = []

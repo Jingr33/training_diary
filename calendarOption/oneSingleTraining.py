@@ -1,6 +1,5 @@
 # import knihoven
 from tkinter import *
-import customtkinter as ctk
 from icecream import ic
 # import osuborů
 from oneTraining import OneTraining
@@ -8,7 +7,7 @@ from general import General
 
 
 class OneSingleTraining ():
-    """Tří da pro zpracování dat jednoho tréninkového plánu z databáze jednoduchých tréninkových plánů."""
+    """Třída pro zpracování dat jednoho tréninkového plánu z databáze jednoduchých tréninkových plánů."""
     def __init__(self, plan_data : list):
         # plan_data = self._dataLineToList(plan_data)
         self.dates = self._getTrainTerms(plan_data[0])
@@ -18,22 +17,11 @@ class OneSingleTraining ():
         self.sorted_dates = self._sortTerms()
         self.start_date, self.end_date = General.getBorderTerms(self.sorted_dates)
 
-    # def _dataLineToList (self, plan_data : list) -> list:
-    #     """Převede informace z listu stringů řádků převzatých z databáze do list listů s oddělenými informacemi."""
-    #     for i in range(len(plan_data)):
-    #         plan_data[i] = General.separateData(i)
-    #     return plan_data
-    
     def _getTrainTerms (self, date_data : str) -> list:
         """Přetvoří string dat získaných z databáze na proměnné typu datetime a vrátí list dat."""
         date_data = General.separateData(date_data) # vytvoření dat ve formě stringů
         del date_data[-1]
         return date_data
-    
-    # def _getTrainingInfo (self, training_data : list) -> None:
-    #     """Z listu informací o vlastnostech tréninku uloží informace jako vlastnosti       tréninkového plánu."""
-    #     self.sport = training_data[0] # nastavení sportu
-    #     SetSport.findData(self, training_data, 1) # nastavení podrobností sportu
 
     def _createTrainings (self, trainings_str : str) -> list:
         """Vytvoří list všech tréninků, které tréninkový plán obashuje (pomocí třídy OneTraining)."""

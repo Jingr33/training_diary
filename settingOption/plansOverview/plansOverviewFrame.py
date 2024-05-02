@@ -22,7 +22,7 @@ class PlansOverviewFrame (ctk.CTkScrollableFrame):
         self._initContent()
 
     def getPlanStates (self) -> list:
-        """Vrátí 2 listy s hodnotami ke každému plánu o tom, zda má být vymazán nebo ponechán v databázi."""
+        """Vrátí 2 listy s hodnotami ke každému typu (cykly, jednotlivé tréninky) plánu o tom, zda má být vymazán nebo ponechán v databázi."""
         cycle = [self.all_rows[i].button_state for i in range(len(self.all_rows)) if self.all_rows[i].plan_type == "Cyklický"]
         single = [self.all_rows[i].button_state for i in range(len(self.all_rows)) if self.all_rows[i].plan_type == "Jednoduchý"]
         return cycle, single

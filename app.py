@@ -8,7 +8,6 @@ from globalVariables import loadSettingDatabase, getAutoFullscreen
 class App(ctk.CTk):
     """Třída pracující s hlavním oknem aplikace."""
     def __init__(self) -> None:
-        """Inicializace hlavního kona aplikace."""
         super().__init__()
         self._loadSetting()
         self.title('Tréninkový deník')

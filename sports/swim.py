@@ -17,6 +17,7 @@ class Swim (Sport):
         self.color = GV.sport_color[self.name]
 
     def createAttributes(self, training : object) -> list:
+        """List názvů atributů tréninku vypisujících se do tooltipů."""
         self.message_attributes = ["datum", "sport", "čas", "vzdálenost", "styl"]
         return self.message_attributes
 
@@ -155,7 +156,7 @@ class Swim (Sport):
     
     @staticmethod
     def verifySwim (master : object) -> bool:
-        """Ověří vstupy posilovny při zadávání nového tréninku."""
+        """Ověří vstupy plavání při zadávání nového tréninku."""
         entry = master.var_distance.get()
         verify_distance = False
         try:
@@ -221,7 +222,7 @@ class Swim (Sport):
         master.main_values.extend([master.var_dist.get()])
 
     def getSwimTrainings (master : object) -> list:
-        """Vrátí list tréninků typu posilovna."""
+        """Vrátí list tréninků typu plavání."""
         swim_trainings = []
         for training in master.trainings:
             if training.sport == GV.sport_list[1]:
@@ -229,7 +230,7 @@ class Swim (Sport):
         return swim_trainings
     
     def makeSwimContent (periods : list) -> list:
-        """Vytvoří náplň pro koláčový graf podrobností uběhnutých kilometrů běhu."""
+        """Vytvoří náplň pro koláčový graf podrobností uplavaných kilometrů běhu."""
         distances = [0] * len(periods)
         i = 0
         for period in periods:

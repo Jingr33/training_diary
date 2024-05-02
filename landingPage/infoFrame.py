@@ -55,25 +55,12 @@ class InfoFrame (Frame):
             "name-label" : [],
             "key" : [],
         }
-        # i = 0
-        # for key in periods:
-        #     if periods[key]:
-        #         count = Button(self, periods[key], lambda:  self._buttonFunction())
-        #         count.grid(row = 2, column = i, padx = padx, pady = pady)
-        #         count.configure(height = but_size, width = but_size, fg_color = fg_color, hover_color = fg_hover, font = b_font)
-        #         self.time_boxes["count_str"].append(count)
-        #         name = Label(self, self.dt.periodInflection(periods[key], key), l_font)
-        #         name.grid(row = 3, column = i, padx = padx, pady = pady)
-        #         name.configure(width = but_size, height = l_height, fg_color = "transparent")
-        #         self.time_boxes["name_str"].append(name)
-        #         self.time_boxes["key"].append(key)
-        #         i = i + 1
         self._createLastLoginTimeBoxes(periods)
         abstract = Label(self, "Minulá návštěva před:", self.title_font)
         abstract.grid(row = 1, column = 0, columnspan = self.columns_number, sticky = "NSWE")
 
     def _createLastLoginTimeBoxes (self, periods : dict) -> None:
-        """Vytvoří obdélníkové widgety a labely časových veličin."""
+        """Vytvoří obdélníkové widgety a labely časových jednotek."""
         i = 0
         for key in periods:
             if periods[key]:
@@ -102,7 +89,8 @@ class InfoFrame (Frame):
         name.configure(width = self.button_size, height = self.label_height, fg_color = "transparent")
 
     def _buttonFunction (self) -> None:
-        """Funkce buttonu."""
+        """Funkce buttonu..."""
+        ...
         return None
 
     def _lastTrainTime (self) -> None:

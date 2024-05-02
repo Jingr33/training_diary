@@ -10,7 +10,7 @@ from general import General
 
 
 class UpdateFrame (Frame):
-    """Frame obsahující nastavení tréninku v updatovacím okně tréninku.."""
+    """Frame obsahující nastavení tréninku v updatovacím okně tréninku."""
     def __init__ (self, master : ctk.CTkBaseClass, training : object):
         super().__init__(master)
         self.master = master
@@ -34,31 +34,26 @@ class UpdateFrame (Frame):
         """Widgety, které jsou pro každý trénink stejné."""
         date_l = Label(self, "Datum:")
         date_l.grid(column = 0, row=self.next_row, sticky = ctk.E, padx=self.label_padx)
-
         self.var_date = StringVar()
         date_e = Entry(self, self.var_date)
         date_e.grid(column = 1, row=self.next_row)
         date_e.configure(width = self.box_width)
         self.var_date.set(self.training.date)
-
         sport_l = Label(self, "Sport:")
         sport_l.grid(column = 2, row = self.next_row, sticky = ctk.E, padx=self.label_padx)
-
         self.sport_cb = ComboBox(self, all_sports, self._regenerateSpecificGUI, self.training.sport)
         self.sport_cb.grid(column = 3, row=self.next_row)
         self.sport_cb.configure(width = self.box_width)
         self.sport_cb.set(self.training.sport)
-
         time_l = Label(self, "Čas:")
         time_l.grid(column = 0, row = self.next_row + 1, sticky=ctk.E, padx=self.label_padx)
-
         self.var_time = StringVar()
         time_e = Entry(self, self.var_time)
         time_e.grid(column = 1, row=self.next_row + 1)
         time_e.configure(width = self.box_width)
         self.var_time.set(self.training.time)
-
-        self.next_row = 2 # následující řádek
+        # následující řádek
+        self.next_row = 2
 
     def _specificGUI (self, value : str) -> None:
         """Widgety specifické pro každý typ sportu."""

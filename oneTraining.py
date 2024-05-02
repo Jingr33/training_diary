@@ -10,7 +10,11 @@ from general import General
 class OneTraining ():
     """Třída pro vytvoření instance jednoho tréninku z dat v souboru.
     load - možnost načíst data ze souboru -> trénink pak má všechny svoje vlastnosti, které se o něm ukládají
-    save - ..."""
+    save - uložení nového tréninku
+    load_plan - načtení cyklického tréninkového plánu z databáze
+    load_single_plan - načtení jednoduchého tréninkového plánu z databáze
+    update - updatování informací o existujícícm tréninku
+    """
     def __init__(self, master : object, operation = "", file_line = "", data_list = "", training_id = 0):
         self.master = master
         if operation == "load":

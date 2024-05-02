@@ -10,7 +10,7 @@ from landingPage.landingPage import LandingPage
 
 
 class Frame (ctk.CTkFrame):
-    """Obsahový frame - vybírá který vnitřní frame se zobrazí dále."""
+    """Hlavní frame aplikace (pravý sloupec) - zobrazuje záložky podle výběru užovatele."""
     def __init__(self, master :ctk.CTkBaseClass):
         super().__init__(master)
         self.configure(fg_color = "transparent")
@@ -36,6 +36,6 @@ class Frame (ctk.CTkFrame):
         setting.pack(fill = ctk.BOTH, expand = True)
 
     def landingPage (self) -> None:
-        """?etoda pro vytvoření landing page při spuštění aplikace."""
+        """Metoda pro vytvoření landing page při spuštění aplikace."""
         landing_page = LandingPage(self)
         landing_page.pack(fill = ctk.BOTH, expand = True)

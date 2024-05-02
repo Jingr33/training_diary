@@ -27,7 +27,6 @@ class TabelContentFiller ():
 
     def datesToLabelsConfig(self, frame_list : list, date_list : list) -> None:
         """Metoda pro přidání textu s datem do každého labelu -> framu kalendáře."""
-        # cyklus přes framy
         for i in range(len(frame_list)):
             frame_list[i].label.configure(text = date_list[i])
             frame_list[i].configure(fg_color = colors["dark-gray"])
@@ -225,7 +224,6 @@ class TabelContentFiller ():
     def _firstDay_NumOfDays (self, date : tuple) -> int:
         "Funkce zjistí, jaký den v týdnu je 1. v měsíci a kolik má měsíc dní."
         return calendar.monthrange(date[0], date[1])
-
 
     def _prevMonth (self, date : tuple) -> list:
         """Posune nastavený měsíc o jeden zpět."""

@@ -4,9 +4,8 @@ from dateutil.relativedelta import *
 import os
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,) # pro přenesení matplotlibu do tkintru
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,) # pro přenesení matplotlibu do tkinteru
 from tkinter import * 
-import customtkinter as ctk
 from numpy import transpose
 from icecream import ic
 #import souborů

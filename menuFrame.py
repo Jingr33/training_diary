@@ -12,12 +12,10 @@ class Frame (ctk.CTkFrame):
         super().__init__(master)
         # vytvoření proměnných pro instance jednotlivých oken
         self.contentFrames = [None] * len(menu_list)
-
         # vytvoření segmentovaného buttonu
         seg_button = SegmentedButton(self, menu_list, self.optionSelected)
         seg_button.configure(font = ("Arial", 13), height = 45)
         seg_button.pack(fill = ctk.X, side=TOP)
-
         self.content_frame = ContentFrame(self)
         self.content_frame.pack(ipadx = 5, ipady = 5, expand = True, fill = ctk.BOTH)
         # vytvoření landing page
@@ -31,15 +29,12 @@ class Frame (ctk.CTkFrame):
             self._oldWidgetsDestroy()
             # vytvoření obsahu framu
             self.content_frame.overviewOption()
-
         elif option == menu_list[1]:
             self._oldWidgetsDestroy()
             self.content_frame.calendarOption()
-
         elif option == menu_list[2]:
             self._oldWidgetsDestroy()
             self.content_frame.statisticsOption()
-
         elif option == menu_list[3]:
             self._oldWidgetsDestroy()
             self.content_frame.settingOption()

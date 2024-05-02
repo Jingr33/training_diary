@@ -11,7 +11,7 @@ from general import General
 
 
 class Frame (ctk.CTkScrollableFrame):
-    """Frame pro nastavování údajů o jednotlivých trénincích."""
+    """Frame pro přidávání nových tréninků podle zvoleného sportu v rodičovském tréninku."""
     def __init__(self, master: ctk.CTkBaseClass) -> None:
         super().__init__(master)
         self.today = datetime.date.today()
@@ -28,9 +28,7 @@ class Frame (ctk.CTkScrollableFrame):
         date_l = Label(self, "Datum")
         date_l.pack(anchor=ctk.W)
         date_l.configure(corner_radius = 8)
-        self.date_calendar = Calendar(self, selectmode = 'day', 
-                               year = self.today.year, month = self.today.month, 
-                               day = self.today.day)
+        self.date_calendar = Calendar(self, selectmode = 'day', year = self.today.year, month = self.today.month, day = self.today.day)
         self.date_calendar.pack(side=TOP, padx=3, pady=3)
         # zadávání času
         self._initTimeEntry()
@@ -48,9 +46,8 @@ class Frame (ctk.CTkScrollableFrame):
         self.time_error_l = Label(self, "", ("Arial", 10))
         self.time_error_l.pack(anchor=ctk.W, side=TOP)
 
-    def _saveNewTraining(self):
-        """Funkce se spustí po stiknutí tlačítka uložit. Verifikuje vstupy.
-           Uloží data do souboru."""
+    def _saveNewTraining (self):
+        """Funkce se spustí po stiknutí tlačítka uložit. Verifikuje vstupy. Uloží data do souboru."""
         # ověření vstupů
         verified = self._floatEntryVerify(self.var_time.get())
         if verified:
@@ -94,6 +91,7 @@ class Frame (ctk.CTkScrollableFrame):
         alert_b.pack()
 
     def _confirmationAlertDestroy(self) -> None:
+        """Smazaní potvrzovacího alertu."""
         for widget in self.winfo_children():
             widget.destroy()
         self.pack_forget()

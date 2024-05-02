@@ -12,7 +12,6 @@ class OneDayFrame (Frame):
     def __init__(self, master :ctk.CTkBaseClass):
         super().__init__(master)
         self.strips = []
-
         # inicializace obsahu
         self._initGUI()
 
@@ -34,12 +33,10 @@ class OneDayFrame (Frame):
 
     def _initGUI(self) -> None:
         """Inicializace obsahu framů jednotlivých dní."""
-        # tenhle label je tam jen proto abych nejak nastavil vysku tech ctverecku,
-        # jinak v nem nic neni
+        # tenhle label je tam jen proto abych nejak nastavil vysku tech ctverecku, jinak v nem nic neni
         assist_label = Label(self, "")
         assist_label.pack(side=LEFT, ipady = 50)
         assist_label.configure(fg_color = "transparent")
-
         # label s datem
         self.label = Label(self, "1", ("Arial", 13))
         self.label.pack(fill = ctk.X, ipadx = 200)

@@ -76,7 +76,6 @@ class CyclePlanFrame (Frame):
 
     def _initDetailsFrame (self) -> None:
         """Vygenerování framu s nastavením detailních údajů."""
-        #paddingy
         padx_frame = 3
         pady_frame = 3
         self.details_frame = PlanCalendar(self)
@@ -161,7 +160,7 @@ class CyclePlanFrame (Frame):
             f.write(";\n")
 
     def _getNumOfDays (self) -> None:
-        """Získá počet dní ze kterýc je složen tréninkový plán."""
+        """Získá počet dní, ze kterých je složen tréninkový plán."""
         return len(self.details_frame.days)
     
     def _killToplevel (self, master : object) -> None:
@@ -196,13 +195,11 @@ class CyclePlanFrame (Frame):
         """Získá a ověří vstupní hodnoty počtu cyklů tréninkového plánu."""
         # ověření počtu cyklů
         cycle_chceck = False
-        # if self.var_cycles.get() != "":
         cycle_chceck = General.checkIntEntry(self.var_cycles.get())
         self._cycleCheckReaction(cycle_chceck)
 
     def _StartCheckReaction(self, date_check : bool) -> None:
-        """Provede reakci na ověření vstupu počátečního data tréninkového plánu.
-        Buď uloží zadanou hodnotu nebo napíše chybovou hlášku."""
+        """Provede reakci na ověření vstupu počátečního data tréninkového plánu. Buď uloží zadanou hodnotu nebo napíše chybovou hlášku."""
         if date_check:
             self.start = self.var_start.get()
             self.start_error_l.configure(text = "")
@@ -212,8 +209,7 @@ class CyclePlanFrame (Frame):
             self.cycle_verified = False
 
     def _EndCheckReaction(self, date_check : bool) -> None:
-        """Provede reakci na ověření vstupu koncového data tréninkového plánu.
-        Buď uloží zadanou hodnotu nebo napíše chybovou hlášku."""
+        """Provede reakci na ověření vstupu koncového data tréninkového plánu. Buď uloží zadanou hodnotu nebo napíše chybovou hlášku."""
         if date_check:
             self.end = self.var_end.get()
             self.end_error_l.configure(text = "")
@@ -223,8 +219,7 @@ class CyclePlanFrame (Frame):
             self.end_verified = False
 
     def _cycleCheckReaction(self, cycle_chceck : bool) -> None:
-        """Provede reakci na ověření vstupu počtu cyklů tréninkového plánu.
-        Buď uloží zadanou hodnotu nebo napíše chybovou hlášku."""
+        """Provede reakci na ověření vstupu počtu cyklů tréninkového plánu. Buď uloží zadanou hodnotu nebo napíše chybovou hlášku."""
         if cycle_chceck:
             self.cycles = self.var_cycles.get()
             self.cycle_error_l.configure(text = "*V případě nezadání konce", text_color = "gray")
@@ -234,8 +229,7 @@ class CyclePlanFrame (Frame):
             self.cycle_verified = False
 
     def _CompareEntries (self) -> None:
-        """Vyhodnotí, zda zadaná data vůči sobě dávají smysl 
-        a zda nezadané údaje jsou nutné pro vytvoření tréninkového plánu."""
+        """Vyhodnotí, zda zadaná data vůči sobě dávají smysl a zda nezadané údaje jsou nutné pro vytvoření tréninkového plánu."""
         # porovnání začátečního a koncového data
         self._startVsEndDate()
         # nezadání koncového data nebo počtu cyklů
@@ -256,7 +250,7 @@ class CyclePlanFrame (Frame):
                 self.end_verified = False
 
     def _endOrCyclesForgive(self) -> None:
-        """zajišťuje možnost nevyplnění nenutných polí."""
+        """Zajišťuje možnost nevyplnění nepovinných polí."""
         if self.end_verified and self.var_cycles.get() == "":
             self.cycle_verified = True
         elif self.cycle_verified and self.var_end.get() == "":

@@ -5,6 +5,7 @@ from tkinter import *
 from calendarOption.oneDayFrame import OneDayFrame
 from calendarOption.tableContentFiller import TabelContentFiller
 
+
 class calendarTable (ctk.CTkScrollableFrame):
     """Vytvoří grafický kalendář jako čtvercovou soustavu framů."""
     def __init__(self, master :ctk.CTkBaseClass, date : tuple):
@@ -13,22 +14,18 @@ class calendarTable (ctk.CTkScrollableFrame):
         self.date = date
         self.prev_button = self.master.slider_frame.prev_b
         self.next_button = self.master.slider_frame.next_b
-
         # inicializace framové mřížky
         self._initGrid()
-
         # list s kalendářními daty jednotlivých polí
         self.fillDatesToTable()
-
         # eventy pro kliknutí na tlačítka nastavování měsíce (prev, next)
         self.prev_button.bind('<Button-1>', self.regenerateDates)
         self.next_button.bind('<Button-1>', self.regenerateDates)
 
-
     def _initGrid(self) -> None:
         """Metoda pro vytvoření framové mřížky (6 řádků, 7 sloupců)."""
-        # 6 řádků, protože do více týdnů 1 měsíc nikdy nezasahuje
-        # velikost přížky
+        # (6 řádků, protože do více týdnů 1 měsíc nikdy nezasahuje)
+        # velikost mřížky
         self.columnconfigure([0, 1, 2, 3, 4, 5, 6], weight=1)
         self.columnconfigure([0, 1, 2, 3, 4, 5], weight = 1)
         #pole pro ukládání framů
@@ -43,8 +40,7 @@ class calendarTable (ctk.CTkScrollableFrame):
                 i = i + 1
 
     def regenerateDates (self, master) -> None:
-        """Metoda pro přegenerování dat při přepnutí kalendáře na jiný měsíc.
-        Eventová metoda od prev a next buttonů."""
+        """Metoda pro přegenerování dat při přepnutí kalendáře na jiný měsíc. Eventová metoda od prev a next buttonů."""
         # uložení nového měsíce
         self.date = self.master.slider_frame.setted_date
         #přepsání dat v kalendáři

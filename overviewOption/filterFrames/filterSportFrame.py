@@ -9,7 +9,7 @@ import globalVariables as GV
 
 
 class FilterSport (Frame):
-    """Frame pro filtrování sportu."""
+    """Frame pro filtrování typu sportu."""
     def __init__(self, master :ctk.CTkBaseClass):
         super().__init__(master)
         self.master = master

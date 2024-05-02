@@ -7,11 +7,11 @@ from sports.setSport import SetSport
 
 
 class SportDetailsFrame (Frame):
+    """Třída pro vytvoření grafického rozhraní nastavení podrobností jednotlivých tréninků v plánu, a jejich ověření a zapsaní do databáze."""
     def __init__(self, master :ctk.CTkBaseClass, option : str):
         super().__init__(master)
         self.master = master
         self.option = option # zároveň je to i název vybraného sportu
-
         # vytvoří grfafické rozhraní framu
         SetSport.plan_setSportDetails(self, self.option)
         # tlačítko pro přidání tréninku do kalendáře

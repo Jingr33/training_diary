@@ -91,7 +91,7 @@ class SinglePlanFrame (Frame):
             self.checkboxes[i] = checkbox
 
     def _initIterationNumber (self) -> None:
-        """Vytvoří widgety pro natavení počtu opakování a "častosti" opakování."""
+        """Vytvoří widgety pro natavení počtu opakování a častosti opakování."""
         # počet opakování
         iter_label = Label(self, "Počet opakování")
         iter_label.grid(row = 2, column = 4)
@@ -154,7 +154,6 @@ class SinglePlanFrame (Frame):
     def _savePlan (self) -> None:
         """Při kliknutí na tlačítko uložit zhodnotí správnost vstupů a plán do databáze."""
         checked = self._checkAllEntries()
-        ic(checked, "zkontrolováno")
         if checked:
             data_list = self._getEntryData()
             self._setUnknowValues(data_list)
@@ -208,7 +207,7 @@ class SinglePlanFrame (Frame):
             return False
 
     def _checkDetailsFrameEntry (self, sport_checked : bool) -> bool:
-        """Zkontroluje vstupy detailů nastavení tréninku daného sportu (pokud je co kontrolovat)."""
+        """Zkontroluje vstupy detailů nastavení tréninku daného sportu (pokud není nic na kontrolu, vrátí True)."""
         if sport_checked:
             return self.detail_frame.checkEntry()
         return False
@@ -252,15 +251,17 @@ class SinglePlanFrame (Frame):
                 return self._otherTermsBorderFalse(i)
             
     def _otherTermsBorderTrue (self, index : int) -> bool:
+        """Nastaví barvu rámečku widgety na původní barvu (šedou)."""
         General.setDefaultBorder(self.terms["entries"][index])
         return True
     
     def _otherTermsBorderFalse (self, index : int) -> bool:
+        """Nastaví barvu rámečku widgety na červenou (error)."""
         General.setRedBorder(self.terms["entries"][index])
         return False
     
     def _checkLogicalEntry (self) -> bool:
-        """Vrátí bool, kontroluje, zda jsou zadané všechnx potřebné parametry pro zapsání dat do souboru."""
+        """Kontroluje, zda jsou zadané všechny potřebné parametry pro zapsání dat do souboru."""
         days_in_week = False
         for value in self.cb_values:
             if value.get() != 0:
@@ -273,7 +274,7 @@ class SinglePlanFrame (Frame):
         return True
     
     def _getEntryData (self) -> list:
-        """Získá data zadaná uživatel jako list datumů a list podrobností tréninku. Vrátí jako 2d list [data, podrobnosti]."""
+        """Získá data zadaná uživatelem jako list datumů a list podrobností tréninku. Vrátí jako 2d list [data, podrobnosti]."""
         train_details = self._getTrainingData()
         terms = self._getDates()
         return [terms, train_details]
@@ -328,7 +329,7 @@ class SinglePlanFrame (Frame):
         return dates
     
     def _checkEmptyWeek (self) -> None:
-        """Zkontroluje, zda bylo něco zadání do nastavení opakování tréninků v jednotlivých dnech v týdnu."""
+        """Zkontroluje, zda bylo něco zadáno do nastavení opakování tréninků v jednotlivých dnech v týdnu."""
         for value in self.cb_values: # pokud není zadán žádný den v týdnu
             if value.get() == 1:
                 return False
@@ -346,6 +347,7 @@ class SinglePlanFrame (Frame):
         return dates
     
     def _changeToDatabaseDate (self, date_list : list) -> None:
+        """Změní formát datumů tréninků na str formát pro zapsání do souboru."""
         for i in range(len(date_list)):
             date_list[i] = General.changeDateFormat(date_list[i])
         return date_list
@@ -357,7 +359,7 @@ class SinglePlanFrame (Frame):
         return data_list
     
     def _saveInDatabase (self, data_list : list) -> None:
-        """Uloží data do databáze jednoduchých tréninkových plánu."""
+        """Uloží data do databáze jednoduchých tréninkových plánů."""
         for i in range(len(data_list)):
             data_list[i] = General.prepareString(data_list[i])
         with open (single_plans_path, 'a') as f:

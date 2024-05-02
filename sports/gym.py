@@ -47,7 +47,6 @@ class Gym (Sport):
         master.estim_biceps = StringVar(value=0)
         master.estim_triceps = StringVar(value=0)
         master.estim_forearm = StringVar(value=0)
-
         # očekáváný strávený čas
         time_l = Label(master, "Očekávaný čas:")
         time_l.pack(side=TOP)
@@ -55,7 +54,6 @@ class Gym (Sport):
         time_e = Entry(master, master.estimated_time)
         time_e.pack(side=TOP)
         time_e.configure(width=95)
-
         # očekávané odvičené části těla
         parts_l = Label(master, "Cviky:")
         parts_l.pack(side=TOP)
@@ -90,7 +88,6 @@ class Gym (Sport):
         """Vrátí data vložené do framíku sportu (posilovna) v nastavování cyklického tréninkového plánu 
         -> nastavení detailů sportu"""
         time = Sport.floatEntryChecker(master.estimated_time.get()) # kontrola vstupu času
-        
         # list získaných hodnot z chceckboxů
         values_list = [master.estim_leg.get(), master.estim_core.get(), master.estim_breast.get(),
                 master.estim_shoulder.get(), master.estim_back.get(), master.estim_biceps.get(),
@@ -100,7 +97,7 @@ class Gym (Sport):
 
     @staticmethod
     def gymData(master : object, data_list : list, index_adjustment = 2) -> None:
-        """Rozklíčuje data z získané z tréninkové databáze pokud se
+        """Rozklíčuje data získané z tréninkové databáze pokud se
         jedná o trénink posilovna.
         Index_adjustment je úprava indexu, pokud tam chci poslat pole kde ty atributy neberu od 0."""
         master.time = General.checkKnownFloat(data_list[0 + index_adjustment])
@@ -118,7 +115,6 @@ class Gym (Sport):
             master.practicedParts = Gym.practicedPartsString(master)
         else:
             master.practicedParts = unknown_text_label
-            ic("zde")
 
     @staticmethod
     def practicedPartsString (master : object):
@@ -357,7 +353,7 @@ class Gym (Sport):
 
     @staticmethod
     def singlePlanEntry (master : object) -> bool:
-        """Ověření uživatelského vstupu do detailního framu v singlePlan. Pokud je vstup správný, nastaví data do listu frame_data (valstnost rodičovské třídy)."""
+        """Ověření uživatelského vstupu do detailního framu v singlePlan. Pokud je vstup správný, nastaví data do listu frame_data (vlastnost rodičovské třídy)."""
         for i in range(len(master.gym_vars)):
             master.frame_data.append(master.gym_vars[i].get())
         if not 1 in master.frame_data:

@@ -17,24 +17,18 @@ class OneActivity (Label):
         self.sport = selected_sport
         self.fg_color = GV.sport_color[self.sport]
         self.tooltip_alpha = 0.9
-
         #vytvoření objektu tréninku ze zadaných údajů
         self.one_training = OneTraining(self)
         self.one_training.setPlanData(selected_sport, details)
-
         # barva pozadí
         self.configure(fg_color = self.fg_color, corner_radius = 5)
-
 
         #vytvoření textu zobrazujícího se v tooltipu
         self.message = SetSport().createTooltipMessage(self.one_training)
         # vytvoření tooltipu na stripem
-        self.tooltip = CTkToolTip(self, delay=0.2, message = self.message, justify = 'left', 
-                   alpha = self.tooltip_alpha, x_offset= -50, y_offset=-100)
-        
+        self.tooltip = CTkToolTip(self, delay=0.2, message = self.message, justify = 'left', alpha = self.tooltip_alpha, x_offset= -50, y_offset=-100)
         # animační proměnné
         self.destroy_time = 300
-
         # eventy pro mazání aktivit
         self.bind("<Button-1>", self._destroyOption)
 
@@ -48,8 +42,7 @@ class OneActivity (Label):
         self.tooltip.hide()
         # přeměnění textu v labelu
         label_text = "SMAZAT " + self.sport.upper() + "\npravé tlačítko"
-        self.configure(text = label_text, font = ("Arial", 10, "bold"),
-                              fg_color = "red")
+        self.configure(text = label_text, font = ("Arial", 10, "bold"), fg_color = "red")
         # vytvoření nových eventů pro potvrzení či vrácení do původního stavu
         self.unbind("<Button-1>")
         self.bind("<Button-1>", self._activityRestoration)
@@ -69,7 +62,6 @@ class OneActivity (Label):
 
     def _destroyActivity (self, value) -> None:
         """Vymaže aktivitu ze dne v náhledovém kalendáři."""
-        # zprůhledňování aktivity a smazání aktivity
         self._detsroyAnimation()
 
     def _detsroyAnimation (self) -> None:
