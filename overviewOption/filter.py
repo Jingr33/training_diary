@@ -51,7 +51,7 @@ class Filter():
             from_date = ""
         else:
             from_date_list = date_filter[0].split("/")
-            from_date = "20" + from_date_list[2] + "-" + from_date_list[1] + "-" + from_date_list[0]
+            from_date = from_date_list[2] + "-" + from_date_list[1] + "-" + from_date_list[0]
             bottom_condition = False
         # horní hranice data (do)
         if date_filter[1] == "":
@@ -59,7 +59,7 @@ class Filter():
             to_date = ""
         else:
             to_date_list = date_filter[1].split("/")
-            to_date = "20" + to_date_list[2] + "-" + to_date_list[1] + "-" + to_date_list[0]
+            to_date = to_date_list[2] + "-" + to_date_list[1] + "-" + to_date_list[0]
             top_condition = False
         # vytřídění dat podle zadaných mezí
         filtered = []
@@ -76,21 +76,23 @@ class Filter():
         # pokud není filtr nastavený -> trénink projde filtrem vždy
         bottom_condition = False # podmínka při nezadaném spodním filtru
         top_condition = False # podmínika při nezadaném horním filtru
+        min_time = time_filter[0].strip()
+        max_time = time_filter[1].strip()
         # spodní hranice filtru
-        if time_filter[0] == "" or unknown_text:
+        if min_time == "" or min_time == unknown_text:
             bottom_condition = True
-            time_filter[0] = "0"
+            min_time = "0"
         # horní hranice filtru
-        if time_filter[1] == "" or unknown_text:
+        if max_time == "" or max_time == unknown_text:
             top_condition = True
-            time_filter[1] = "0"
+            max_time = "0"
         # vytřídění dat podle zadaných mezí
         filtered = []
         for training in self.filtered_data:
             try:
-                int(training.time)
-                if (((int(training.time) >= int(time_filter[0])) or bottom_condition)
-                    and (((int(training.time) <= int(time_filter[1]))) or top_condition)):
+                time = int(training.time)
+                if (((time >= int(min_time)) or bottom_condition)
+                    and ((time <= int(max_time)) or top_condition)):
                     filtered.append(training)
             except:
                 continue

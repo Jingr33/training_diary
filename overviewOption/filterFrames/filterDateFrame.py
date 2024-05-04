@@ -28,7 +28,7 @@ class FilterDate (Frame):
         to_e.grid(row=1, column=1, ipadx=2, ipady=1)
         to_e.configure(width = 70)
 
-        info_l = Label(self, "(dd/mm/yy)", ("Arial", 11))
+        info_l = Label(self, "(dd/mm/yyyy)", ("Arial", 11))
         info_l.grid(row=2, column=0, columnspan=2,padx=0, pady=0)
         info_l.configure(text_color="gray")
 

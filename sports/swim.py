@@ -174,22 +174,24 @@ class Swim (Sport):
         # pokud není filtr nastavený -> trénink projde filtrem vždy
         bottom_condition = False # podmínka při nezadaném spodním filtru
         top_condition = False # podmínika při nezadaném horním filtru
+        min_distance = distance_swim_filter[0].strip()
+        max_distance = distance_swim_filter[1].strip()
         # spodní hranice filtru
-        if distance_swim_filter[0] == "":
+        if min_distance == "":
             bottom_condition = True
-            distance_swim_filter[0] = "0"
+            min_distance = "0"
         # horní hranice filtru
-        if distance_swim_filter[1] == "":
+        if max_distance == "":
             top_condition = True
-            distance_swim_filter[1] = "0"
+            max_distance = "0"
         # vytřídění dat podle zadaných mezí
         filtered = []
         for training in master.filtered_data:
-                if training.sport == GV.sport_list[1]:
+                if training.sport == GV.sport_list[2]:
                     try:
-                        float(training.distance)
-                        if (((float(training.distance) >= float(distance_swim_filter[0])) or bottom_condition)
-                            and ((float(training.distance) <= float(distance_swim_filter[1])) or top_condition)):
+                        train_distance = float(training.distance)
+                        if (((train_distance >= float(min_distance)) or bottom_condition)
+                            and ((train_distance <= float(max_distance)) or top_condition)):
                             filtered.append(training)
                     except:
                         continue
@@ -200,6 +202,7 @@ class Swim (Sport):
     @staticmethod
     def swimStyleFiltrator (master : object, trainings_for_filter : list) -> list:
         """Vyfiltruje plavání podle zvolených stylů a vyfiltrovaný list tréninků."""
+        ...
         return master.filtered_data
 
     def updateSwimGUI (master : object, training : object) -> None:

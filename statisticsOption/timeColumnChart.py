@@ -75,8 +75,7 @@ class TimeColumnChart (BarChart):
 
     def _barLabel (self, plot : object) -> None:
         """Přidá každému sloupci v grafu popisek s číslem jeho četnosti."""
-        self.chart.bar_label(plot, label_type='center', fmt = lambda label: self._barLabelFormat(label), 
-                             fontsize = 8, color = colors["black"])
+        self.chart.bar_label(plot, label_type='center', fmt = lambda label: self._barLabelFormat(label), fontsize = 8, color = colors["black"])
 
     def _barLabelFormat (self, label : str) -> str:
         """Naformátuje label sloupce -> pokud je nula nevypíše ho."""
@@ -92,7 +91,7 @@ class TimeColumnChart (BarChart):
     def _chartLabels (self) -> None:
         """Nastaví popisky grafu."""
         self.chart.set_xlabel("Datum")
-        self.chart.set_ylabel("Odsportovaný čas")
+        self.chart.set_ylabel("Celkový čas pohybu")
         self.chart.set_title("Množství sportovní aktivity", pad = 10)
         self.chart.set_xticks(range(len(self.xdata)))
         self.chart.set_xticklabels(self.xdata, rotation='horizontal', fontsize = 8)

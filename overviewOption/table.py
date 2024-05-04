@@ -54,8 +54,6 @@ class Table (ctk.CTkScrollableFrame):
             self.section = self.section + 1
             General.deleteListWidgets([self.load_more]) # smazání tlačítka
             self._initContent(self.data)
-            if self.init_load_more: # pokud už není co načíst, tlačítko se nevygeneruje
-                self._initLoadMoreButton()
 
     def _rowsLimits (self, training_data : list) -> tuple:
         """Vypočítá rozpětí indexů tréniků, které se mají vypsat. Vrátí tuple krajních hodnot.
