@@ -44,8 +44,13 @@ In the plans menu press "Plán jednotlivých tréninků".
 You can see a window with a plan creator. Set a date of (first) training in the plan, sport, duration and details setting of the training in the left column. You can set a day in the week (Monday, Saturday) or repetition of training (every 4 days) and set the number of weeks or repetitions. In the right column, you can set other specific dates of the training.
 Press "Uložit" to save athe plan.
 ### Training Overview
+In the Overview you see a table with one training from the database in each row. There are several rows displayed, for more trainings click on the button "Načíst více". You can update or delete every training if you press a setting button on the corresponding line and press your option. If you want to come back from setting press the same button.
+* **Sorting** - you can sort your trainings by every column in the table (you can sort by more columns together). Workouts are sorted by clicking on name of a column in the legend of the table. There are several levels of sorting. The darker is column name is, the greater is sorting priority of attribute.
+* **Filtering** - you can filter your trainings in the top section in Overview. You can set any combination of the filter. Press "Filtrovat" to use this filter.
 ### Calendar
+In the calendar, you can see all your completed workouts and all your planned trainings (from training plans) in grid form. The trainings plans are displayed only in the future. Every page of the calendar is one month. Through the different months, you can move by the buttons "Předchozí" and "Následující". Hover the trainings stripe to display all information about them in a tooltip.
 ### Statistics
+There are plots with some training statistics. There are a column and a pie chart of a percentage representation of individual types of sports in the selected period. The other charts show the sum time resp. other sum info of your workouts in the selected period. The last line chart shows changes of your personal data in time.  
 ### Options
 There are two section:
 #### Personal data
